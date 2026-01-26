@@ -91,11 +91,25 @@ public class PlayerController : MonoBehaviour
         Vector3 rollDir = moveInput;
         float startTime = Time.time;
 
-        while(Time.time < startTime + rollDuration)
+        Transform turnturn = _ani.transform;
+
+        Vector3 originalLocalPos = turnturn.localPosition;
+
+        while (Time.time < startTime + rollDuration)
         {
-            _rb.linearVelocity = rollDir * rollSpeed;
+            float yVel = _rb.linearVelocity.y;
+            if (yVel > 0) yVel = -2f;
+            _rb.linearVelocity = new Vector3(rollDir.x * rollSpeed, yVel, rollDir.z * rollSpeed);
+
+            float elapsedTime = (Time.time - startTime) / rollDuration;
+            turnturn.localRotation = Quaternion.Euler(elapsedTime * 360f, 0, 0);
+
+            float yOffset = Mathf.Sin(elapsedTime * Mathf.PI) * 0.7f;
+            turnturn.localPosition = new Vector3(originalLocalPos.x, originalLocalPos.y + yOffset, originalLocalPos.z);
             yield return null;
         }
+        turnturn.localRotation = Quaternion.identity;
+        turnturn.localPosition = originalLocalPos;
         isRolling = false;
     }
 }
