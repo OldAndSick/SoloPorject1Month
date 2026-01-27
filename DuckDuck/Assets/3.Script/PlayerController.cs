@@ -25,7 +25,7 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
-        _ani = visualChild.GetComponent<Animator>(); 
+        _ani = GetComponent<Animator>(); 
         _mainCamera = Camera.main;
 
         _rb.freezeRotation = true;
@@ -112,7 +112,7 @@ public class PlayerController : MonoBehaviour
             _rb.linearVelocity = new Vector3(rollDir.x * currentSpeed, yVel, rollDir.z * currentSpeed);
 
             visualChild.localRotation = Quaternion.Euler(elapsedTime * 360f, 0, 0);
-            float yOffset = Mathf.Sin(elapsedTime * Mathf.PI) * 0.5f;
+            float yOffset = Mathf.Sin(elapsedTime * Mathf.PI) * 5f;
             visualChild.localPosition = new Vector3(originalLocalPos.x, originalLocalPos.y + yOffset, originalLocalPos.z);
 
             yield return null;
