@@ -1,66 +1,70 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody))] // bo hum -- alljallddak
+[RequireComponent(typeof(Rigidbody))] // bo hum -- all jakk ddak
 public class PlayerController : MonoBehaviour
 {
-    [Header("MovementSpeed")]
+    [Header("Movement Settings")]
     public float walkSpeed = 5f;
     public float runSpeed = 8f;
-    public float rollSpeed = 12f;
+    public float rollSpeed = 15f;
     public float rollDuration = 0.5f;
 
-    [Header("Components")]
+    [Header("Visual Settings")]
+    public Transform visualChild;
+
     private Rigidbody _rb;
     private Animator _ani;
     private Camera _mainCamera;
-
-    private Vector3 moveInput;
-    private bool isRolling = false;
+    private Vector3 _moveInput;
+    private bool _isRolling = false;
 
     private static readonly int ANIM_SPEED = Animator.StringToHash("Speed");
-    private static readonly int ANIM_ROLL = Animator.StringToHash("Roll"); //hashvalue
+    private static readonly int ANIM_ROLL = Animator.StringToHash("Roll");
 
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
-        _ani = GetComponentInChildren<Animator>();
+        _ani = visualChild.GetComponent<Animator>(); 
         _mainCamera = Camera.main;
 
         _rb.freezeRotation = true;
-        _rb.interpolation = RigidbodyInterpolation.Interpolate; //smooth
+        _rb.interpolation = RigidbodyInterpolation.Interpolate;
+        _rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
     }
+
     private void Update()
     {
-        if (isRolling) return;
+        if (_isRolling) return;
 
-        HandleInput();
         HandleRotation();
+        HandleInput();
     }
+
     private void FixedUpdate()
     {
-        if (isRolling) return;
+        if (_isRolling) return;
         MovePlayer();
     }
+
     private void HandleInput()
     {
-        float h = Input.GetAxisRaw("Horizontal");
+        float h = Input.GetAxisRaw("Horizontal"); //hashvalue
         float v = Input.GetAxisRaw("Vertical");
-        moveInput = new Vector3(h, 0, v).normalized;
+        _moveInput = new Vector3(h, 0, v).normalized;
 
-        if(Input.GetKeyDown(KeyCode.Space) && moveInput.sqrMagnitude > 0)
+        if (Input.GetKeyDown(KeyCode.Space) && _moveInput.sqrMagnitude > 0)
         {
             StartCoroutine(RollRoutine());
         }
     }
+
     private void HandleRotation()
     {
         Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
         Plane groundPlane = new Plane(Vector3.up, transform.position);
 
-        if(groundPlane.Raycast(ray, out float rayDistance))
+        if (groundPlane.Raycast(ray, out float rayDistance))
         {
             Vector3 targetPoint = ray.GetPoint(rayDistance);
             Vector3 lookDir = targetPoint - transform.position;
@@ -77,39 +81,45 @@ public class PlayerController : MonoBehaviour
         bool isSprinting = Input.GetKey(KeyCode.LeftShift);
         float speed = isSprinting ? runSpeed : walkSpeed;
 
-        Vector3 targetVelocity = moveInput * speed; // set rigidbody speed setting
+        Vector3 targetVelocity = _moveInput * speed;
         _rb.linearVelocity = new Vector3(targetVelocity.x, _rb.linearVelocity.y, targetVelocity.z);
 
-        float animValue = moveInput.sqrMagnitude > 0 ? (isSprinting ? 1.0f : 0.5f) : 0f;
+        float animValue = _moveInput.sqrMagnitude > 0 ? (isSprinting ? 1.0f : 0.5f) : 0f;
         _ani.SetFloat(ANIM_SPEED, animValue, 0.1f, Time.fixedDeltaTime);
     }
+
     private IEnumerator RollRoutine()
     {
-        isRolling = true;
+        _isRolling = true;
         _ani.SetTrigger(ANIM_ROLL);
 
-        Vector3 rollDir = moveInput;
+        Vector3 rollDir = _moveInput;
+        if (rollDir == Vector3.zero) rollDir = transform.forward;
+        Quaternion targetRotation = Quaternion.LookRotation(rollDir);
+        _rb.rotation = targetRotation;
+        transform.rotation = targetRotation;
+
         float startTime = Time.time;
-
-        Transform turnturn = _ani.transform;
-
-        Vector3 originalLocalPos = turnturn.localPosition;
+        Vector3 originalLocalPos = visualChild.localPosition;
 
         while (Time.time < startTime + rollDuration)
         {
-            float yVel = _rb.linearVelocity.y;
-            if (yVel > 0) yVel = -2f;
-            _rb.linearVelocity = new Vector3(rollDir.x * rollSpeed, yVel, rollDir.z * rollSpeed);
-
+            _rb.MoveRotation(targetRotation);
             float elapsedTime = (Time.time - startTime) / rollDuration;
-            turnturn.localRotation = Quaternion.Euler(elapsedTime * 360f, 0, 0);
+            float currentSpeed = Mathf.Lerp(rollSpeed, walkSpeed, elapsedTime);
 
-            float yOffset = Mathf.Sin(elapsedTime * Mathf.PI) * 0.7f;
-            turnturn.localPosition = new Vector3(originalLocalPos.x, originalLocalPos.y + yOffset, originalLocalPos.z);
+            float yVel = _rb.linearVelocity.y;
+            _rb.linearVelocity = new Vector3(rollDir.x * currentSpeed, yVel, rollDir.z * currentSpeed);
+
+            visualChild.localRotation = Quaternion.Euler(elapsedTime * 360f, 0, 0);
+            float yOffset = Mathf.Sin(elapsedTime * Mathf.PI) * 0.5f;
+            visualChild.localPosition = new Vector3(originalLocalPos.x, originalLocalPos.y + yOffset, originalLocalPos.z);
+
             yield return null;
         }
-        turnturn.localRotation = Quaternion.identity;
-        turnturn.localPosition = originalLocalPos;
-        isRolling = false;
+        //reset
+        visualChild.localRotation = Quaternion.identity;
+        visualChild.localPosition = originalLocalPos;
+        _isRolling = false;
     }
 }
