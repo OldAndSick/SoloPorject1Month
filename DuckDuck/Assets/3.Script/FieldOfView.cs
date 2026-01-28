@@ -50,12 +50,17 @@ public class FieldOfView : MonoBehaviour
 
         int vertexCount = allPoints.Count + 1;
         Vector3[] vertices = new Vector3[vertexCount];
+        Vector2[] uvs = new Vector2[vertexCount];
         int[] triangles = new int[(vertexCount - 2) * 3];
 
-        vertices[0] = Vector3.zero; 
+        vertices[0] = Vector3.zero;
+        uvs[0] = new Vector2(0, 0);
         for (int i = 0; i < vertexCount - 1; i++)
         {
             vertices[i + 1] = transform.InverseTransformPoint(allPoints[i]);
+
+            float dist = Vector3.Distance(Vector3.zero, vertices[i + 1]) / viewRadius;
+            uvs[i + 1] = new Vector2(dist, 0);
 
             if (i < vertexCount - 2)
             {
@@ -67,6 +72,7 @@ public class FieldOfView : MonoBehaviour
 
         viewMesh.Clear();
         viewMesh.vertices = vertices;
+        viewMesh.uv = uvs;
         viewMesh.triangles = triangles;
         viewMesh.RecalculateNormals();
     }
@@ -75,14 +81,14 @@ public class FieldOfView : MonoBehaviour
     {
         Vector3 dir = DirFromAngle(globalAngle, true);
         RaycastHit hit;
-
+        Vector3 origin = transform.position + Vector3.up * 0.5f;
         if (Physics.Raycast(transform.position, dir, out hit, radius, obstacleMask))
         {
-            return new ViewCastInfo(true, hit.point, hit.distance, globalAngle);
+            return new ViewCastInfo(true, hit.point + Vector3.up * 0.1f, hit.distance, globalAngle);
         }
         else
         {
-            return new ViewCastInfo(false, transform.position + dir * radius, radius, globalAngle);
+            return new ViewCastInfo(false, origin + dir * radius, radius, globalAngle);
         }
     }
 

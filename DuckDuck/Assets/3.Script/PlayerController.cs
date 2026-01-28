@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(Rigidbody))] // bo hum -- all jakk ddak
 public class PlayerController : MonoBehaviour
@@ -13,6 +14,18 @@ public class PlayerController : MonoBehaviour
     [Header("Visual Settings")]
     public Transform visualChild;
 
+    [Header("Stamina System")]
+    public float maxStamina = 100f;
+    public float currentStamina;
+    public float staminaRegen = 15f;
+    public float runStamina = 20f;
+    public float rollStamina = 30f;
+    public float regenDelay = 1.5f;
+    [Header("StaminaUI")]
+    public Image staminaRing;
+    public CanvasGroup uiGroup;
+
+    private float regenTimer;
     private Rigidbody _rb;
     private Animator _ani;
     private Camera _mainCamera;
@@ -22,11 +35,16 @@ public class PlayerController : MonoBehaviour
     private static readonly int ANIM_SPEED = Animator.StringToHash("Speed");
     private static readonly int ANIM_ROLL = Animator.StringToHash("Roll");
 
+    private void Start()
+    {
+        currentStamina = maxStamina;
+    }
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
-        _ani = GetComponent<Animator>(); 
+        _ani = GetComponent<Animator>();
         _mainCamera = Camera.main;
+        currentStamina = maxStamina;
 
         _rb.freezeRotation = true;
         _rb.interpolation = RigidbodyInterpolation.Interpolate;
@@ -39,12 +57,14 @@ public class PlayerController : MonoBehaviour
 
         HandleRotation();
         HandleInput();
+        UpdateUI();
     }
 
     private void FixedUpdate()
     {
         if (_isRolling) return;
         MovePlayer();
+        HandleStamina();
     }
 
     private void HandleInput()
@@ -53,7 +73,7 @@ public class PlayerController : MonoBehaviour
         float v = Input.GetAxisRaw("Vertical");
         _moveInput = new Vector3(h, 0, v).normalized;
 
-        if (Input.GetKeyDown(KeyCode.Space) && _moveInput.sqrMagnitude > 0)
+        if (Input.GetKeyDown(KeyCode.Space) && _moveInput.sqrMagnitude > 0 && currentStamina >= rollStamina)
         {
             StartCoroutine(RollRoutine());
         }
@@ -91,6 +111,8 @@ public class PlayerController : MonoBehaviour
     private IEnumerator RollRoutine()
     {
         _isRolling = true;
+        currentStamina -= rollStamina;
+        regenTimer = regenDelay;
         _ani.SetTrigger(ANIM_ROLL);
 
         Vector3 rollDir = _moveInput;
@@ -122,4 +144,44 @@ public class PlayerController : MonoBehaviour
         visualChild.localPosition = originalLocalPos;
         _isRolling = false;
     }
+
+    private void HandleStamina()
+    {
+        bool isSprinting = Input.GetKey(KeyCode.LeftShift) && _moveInput.sqrMagnitude > 0 && !_isRolling;
+        if (isSprinting && currentStamina > 0)
+        {
+            currentStamina -= runStamina * Time.fixedDeltaTime;
+            regenTimer = regenDelay;
+        }
+        else if(regenTimer >0)
+        {
+            regenTimer -= Time.fixedDeltaTime;
+        }
+        else if (currentStamina < maxStamina)
+        {
+            if (currentStamina < maxStamina)
+            {
+                currentStamina += staminaRegen * Time.fixedDeltaTime;
+            }
+        }
+        currentStamina = Mathf.Clamp(currentStamina, 0, maxStamina);
+    }
+    private void UpdateUI()
+    {
+        if(staminaRing == null || uiGroup == null)
+        {
+            return;
+        }
+
+        float ratio = currentStamina / maxStamina;
+        staminaRing.fillAmount = ratio;
+
+        if (ratio > 0.7f) staminaRing.color = new Color(0.2f, 1f, 0.2f); 
+        else if (ratio > 0.3f) staminaRing.color = Color.yellow;
+        else staminaRing.color = Color.red;
+
+        float targetAlpha = (currentStamina < maxStamina) ? 1f : 0f;
+        uiGroup.alpha = Mathf.Lerp(uiGroup.alpha, targetAlpha, Time.deltaTime * 5f);
+    }
+
 }
