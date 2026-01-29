@@ -21,9 +21,17 @@ public class PlayerController : MonoBehaviour
     public float runStamina = 20f;
     public float rollStamina = 30f;
     public float regenDelay = 1.5f;
+    
     [Header("StaminaUI")]
     public Image staminaRing;
     public CanvasGroup uiGroup;
+
+    [Header("Combat Settings")]
+    public float attackRange = 2f;
+    public float attackDamage = 30f;
+    public LayerMask enemyLayer;
+    public GameObject slashVFXPrefab;
+    public Transform attackPoint;   
 
     private float regenTimer;
     private Rigidbody _rb;
@@ -57,6 +65,7 @@ public class PlayerController : MonoBehaviour
 
         HandleRotation();
         HandleInput();
+        HandleCombat();
         UpdateUI();
     }
 
@@ -98,7 +107,7 @@ public class PlayerController : MonoBehaviour
     }
     private void MovePlayer()
     {
-        bool isSprinting = Input.GetKey(KeyCode.LeftShift);
+        bool isSprinting = Input.GetKey(KeyCode.LeftShift) && currentStamina > 0 && _moveInput.sqrMagnitude > 0;
         float speed = isSprinting ? runSpeed : walkSpeed;
 
         Vector3 targetVelocity = _moveInput * speed;
@@ -183,5 +192,37 @@ public class PlayerController : MonoBehaviour
         float targetAlpha = (currentStamina < maxStamina) ? 1f : 0f;
         uiGroup.alpha = Mathf.Lerp(uiGroup.alpha, targetAlpha, Time.deltaTime * 5f);
     }
+    private void HandleCombat()
+    {
+        if(Input.GetMouseButtonDown(0))
+        {
+            PerformMeleeAttack();
+        }
+    }
 
+    private void PerformMeleeAttack()
+    {
+        if(slashVFXPrefab != null && attackPoint != null)
+        {
+            Instantiate(slashVFXPrefab, attackPoint.position, attackPoint.rotation);
+        }
+        Collider[] hitEnemies = Physics.OverlapSphere(attackPoint.position, attackRange, enemyLayer);
+        Debug.Log($"공격 범위 내 감지된 콜라이더 수: {hitEnemies.Length}");
+        foreach (Collider enemy in hitEnemies)
+        {
+            if(enemy.TryGetComponent(out EnemyAI enemyAI))
+            {
+                enemyAI.TakeDamage(attackDamage);
+                Debug.Log($"{enemy.name}에게 {attackDamage}의 데미지를 입힘!");
+            }
+        }
+    }
+    private void OnDrawGizmosSelected()
+    {
+        if (attackPoint != null)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(attackPoint.position, attackRange);
+        }
+    }
 }
