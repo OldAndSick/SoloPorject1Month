@@ -29,10 +29,12 @@ public class PlayerController : MonoBehaviour
     [Header("Combat Settings")]
     public float attackRange = 2f;
     public float attackDamage = 30f;
+    public float attackCooldown = 0.5f;
     public LayerMask enemyLayer;
     public GameObject slashVFXPrefab;
-    public Transform attackPoint;   
+    public Transform attackPoint;
 
+    private float lastAtackTime;
     private float regenTimer;
     private Rigidbody _rb;
     private Animator _ani;
@@ -202,6 +204,9 @@ public class PlayerController : MonoBehaviour
 
     private void PerformMeleeAttack()
     {
+        if (Time.time < lastAtackTime + attackCooldown) return;
+
+        lastAtackTime = Time.time;
         if(slashVFXPrefab != null && attackPoint != null)
         {
             Instantiate(slashVFXPrefab, attackPoint.position, attackPoint.rotation);
