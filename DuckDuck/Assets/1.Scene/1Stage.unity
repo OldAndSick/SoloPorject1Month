@@ -304,14 +304,14 @@ RectTransform:
   m_GameObject: {fileID: 192996330}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 102373005}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 55, y: 9}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &192996332
@@ -4742,7 +4742,7 @@ MonoBehaviour:
   currentStamina: 0
   staminaRegen: 15
   runStamina: 20
-  rollStamina: 30
+  rollStamina: 20
   regenDelay: 1.5
   staminaRing: {fileID: 192996332}
   uiGroup: {fileID: 102373009}
@@ -4808,7 +4808,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4571a0609341e2146ade7c8d81c35eb8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FieldOfView
-  viewRadius: 10
+  viewRadius: 15
   nearViewRadius: 2
   viewAngle: 90
   obstacleMask:
