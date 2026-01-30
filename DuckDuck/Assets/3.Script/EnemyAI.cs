@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.AI;
 
 public class EnemyAI : MonoBehaviour
@@ -18,19 +19,24 @@ public class EnemyAI : MonoBehaviour
     public float fireRate = 1.0f;
     public GameObject bulletPrefab;
     public Transform firePoint;
+    public Slider enemyHPBar;
 
     private float fireTimer;
     private NavMeshAgent agent;
     private bool isChasing = false;
     private bool isDead = false;
-    private MeshRenderer[] renderers;
+    private Renderer[] renderers;
 
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
         agent.stoppingDistance = stopDistance;
-        renderers = GetComponentsInChildren<MeshRenderer>();
+        renderers = GetComponentsInChildren<Renderer>();
 
+        if(enemyHPBar != null)
+        {
+            enemyHPBar.value = 1f;
+        }
         if (noticeUI != null)
         {
             noticeUI.SetActive(false);
@@ -101,6 +107,11 @@ public class EnemyAI : MonoBehaviour
         if (isDead) return;
 
         health -= damage;
+        health = Mathf.Clamp(health, 0, 100f);
+        if (enemyHPBar != null)
+        {
+            enemyHPBar.value = health / 100f;
+        }
         StartCoroutine(HitFlashRoutine());
         if(health <= 0)
         {
@@ -109,9 +120,28 @@ public class EnemyAI : MonoBehaviour
     }
     private IEnumerator HitFlashRoutine()
     {
-        foreach (var r in renderers) r.material.color = Color.red;
-        yield return new WaitForSeconds(0.1f);
-        foreach (var r in renderers) r.material.color = Color.white;
+        foreach (var r in renderers)
+        {
+            if (r == null) continue;
+            r.material.color = Color.red;
+
+            if (r.material.HasProperty("_EmissionColor"))
+            {
+                r.material.EnableKeyword("_EMISSION");
+                r.material.SetColor("_EmissionColor", Color.red * 2f);
+            }
+        }
+        yield return new WaitForSeconds(0.3f);
+
+        foreach (var r in renderers)
+        {
+            if (r == null) continue;
+            r.material.color = Color.white; 
+            if (r.material.HasProperty("_EmissionColor"))
+            {
+                r.material.SetColor("_EmissionColor", Color.black);
+            }
+        }
     }
     private void Die()
     {

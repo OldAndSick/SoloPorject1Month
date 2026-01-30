@@ -33,6 +33,11 @@ public class PlayerController : MonoBehaviour
     public LayerMask enemyLayer;
     public GameObject slashVFXPrefab;
     public Transform attackPoint;
+    [Header("Player Health UI")]
+    public float maxHP = 100f;
+    public float currentHP;
+    public Slider playerHPUI;
+    public Slider playerHeadBar;
 
     private float lastAtackTime;
     private float regenTimer;
@@ -48,6 +53,8 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         currentStamina = maxStamina;
+        currentHP = maxHP;
+        UpdateHPUI();
     }
     private void Awake()
     {
@@ -222,12 +229,26 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
-    private void OnDrawGizmosSelected()
+    
+    public void TakeDamage(float damage)
     {
-        if (attackPoint != null)
+        currentHP -= damage;
+        Debug.Log($"아야! 현재 체력: {currentHP}");
+        currentHP = Mathf.Clamp(currentHP, 0, maxHP);
+        UpdateHPUI();
+        if(currentHP <= 0)
         {
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(attackPoint.position, attackRange);
+            Die();
         }
+    }
+    private void UpdateHPUI()
+    {
+        float ratio = currentHP / maxHP;
+        if (playerHPUI != null) playerHPUI.value = ratio;
+        if (playerHeadBar != null) playerHeadBar.value = ratio;
+    }    
+    private void Die()
+    {
+        Debug.Log("die");
     }
 }

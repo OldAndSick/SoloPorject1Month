@@ -7,6 +7,7 @@ public class Bullet : MonoBehaviour
 {
     public float speed = 20f;
     public float lifeTime = 3f;
+    public float damage = 10f;
 
     private void Start()
     {
@@ -21,8 +22,17 @@ public class Bullet : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            PlayerController pc = other.GetComponent<PlayerController>();
+            if(pc != null)
+            {
+                pc.TakeDamage(damage);
+            }
             Destroy(gameObject);
             Debug.Log("플레이어 맞음");
+        }
+        else if(other.gameObject.layer == LayerMask.NameToLayer("Ground"))
+        {
+            Destroy(gameObject);
         }
     }
 }
