@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 public class PetGun : MonoBehaviour
@@ -21,6 +22,10 @@ public class PetGun : MonoBehaviour
 
     private float nextFireTime;
     private Transform target;
+
+    [Header("UI설정")]
+    public Image cooldownImage;
+
     private bool isFiring = false;
     private bool iscooldown = false;
 
@@ -54,11 +59,27 @@ public class PetGun : MonoBehaviour
         yield return new WaitForSeconds(skiiDuration);
 
         isFiring = false;
-        iscooldown = true;
+        iscooldown = true; // 대문자 오타 주의! (isCooldown)
         Debug.Log("발열발열쿨타임쿨타임");
 
-        //30초 쿨타임 대기
-        yield return new WaitForSeconds(cooldownTime);
+        // --- 여기부터 실시간 UI 갱신 로직 ---
+        float timer = cooldownTime;
+
+        while (timer > 0)
+        {
+            timer -= Time.deltaTime; // 매 프레임 시간을 깎음
+
+            if (cooldownImage != null)
+            {
+                // (남은시간 / 전체시간) 비율로 이미지 채우기
+                cooldownImage.fillAmount = timer / cooldownTime;
+            }
+
+            yield return null; // 다음 프레임까지 대기
+        }
+        // --------------------------------
+
+        if (cooldownImage != null) cooldownImage.fillAmount = 0; // 확실히 비워주기
         iscooldown = false;
         Debug.Log("다시 사용 가능함");
     }
