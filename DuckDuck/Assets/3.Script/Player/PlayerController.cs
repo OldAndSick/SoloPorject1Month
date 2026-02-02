@@ -38,6 +38,12 @@ public class PlayerController : MonoBehaviour
     public float currentHP;
     public Slider playerHPUI;
     public Slider playerHeadBar;
+    [Header("Inventory Settings")]
+    public ItemData currentWeapon;
+    public GameObject weaponHolder;
+    public GameObject playerBulletPrefab;
+    [Header("Gun Settings")]
+    public float bulletSpread = 2.0f;
 
     private float lastAtackTime;
     private float regenTimer;
@@ -201,14 +207,7 @@ public class PlayerController : MonoBehaviour
         float targetAlpha = (currentStamina < maxStamina) ? 1f : 0f;
         uiGroup.alpha = Mathf.Lerp(uiGroup.alpha, targetAlpha, Time.deltaTime * 5f);
     }
-    private void HandleCombat()
-    {
-        if(Input.GetMouseButtonDown(0))
-        {
-            PerformMeleeAttack();
-        }
-    }
-
+    
     private void PerformMeleeAttack()
     {
         if (Time.time < lastAtackTime + attackCooldown) return;
@@ -250,5 +249,48 @@ public class PlayerController : MonoBehaviour
     private void Die()
     {
         Debug.Log("die");
+    }
+    public void AcquireItem(ItemData data)
+    {
+        if (data == null) return;
+
+        currentWeapon = data;
+        if(data.type == ItemData.ItemType.Gun)
+        {
+            Debug.Log("장착");
+        }
+    }
+    private void HandleCombat()
+    {
+        if(Input.GetMouseButtonDown(0))
+        {
+            if(currentWeapon != null && currentWeapon.type == ItemData.ItemType.Gun)
+            {
+                Shoot();
+            }
+            else
+            {
+                PerformMeleeAttack();
+            }
+        }
+    }
+
+    private void Shoot()
+    {
+        if (Time.time < lastAtackTime + attackCooldown) return;
+        lastAtackTime = Time.time;
+
+        if (playerBulletPrefab == null) Debug.LogError("playerBulletPrefab이 비어있다 이놈아!");
+        if (attackPoint == null) Debug.LogError("attackPoint가 비어있다 이놈아!");
+
+        if (playerBulletPrefab != null && attackPoint != null)
+        {
+            float spreadX = Random.Range(-bulletSpread, bulletSpread);
+            float spreadY = Random.Range(-bulletSpread, bulletSpread);
+            Quaternion spreadRotation = Quaternion.Euler(spreadX, spreadY, 0);
+            GameObject bullet = Instantiate(playerBulletPrefab, attackPoint.position, attackPoint.rotation * spreadRotation);
+
+            Debug.Log("shoot");
+        }
     }
 }

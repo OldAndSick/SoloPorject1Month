@@ -21,6 +21,9 @@ public class EnemyAI : MonoBehaviour
     public Transform firePoint;
     public Slider enemyHPBar;
 
+    [Header("Loot set")]
+    public GameObject dropItemPrefab;
+
     private float fireTimer;
     private NavMeshAgent agent;
     private bool isChasing = false;
@@ -145,7 +148,12 @@ public class EnemyAI : MonoBehaviour
     }
     private void Die()
     {
+        if (isDead) return;
         isDead = true;
+        if(dropItemPrefab != null)
+        {
+            GameObject drop = Instantiate(dropItemPrefab, transform.position + Vector3.up * 0.5f, Quaternion.identity);
+        }
         agent.isStopped = true;
         noticeUI.SetActive(false);
         Destroy(gameObject, 1.0f);
