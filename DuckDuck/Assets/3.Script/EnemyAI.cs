@@ -23,6 +23,10 @@ public class EnemyAI : MonoBehaviour
 
     [Header("Loot set")]
     public GameObject dropItemPrefab;
+    [Header("Enemy Ammo")]
+    public int enemyMagSize = 30;
+    private int currentEnemyMag;
+    private bool isEnemyReloading = false;
 
     private float fireTimer;
     private NavMeshAgent agent;
@@ -44,6 +48,7 @@ public class EnemyAI : MonoBehaviour
         {
             noticeUI.SetActive(false);
         }
+        currentEnemyMag = enemyMagSize;
     }
     private void Update()
     {
@@ -98,12 +103,20 @@ public class EnemyAI : MonoBehaviour
     }
     private void Fire()
     {
+        if (isEnemyReloading || isDead) return;
+
         GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
         Vector3 targetCenter = player.position + Vector3.up * 1f;
         Vector3 fireDir = (targetCenter - firePoint.position).normalized;
         bullet.transform.forward = fireDir;
 
         Debug.Log("shoot");
+
+        currentEnemyMag--;
+        if(currentEnemyMag <=0)
+        {
+            StartCoroutine(EnemyReloadRoutine());
+        }
     }
     public void TakeDamage(float damage)
     {
@@ -145,6 +158,15 @@ public class EnemyAI : MonoBehaviour
                 r.material.SetColor("_EmissionColor", Color.black);
             }
         }
+    }
+    IEnumerator EnemyReloadRoutine()
+    {
+        isEnemyReloading = true;
+        Debug.Log("적 장전중");
+        yield return new WaitForSeconds(3.0f); 
+
+        currentEnemyMag = enemyMagSize; 
+        isEnemyReloading = false;
     }
     private void Die()
     {

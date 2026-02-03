@@ -44,6 +44,13 @@ public class PlayerController : MonoBehaviour
     public GameObject playerBulletPrefab;
     [Header("Gun Settings")]
     public float bulletSpread = 2.0f;
+    private GameObject currentWeaponModel;
+
+    [Header("Ammo Settings")]
+    public int currentMag;
+    public int totalAmmo;
+    public bool isReloading = false;
+    public Text ammoUI;
 
     private float lastAtackTime;
     private float regenTimer;
@@ -76,12 +83,17 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        if (_isRolling) return;
+        if (_isRolling || isReloading) return;
 
         HandleRotation();
         HandleInput();
         HandleCombat();
         UpdateUI();
+
+        if(Input.GetKeyDown(KeyCode.R))
+        {
+            StartCoroutine(ReloadRoutine());
+        }
     }
 
     private void FixedUpdate()
@@ -255,8 +267,13 @@ public class PlayerController : MonoBehaviour
         if (data == null) return;
 
         currentWeapon = data;
+        UpdateWeaponModel(data.weaponPrefab);
+
         if(data.type == ItemData.ItemType.Gun)
         {
+            currentMag = data.magSize;
+            totalAmmo = data.startTotalAmmo;
+            UpdateAmmoUI();
             Debug.Log("장착");
         }
     }
@@ -277,8 +294,15 @@ public class PlayerController : MonoBehaviour
 
     private void Shoot()
     {
+        if(currentMag <= 0)
+        {
+            Debug.Log("탄없");
+            return;
+        }
+
         if (Time.time < lastAtackTime + attackCooldown) return;
-        lastAtackTime = Time.time;
+        currentMag--;
+        UpdateAmmoUI();
 
         if (playerBulletPrefab == null) Debug.LogError("playerBulletPrefab이 비어있다 이놈아!");
         if (attackPoint == null) Debug.LogError("attackPoint가 비어있다 이놈아!");
@@ -291,6 +315,43 @@ public class PlayerController : MonoBehaviour
             GameObject bullet = Instantiate(playerBulletPrefab, attackPoint.position, attackPoint.rotation * spreadRotation);
 
             Debug.Log("shoot");
+        }
+        lastAtackTime = Time.time;
+    }
+    IEnumerator ReloadRoutine()
+    {
+        if (totalAmmo <= 0 || currentMag == currentWeapon.magSize) yield break;
+
+        isReloading = true;
+        Debug.Log("장전중...");
+        yield return new WaitForSeconds(2.0f); 
+
+        int needAmmo = currentWeapon.magSize - currentMag;
+        int reloadAmount = Mathf.Min(totalAmmo, needAmmo);
+
+        totalAmmo -= reloadAmount;
+        currentMag += reloadAmount;
+
+        isReloading = false;
+        UpdateAmmoUI();
+        Debug.Log("재장전 완료");
+    }
+
+    private void UpdateAmmoUI()
+    {
+        if (ammoUI != null) ammoUI.text = $"{currentMag} / {totalAmmo}";
+    }
+    private void UpdateWeaponModel(GameObject prefab)
+    {
+        if(currentWeaponModel != null)
+        {
+            Destroy(currentWeaponModel);
+        }
+        if(prefab != null && weaponHolder != null)
+        {
+            currentWeaponModel = Instantiate(prefab, weaponHolder.transform);
+            currentWeaponModel.transform.localPosition = Vector3.zero;
+            currentWeaponModel.transform.localRotation = Quaternion.identity;
         }
     }
 }

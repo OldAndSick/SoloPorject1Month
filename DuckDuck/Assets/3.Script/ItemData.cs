@@ -11,5 +11,7 @@ public class ItemData : ScriptableObject
     public ItemType type;
     public GameObject weaponPrefab;
     public float damage;
-    public int maxAmmo;
+    public int magSize;
+    public int startTotalAmmo;
+
 }
