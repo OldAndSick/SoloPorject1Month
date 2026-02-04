@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -52,6 +53,15 @@ public class PlayerController : MonoBehaviour
     public bool isReloading = false;
     public Text ammoUI;
 
+    [Header("Inventory Setting")]
+    public List<ItemData> inventory = new List<ItemData>();
+    public GameObject inventoryUI;
+    public GameObject slotPrefab;
+    public Transform slotParent;
+    [Header("UI Settings")]
+    public RectTransform crosshairUI;
+
+    private bool isInventoryOpen = false;
     private float lastAtackTime;
     private float regenTimer;
     private Rigidbody _rb;
@@ -67,7 +77,11 @@ public class PlayerController : MonoBehaviour
     {
         currentStamina = maxStamina;
         currentHP = maxHP;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = false;
+        if (inventoryUI != null) inventoryUI.SetActive(false);  
         UpdateHPUI();
+        UpdateAmmoUI();
     }
     private void Awake()
     {
@@ -83,8 +97,16 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        if (_isRolling || isReloading) return;
-
+        if (_isRolling) return;
+        if (crosshairUI != null)
+        {
+            crosshairUI.position = Input.mousePosition;
+        }
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            ToggleInventory();
+        }
+        if (isInventoryOpen || _isRolling) return;
         HandleRotation();
         HandleInput();
         HandleCombat();
@@ -266,8 +288,10 @@ public class PlayerController : MonoBehaviour
     {
         if (data == null) return;
 
+        inventory.Add(data);
         currentWeapon = data;
         UpdateWeaponModel(data.weaponPrefab);
+        UpdateInventoryUI();
 
         if(data.type == ItemData.ItemType.Gun)
         {
@@ -279,6 +303,7 @@ public class PlayerController : MonoBehaviour
     }
     private void HandleCombat()
     {
+        if (isReloading) return;
         if(Input.GetMouseButtonDown(0))
         {
             if(currentWeapon != null && currentWeapon.type == ItemData.ItemType.Gun)
@@ -339,7 +364,13 @@ public class PlayerController : MonoBehaviour
 
     private void UpdateAmmoUI()
     {
-        if (ammoUI != null) ammoUI.text = $"{currentMag} / {totalAmmo}";
+        if (ammoUI == null) return;
+        bool isGun = currentWeapon != null && currentWeapon.type == ItemData.ItemType.Gun;
+        ammoUI.gameObject.SetActive(isGun);
+        if(isGun)
+        {
+            ammoUI.text = $"{currentMag} / {totalAmmo}";
+        }
     }
     private void UpdateWeaponModel(GameObject prefab)
     {
@@ -352,6 +383,52 @@ public class PlayerController : MonoBehaviour
             currentWeaponModel = Instantiate(prefab, weaponHolder.transform);
             currentWeaponModel.transform.localPosition = Vector3.zero;
             currentWeaponModel.transform.localRotation = Quaternion.identity;
+        }
+    }
+    private void ToggleInventory()
+    {
+        isInventoryOpen = !isInventoryOpen;
+        if(inventoryUI != null)
+        {
+            inventoryUI.SetActive(isInventoryOpen);
+        }
+        if (isInventoryOpen)
+        {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+        }
+        else
+        {
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.None;
+        }
+        
+    }
+    private void UpdateInventoryUI()
+    {
+        if (slotParent == null || slotPrefab == null) return;
+
+        foreach (Transform child in slotParent)
+        {
+            Destroy(child.gameObject);
+        }
+        foreach (ItemData item in inventory)
+        {
+            GameObject newSlot = Instantiate(slotPrefab, slotParent);
+            newSlot.GetComponent<InventorySlot>().SetItem(item);
+        }
+    }
+    public void EquipItem(ItemData data)
+    {
+        if (data == null) return;
+        currentWeapon = data;
+        UpdateWeaponModel(data.weaponPrefab);
+
+        if(data.type == ItemData.ItemType.Gun)
+        {
+            currentMag = data.magSize;
+            totalAmmo = data.startTotalAmmo;
+            UpdateAmmoUI();
         }
     }
 }
