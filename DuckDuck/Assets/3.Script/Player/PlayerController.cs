@@ -58,8 +58,14 @@ public class PlayerController : MonoBehaviour
     public GameObject inventoryUI;
     public GameObject slotPrefab;
     public Transform slotParent;
+    
     [Header("UI Settings")]
     public RectTransform crosshairUI;
+
+    [Header("QuickSlot Settings")]
+    public ItemData[] quickSlot = new ItemData[9];
+    public int currentSlotIndex = -1;
+    public QuickSlotUI quickSlotUI;
 
     private bool isInventoryOpen = false;
     private float lastAtackTime;
@@ -97,7 +103,6 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        if (_isRolling) return;
         if (crosshairUI != null)
         {
             crosshairUI.position = Input.mousePosition;
@@ -107,6 +112,7 @@ public class PlayerController : MonoBehaviour
             ToggleInventory();
         }
         if (isInventoryOpen || _isRolling) return;
+        HandleQuickSlotInput();
         HandleRotation();
         HandleInput();
         HandleCombat();
@@ -420,8 +426,13 @@ public class PlayerController : MonoBehaviour
     }
     public void EquipItem(ItemData data)
     {
-        if (data == null) return;
         currentWeapon = data;
+        if (data == null)
+        {
+            UpdateWeaponModel(null);
+            UpdateAmmoUI();
+            return;
+        }
         UpdateWeaponModel(data.weaponPrefab);
 
         if(data.type == ItemData.ItemType.Gun)
@@ -429,6 +440,45 @@ public class PlayerController : MonoBehaviour
             currentMag = data.magSize;
             totalAmmo = data.startTotalAmmo;
             UpdateAmmoUI();
+        }
+    }
+    private void HandleQuickSlotInput()
+    {
+        for(int i = 0; i< 9; i++)
+        {
+            if(Input.GetKeyDown(KeyCode.Alpha1+i))
+            {
+                SelectQuickSlot(i);
+            }
+        }
+    }
+    public void SelectQuickSlot(int index)
+    {
+        if (index < 0 || index >= quickSlot.Length) return;
+
+        currentSlotIndex = index;
+        ItemData item = quickSlot[index];
+
+        EquipItem(item);
+        if (quickSlotUI != null) quickSlotUI.HighlightSlot(index);
+        Debug.Log($"{(index + 1)}번 슬롯 선택: {(item != null ? item.itemName : "맨손")}");
+    }
+    public void AddQuickSlot(ItemData item)
+    {
+        if (item == null) return;
+        for(int i = 0; i< quickSlot.Length; i++)
+        {
+            if (quickSlot[i] == item) return;
+        }
+        for(int i = 0; i< quickSlot.Length; i++)
+        {
+            if(quickSlot[i] == null)
+            {
+            quickSlot[i] = item;
+            if (quickSlotUI != null) quickSlotUI.UpdateQuickSlotUI(quickSlot);
+            return;
+
+            }
         }
     }
 }

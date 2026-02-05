@@ -13,5 +13,5 @@ public class ItemData : ScriptableObject
     public float damage;
     public int magSize;
     public int startTotalAmmo;
-
+    public Sprite itemIcon;
 }

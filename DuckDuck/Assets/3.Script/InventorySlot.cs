@@ -16,11 +16,17 @@ public class InventorySlot : MonoBehaviour
         if(item != null)
         {
             itemNameText.text = item.itemName;
+            itemIcon.sprite = item.itemIcon;
         }
     }
+    
     public void OnClickSlot()
     {
+        if (item == null) return;
+
         GameObject player = GameObject.FindGameObjectWithTag("Player");
-        player.GetComponent<PlayerController>().EquipItem(item);
+        PlayerController pc = player.GetComponent<PlayerController>();
+        pc.AddQuickSlot(item);
+        pc.EquipItem(item);
     }
 }

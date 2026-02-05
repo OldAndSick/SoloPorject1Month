@@ -18,3 +18,4 @@ MonoBehaviour:
   damage: 0
   magSize: 12
   startTotalAmmo: 36
+  itemIcon: {fileID: 21300000, guid: b60d33c0848e79d499f9bcaae9649abf, type: 3}
