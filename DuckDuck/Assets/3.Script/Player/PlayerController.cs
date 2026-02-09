@@ -437,8 +437,7 @@ public class PlayerController : MonoBehaviour
 
         if(data.type == ItemData.ItemType.Gun)
         {
-            currentMag = data.magSize;
-            totalAmmo = data.startTotalAmmo;
+            
             UpdateAmmoUI();
         }
     }
@@ -466,7 +465,8 @@ public class PlayerController : MonoBehaviour
     public void AddQuickSlot(ItemData item)
     {
         if (item == null) return;
-        for(int i = 0; i< quickSlot.Length; i++)
+        Debug.Log($"AddQuickSlot 실행됨: {item.itemName}");
+        for (int i = 0; i< quickSlot.Length; i++)
         {
             if (quickSlot[i] == item) return;
         }
@@ -475,8 +475,10 @@ public class PlayerController : MonoBehaviour
             if(quickSlot[i] == null)
             {
             quickSlot[i] = item;
-            if (quickSlotUI != null) quickSlotUI.UpdateQuickSlotUI(quickSlot);
-            return;
+                Debug.Log($"{i}번 퀵슬롯에 데이터 들어감");
+                if (quickSlotUI != null) quickSlotUI.UpdateQuickSlotUI(quickSlot);
+                Debug.Log("UI 업데이트 호출함");
+                return;
 
             }
         }

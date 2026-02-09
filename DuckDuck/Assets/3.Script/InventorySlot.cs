@@ -13,10 +13,14 @@ public class InventorySlot : MonoBehaviour
     public void SetItem(ItemData newItem)
     {
         item = newItem;
-        if(item != null)
+        if (item.itemIcon != null)
         {
-            itemNameText.text = item.itemName;
             itemIcon.sprite = item.itemIcon;
+            itemIcon.color = Color.white; 
+        }
+        else
+        {
+            itemIcon.color = new Color(0, 0, 0, 0); 
         }
     }
     
