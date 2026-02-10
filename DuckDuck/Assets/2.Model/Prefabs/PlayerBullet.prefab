@@ -128,7 +128,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Bullet
   speed: 40
   lifeTime: 3
-  damage: 10
+  damage: 30
 --- !u!96 &1642530086419783636
 TrailRenderer:
   serializedVersion: 3

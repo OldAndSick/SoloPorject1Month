@@ -124,6 +124,11 @@ public class EnemyAI : MonoBehaviour
 
         health -= damage;
         health = Mathf.Clamp(health, 0, 100f);
+        
+        if(player != null && !isDead)
+        {
+            StartChase();
+        }
         if (enemyHPBar != null)
         {
             enemyHPBar.value = health / 100f;
