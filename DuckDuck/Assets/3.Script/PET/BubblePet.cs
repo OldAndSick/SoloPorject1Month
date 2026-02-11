@@ -15,30 +15,15 @@ public class BubblePet : MonoBehaviour
     [Tooltip("Bubble displayTime")]
     public float displayTime = 3.0f;
 
-    private Camera _mainCamera;
     private Coroutine _hideCoroutine;
 
     private void Start()
     {
-        _mainCamera = Camera.main;
-
-
         if (bubblebackground != null)
         {
             bubblebackground.SetActive(false);
-
         }
     }
-
-
-    private void LateUpdate()
-    {
-        if (bubblebackground != null && bubblebackground.activeInHierarchy && _mainCamera != null)
-        {
-            transform.rotation = _mainCamera.transform.rotation;
-        }
-    }
-
     public void ShowMessage(string message)
     {
         if (textComponet == null || bubblebackground == null) return;
