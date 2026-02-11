@@ -4,15 +4,15 @@ using System.Collections;
 using System.Collections.Generic;
 public class BubblePet : MonoBehaviour
 {
-    [Header("UI연결")]
-    [Tooltip("말풍선 배경 이미지 오브젝트으")]
+    [Header("UI Settings")]
+    [Tooltip("bubble background image")]
     public GameObject bubblebackground;
 
-    [Tooltip("기분 UI 텍스트 컴포넌트")]
+    [Tooltip("UI text component")]
     public Text textComponet;
 
-    [Header("설정")]
-    [Tooltip("말풍선이 떠있는 시간")]
+    [Header("Settings")]
+    [Tooltip("Bubble displayTime")]
     public float displayTime = 3.0f;
 
     private Camera _mainCamera;
@@ -22,14 +22,18 @@ public class BubblePet : MonoBehaviour
     {
         _mainCamera = Camera.main;
 
-       // if (bubblebackground != null)
-         //   bubblebackground.SetActive(false);
+
+        if (bubblebackground != null)
+        {
+            bubblebackground.SetActive(false);
+
+        }
     }
 
 
     private void LateUpdate()
     {
-        if(bubblebackground!=null&&bubblebackground.activeInHierarchy&&_mainCamera!=null)
+        if (bubblebackground != null && bubblebackground.activeInHierarchy && _mainCamera != null)
         {
             transform.rotation = _mainCamera.transform.rotation;
         }
