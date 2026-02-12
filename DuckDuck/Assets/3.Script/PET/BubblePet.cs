@@ -4,6 +4,8 @@ using System.Collections;
 using System.Collections.Generic;
 public class BubblePet : MonoBehaviour
 {
+    public static BubblePet Instance;
+
     [Header("UI Settings")]
     [Tooltip("bubble background image")]
     public GameObject bubblebackground;
@@ -13,13 +15,15 @@ public class BubblePet : MonoBehaviour
     [Tooltip("Bubble displayTime")]
     public float displayTime = 3.0f;
 
-    private Coroutine _hideCoroutine;
-
-    private void Start()
+    private void Awake()
     {
-        if (bubblebackground != null)
+        if(Instance == null)
         {
-            bubblebackground.SetActive(false);
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
         }
     }
     public void ShowMessage(string message, Sprite portrait = null)
@@ -27,25 +31,27 @@ public class BubblePet : MonoBehaviour
         if (chatParent == null || bubblebackground == null) return;
 
         GameObject newBubble = Instantiate(bubblebackground, chatParent);
-        newBubble.SetActive(true);
 
         Text txt = newBubble.GetComponentInChildren<Text>();
-        
         if (txt != null)
         {
             txt.text = message;
         }
 
-        Image portraitImg = newBubble.transform.Find("Portrait")?.GetComponent<Image>();
-        if(portraitImg != null && portrait !=null)
+        Transform portraitTrans = newBubble.transform.Find("Portrai");
+        if(portraitTrans != null)
         {
-            portraitImg.sprite = portrait;
+
+            Image portraitImg = portraitTrans.GetComponent<Image>();
+            if (portraitImg != null && portrait != null)
+            {
+                portraitImg.sprite = portrait;
+            }
+            else if (portrait == null)
+            {
+                portraitImg.gameObject.SetActive(false);
+            }
         }
-        Destroy(newBubble, displayTime);
-    }
-    private IEnumerator HideBubbleRoutine()
-    {
-        yield return new WaitForSeconds(displayTime);
-        bubblebackground.SetActive(false);
+        Destroy(gameObject, displayTime);
     }
 }
