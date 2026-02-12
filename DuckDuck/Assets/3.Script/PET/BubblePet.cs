@@ -7,9 +7,7 @@ public class BubblePet : MonoBehaviour
     [Header("UI Settings")]
     [Tooltip("bubble background image")]
     public GameObject bubblebackground;
-
-    [Tooltip("UI text component")]
-    public Text textComponet;
+    public Transform chatParent;
 
     [Header("Settings")]
     [Tooltip("Bubble displayTime")]
@@ -24,17 +22,26 @@ public class BubblePet : MonoBehaviour
             bubblebackground.SetActive(false);
         }
     }
-    public void ShowMessage(string message)
+    public void ShowMessage(string message, Sprite portrait = null)
     {
-        if (textComponet == null || bubblebackground == null) return;
+        if (chatParent == null || bubblebackground == null) return;
 
-        textComponet.text = message;
-        bubblebackground.SetActive(true);
+        GameObject newBubble = Instantiate(bubblebackground, chatParent);
+        newBubble.SetActive(true);
 
-        if (_hideCoroutine != null)
-            StopCoroutine(_hideCoroutine);
+        Text txt = newBubble.GetComponentInChildren<Text>();
+        
+        if (txt != null)
+        {
+            txt.text = message;
+        }
 
-        _hideCoroutine = StartCoroutine(HideBubbleRoutine());
+        Image portraitImg = newBubble.transform.Find("Portrait")?.GetComponent<Image>();
+        if(portraitImg != null && portrait !=null)
+        {
+            portraitImg.sprite = portrait;
+        }
+        Destroy(newBubble, displayTime);
     }
     private IEnumerator HideBubbleRoutine()
     {
