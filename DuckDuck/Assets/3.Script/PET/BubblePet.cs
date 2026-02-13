@@ -21,37 +21,32 @@ public class BubblePet : MonoBehaviour
         {
             Instance = this;
         }
-        else
-        {
-            Destroy(gameObject);
-        }
+        //else
+        //{
+        //    Destroy(gameObject);
+        //}
     }
     public void ShowMessage(string message, Sprite portrait = null)
     {
         if (chatParent == null || bubblebackground == null) return;
 
         GameObject newBubble = Instantiate(bubblebackground, chatParent);
-
+        newBubble.SetActive(true);
         Text txt = newBubble.GetComponentInChildren<Text>();
         if (txt != null)
         {
             txt.text = message;
         }
 
-        Transform portraitTrans = newBubble.transform.Find("Portrai");
+        Transform portraitTrans = newBubble.transform.Find("Portrait");
         if(portraitTrans != null)
         {
-
             Image portraitImg = portraitTrans.GetComponent<Image>();
             if (portraitImg != null && portrait != null)
             {
                 portraitImg.sprite = portrait;
             }
-            else if (portrait == null)
-            {
-                portraitImg.gameObject.SetActive(false);
-            }
         }
-        Destroy(gameObject, displayTime);
+        Destroy(newBubble, displayTime);
     }
 }
