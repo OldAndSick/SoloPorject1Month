@@ -377,6 +377,21 @@ public class PlayerController : MonoBehaviour
             UpdateInventoryUI();
             return;
         }
+        bool isSame = false;
+        for(int i =0; i<quickSlot.Length; i++)
+        {
+            if(quickSlot[i] ==data)
+            {
+                isSame = true;
+                break;
+            }
+        }
+        if(isSame && data.type == ItemData.ItemType.Gun)
+        {
+            totalAmmo += data.startTotalAmmo;
+            UpdateAmmoUI();
+            return;
+        }
         AddQuickSlot(data);
         
         if(data.type == ItemData.ItemType.Gun)

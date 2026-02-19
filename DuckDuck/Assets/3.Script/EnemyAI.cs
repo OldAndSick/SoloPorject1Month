@@ -50,6 +50,16 @@ public class EnemyAI : MonoBehaviour
         }
         currentEnemyMag = enemyMagSize;
     }
+    private void Start()
+    {
+        if(renderers != null)
+        {
+            foreach(Renderer r in renderers)
+            {
+                r.enabled = false;
+            }
+        }
+    }
     private void Update()
     {
         if (player == null || isDead) return;

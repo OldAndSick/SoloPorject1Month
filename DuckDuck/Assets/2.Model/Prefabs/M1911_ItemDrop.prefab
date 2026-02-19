@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 231429557957125754}
   - component: {fileID: 6979871990798803905}
   - component: {fileID: 1142188134456284473}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: M1911
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -104,7 +104,7 @@ GameObject:
   - component: {fileID: 7260494484569797624}
   - component: {fileID: 8917736350986817585}
   - component: {fileID: 9130903133955844312}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Hammer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -191,7 +191,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8650860017327650663}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: CINEMA_4D_Editor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -224,7 +224,7 @@ GameObject:
   - component: {fileID: 2650590572318041278}
   - component: {fileID: 7943648488137720251}
   - component: {fileID: 1656890683068941049}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Slide
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -313,7 +313,7 @@ GameObject:
   - component: {fileID: 305260928167196166}
   - component: {fileID: 8548870482584362490}
   - component: {fileID: 1807745486971663827}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Trigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -402,7 +402,7 @@ GameObject:
   - component: {fileID: 3848059101431141761}
   - component: {fileID: 7467131832237915568}
   - component: {fileID: 3642711683024922164}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Magazin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -491,7 +491,7 @@ GameObject:
   - component: {fileID: 3874017684430367380}
   - component: {fileID: 6383695026057906484}
   - component: {fileID: 7008957127969382121}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: M1911_ItemDrop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
