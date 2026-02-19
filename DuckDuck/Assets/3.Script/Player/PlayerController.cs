@@ -6,6 +6,8 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Rigidbody))] // bo hum -- all jakk ddak
 public class PlayerController : MonoBehaviour
 {
+    #region Header
+    
     [Header("Movement Settings")]
     public float walkSpeed = 5f;
     public float runSpeed = 8f;
@@ -67,6 +69,10 @@ public class PlayerController : MonoBehaviour
     public int currentSlotIndex = -1;
     public QuickSlotUI quickSlotUI;
 
+    [Header("Interact Settings")]
+    public float interactRange = 2f;
+    public LayerMask interactLayer;
+
     private bool isInventoryOpen = false;
     private float lastAtackTime;
     private float regenTimer;
@@ -78,6 +84,7 @@ public class PlayerController : MonoBehaviour
 
     private static readonly int ANIM_SPEED = Animator.StringToHash("Speed");
     private static readonly int ANIM_ROLL = Animator.StringToHash("Roll");
+    #endregion
 
     private void Start()
     {
@@ -122,6 +129,11 @@ public class PlayerController : MonoBehaviour
         {
             StartCoroutine(ReloadRoutine());
         }
+
+        if(Input.GetKeyDown(KeyCode.E))
+        {
+            TryInteract();
+        }
     }
 
     private void FixedUpdate()
@@ -131,6 +143,7 @@ public class PlayerController : MonoBehaviour
         HandleStamina();
     }
 
+    #region PlayerMove
     private void HandleInput()
     {
         float h = Input.GetAxisRaw("Horizontal"); //hashvalue
@@ -230,24 +243,8 @@ public class PlayerController : MonoBehaviour
         }
         currentStamina = Mathf.Clamp(currentStamina, 0, maxStamina);
     }
-    private void UpdateUI()
-    {
-        if(staminaRing == null || uiGroup == null)
-        {
-            return;
-        }
-
-        float ratio = currentStamina / maxStamina;
-        staminaRing.fillAmount = ratio;
-
-        if (ratio > 0.7f) staminaRing.color = new Color(0.2f, 1f, 0.2f); 
-        else if (ratio > 0.3f) staminaRing.color = Color.yellow;
-        else staminaRing.color = Color.red;
-
-        float targetAlpha = (currentStamina < maxStamina) ? 1f : 0f;
-        uiGroup.alpha = Mathf.Lerp(uiGroup.alpha, targetAlpha, Time.deltaTime * 5f);
-    }
-    
+    #endregion
+    #region Battle
     private void PerformMeleeAttack()
     {
         if (Time.time < lastAtackTime + attackCooldown) return;
@@ -280,33 +277,7 @@ public class PlayerController : MonoBehaviour
             Die();
         }
     }
-    private void UpdateHPUI()
-    {
-        float ratio = currentHP / maxHP;
-        if (playerHPUI != null) playerHPUI.value = ratio;
-        if (playerHeadBar != null) playerHeadBar.value = ratio;
-    }    
-    private void Die()
-    {
-        Debug.Log("die");
-    }
-    public void AcquireItem(ItemData data)
-    {
-        if (data == null) return;
 
-        inventory.Add(data);
-        currentWeapon = data;
-        UpdateWeaponModel(data.weaponPrefab);
-        UpdateInventoryUI();
-
-        if(data.type == ItemData.ItemType.Gun)
-        {
-            currentMag = data.magSize;
-            totalAmmo = data.startTotalAmmo;
-            UpdateAmmoUI();
-            Debug.Log("장착");
-        }
-    }
     private void HandleCombat()
     {
         if (isReloading) return;
@@ -322,6 +293,8 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+    #endregion
+    #region Gun
 
     private void Shoot()
     {
@@ -391,6 +364,30 @@ public class PlayerController : MonoBehaviour
             currentWeaponModel.transform.localRotation = Quaternion.identity;
         }
     }
+
+    #endregion
+    #region Inven
+
+    public void AcquireItem(ItemData data)
+    {
+        if (data == null) return;
+        if (data.type == ItemData.ItemType.Quest)
+        {
+            inventory.Add(data);
+            UpdateInventoryUI();
+            return;
+        }
+        AddQuickSlot(data);
+        
+        if(data.type == ItemData.ItemType.Gun)
+        {
+            currentMag = data.magSize;
+            totalAmmo = data.startTotalAmmo;
+            UpdateAmmoUI();
+            Debug.Log("장착");
+        }
+    }
+
     private void ToggleInventory()
     {
         isInventoryOpen = !isInventoryOpen;
@@ -480,6 +477,49 @@ public class PlayerController : MonoBehaviour
                 Debug.Log("UI 업데이트 호출함");
                 return;
 
+            }
+        }
+    }
+    #endregion
+    private void UpdateUI()
+    {
+        if(staminaRing == null || uiGroup == null)
+        {
+            return;
+        }
+
+        float ratio = currentStamina / maxStamina;
+        staminaRing.fillAmount = ratio;
+
+        if (ratio > 0.7f) staminaRing.color = new Color(0.2f, 1f, 0.2f); 
+        else if (ratio > 0.3f) staminaRing.color = Color.yellow;
+        else staminaRing.color = Color.red;
+
+        float targetAlpha = (currentStamina < maxStamina) ? 1f : 0f;
+        uiGroup.alpha = Mathf.Lerp(uiGroup.alpha, targetAlpha, Time.deltaTime * 5f);
+    }
+    
+    private void UpdateHPUI()
+    {
+        float ratio = currentHP / maxHP;
+        if (playerHPUI != null) playerHPUI.value = ratio;
+        if (playerHeadBar != null) playerHeadBar.value = ratio;
+    }    
+    private void Die()
+    {
+        Debug.Log("die");
+    }
+    private void TryInteract()
+    {
+        Collider[] hitCollider = Physics.OverlapSphere(transform.position, interactRange, interactLayer);
+
+        foreach(Collider hit in hitCollider)
+        {
+            Interact interactable = hit.GetComponent<Interact>();
+            if(interactable != null)
+            {
+                interactable.Interact(this);
+                break;
             }
         }
     }

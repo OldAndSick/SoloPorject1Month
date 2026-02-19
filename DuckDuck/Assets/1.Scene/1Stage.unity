@@ -17443,9 +17443,13 @@ MonoBehaviour:
   viewAngle: 90
   obstacleMask:
     serializedVersion: 2
-    m_Bits: 4
+    m_Bits: 1028
+  targetMask:
+    serializedVersion: 2
+    m_Bits: 128
   meshResolution: 1
   viewMeshFilter: {fileID: 908173387612664840}
+  visibleTarget: []
 --- !u!4 &5712134646788539350
 Transform:
   m_ObjectHideFlags: 0
@@ -18111,6 +18115,10 @@ MonoBehaviour:
   - {fileID: 0}
   currentSlotIndex: -1
   quickSlotUI: {fileID: 1508372005}
+  interactRange: 2
+  interactLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!4 &6422093663926646981
 Transform:
   m_ObjectHideFlags: 0
