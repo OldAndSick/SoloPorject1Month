@@ -12,6 +12,7 @@ public class Malmanager : MonoBehaviour
     public Image rightCharImage;
     public TextMeshProUGUI dialogueText;
     public GameObject dialogueCanvas;
+    public GameObject speedchbubble;
 
     [Header("설정")]
     public float typingSpeed = 0.05f;
@@ -49,6 +50,8 @@ public class Malmanager : MonoBehaviour
 
         Time.timeScale = 0f; // 게임 정지
         dialogueCanvas.SetActive(true);
+        if (speedchbubble != null)
+            speedchbubble.SetActive(true);
         currentIndex = 0;
         DisplayNext();
     }
@@ -113,6 +116,8 @@ public class Malmanager : MonoBehaviour
 
     public void EndDialogue()
     {
+        if (speedchbubble != null)
+            speedchbubble.SetActive(false);
         dialogueCanvas.SetActive(false);
         Time.timeScale = 1f; // 게임 재개
 
