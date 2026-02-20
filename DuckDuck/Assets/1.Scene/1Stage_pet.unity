@@ -779,7 +779,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uB098\uB294 \uCEE4\uC11C 1\uC5B5 \uBC8C\uAC70\uC57C \uC5C4 \uC900 \uC2DD "
+  m_text: "\uB098\uB294 \uCEE4\uC11C \uAC74\uBB3C\uC8FC\uAC00 \uB420\uAC70\uC57C.."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: bfa7aa1db8e85054aa80b253120a7c13, type: 2}
   m_sharedMaterial: {fileID: 885532365339262516, guid: bfa7aa1db8e85054aa80b253120a7c13, type: 2}
@@ -867,7 +867,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 552358894}
-  - component: {fileID: 552358893}
   - component: {fileID: 552358892}
   m_Layer: 0
   m_Name: GameObject
@@ -893,27 +892,91 @@ MonoBehaviour:
   dialogueText: {fileID: 539537484}
   dialogueCanvas: {fileID: 960256914}
   typingSpeed: 0.05
-  dialogueList:
-  - name: "\uC2A4\uD0A4\uC870 "
-    sentence: "1\uC5B5\uC8FC\uC138\uC694 \uC81C\uBC1C "
-    isLeftSpeaker: 0
-    characterSprite: {fileID: 21300000, guid: 9fbcf7d9ec2f51342b43f3d3cc4b7c93, type: 3}
-  - name: "\uC8FC\uC778\uACF5"
-    sentence: "2\uC5B5\uB9CC;;"
+  onDialogueEnd:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 792751462}
+        m_TargetAssemblyTypeName: Malmanager, Assembly-CSharp
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  playOnStart: 1
+  startDialogueList:
+  - name: "\uC2A4\uD0A4\uC870"
+    sentence: "\uC77C\uC5B4\uB098..!"
     isLeftSpeaker: 1
-    characterSprite: {fileID: 1892629044, guid: bb3444a5b5ebbc54a8162213240239d9, type: 3}
---- !u!114 &552358893
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 552358891}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0288105a2b5bbb94eb8a785f988763c5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Dialoguecontroller
+    characterSprite: {fileID: 0}
+  - name: 
+    sentence: ...?!
+    isLeftSpeaker: 0
+    characterSprite: {fileID: 0}
+  - name: "\uC2A4\uD0A4\uC870"
+    sentence: "\uB4DC\uB514\uC5B4 \uC77C\uC5B4\uB0AC\uAD6C\uB098!!"
+    isLeftSpeaker: 1
+    characterSprite: {fileID: 0}
+  - name: 
+    sentence: "(\uB108\uB294 \uB204\uAD6C\uC57C!!! \uC5EC\uAE34 \uC5B4\uB514\uACE0!!!!)"
+    isLeftSpeaker: 0
+    characterSprite: {fileID: 0}
+  - name: "\uC2A4\uD0A4\uC870"
+    sentence: "\uC557 \uB09C\uB3D9 \uD53C\uC6B0\uC9C0 \uB9C8..!!\n\uC18C\uB9AC\uB97C
+      \uB4E3\uACE0 \uADF8 \uB140\uC11D\uB4E4\uC774 \uC628\uB2E8 \uB9D0\uC774\uC57C!!"
+    isLeftSpeaker: 1
+    characterSprite: {fileID: 0}
+  - name: "\uC2A4\uD0A4\uC870"
+    sentence: "\uB0B4 \uC774\uB984\uC740 \uC2A4\uD0A4\uC870\uC57C...\r\n\uBC14\uAE65\uC5D0\uC11C\uB294
+      \uC9C0\uAE08 \uC815\uCCB4\uBD88\uBA85\uC758 \uBC14\uC774\uB7EC\uC2A4\uB85C
+      \uC778\uD574\r\n\uBAA8\uB4E0 \uC0AC\uB78C\uB4E4\uC774 \uAC10\uC5FC\uB410\uC5B4...\r\n"
+    isLeftSpeaker: 1
+    characterSprite: {fileID: 0}
+  - name: "\uC2A4\uD0A4\uC870"
+    sentence: "\uB108\uB294 \uC720\uC77C\uD55C \uC0DD\uC874\uC790\uACE0..!\r\n"
+    isLeftSpeaker: 1
+    characterSprite: {fileID: 0}
+  - name: 
+    sentence: "(\uC5EC\uAE30\uC11C \uB098\uAC00\uC57C\uD574.....)\r\n"
+    isLeftSpeaker: 0
+    characterSprite: {fileID: 0}
+  - name: "\uC2A4\uD0A4\uC870"
+    sentence: "\uAC10\uC5FC\uC790\uB4E4\uC774 \uB110 \uC8FD\uC774\uB824\uB4E4\uAC70\uB77C\uACE0!\r\n"
+    isLeftSpeaker: 1
+    characterSprite: {fileID: 0}
+  - name: 
+    sentence: "(\uAC00\uC871\uB4E4\uC774 \uAC71\uC815\uB3FC, \uB2F9\uC7A5 \uC9D1\uC73C\uB85C
+      \uAC00\uC57C\uACA0\uC5B4) \r\n"
+    isLeftSpeaker: 0
+    characterSprite: {fileID: 0}
+  - name: "\uC2A4\uD0A4\uC870"
+    sentence: "\uC5EC\uAE38 \uD0C8\uCD9C\uD558\uB294\uAC74 \uC27D\uC9C0 \uC54A\uC744\uD150\uB370...
+      \r\n"
+    isLeftSpeaker: 1
+    characterSprite: {fileID: 0}
+  - name: "\uC2A4\uD0A4\uC870"
+    sentence: '!!!!
+
+'
+    isLeftSpeaker: 1
+    characterSprite: {fileID: 0}
+  - name: "\uC2A4\uD0A4\uC870"
+    sentence: "\uC774\uB7F0 \uC544\uAE4C \uC18C\uB9AC\uB97C \uB4E3\uACE0 \uAC10\uC5FC\uC790\uAC00
+      \uC654\uC5B4!!!\r \n"
+    isLeftSpeaker: 1
+    characterSprite: {fileID: 0}
+  - name: "\uC2A4\uD0A4\uC870"
+    sentence: "\uB0B4\uAC00 \uC9D1\uC73C\uB85C \uB3CC\uC544\uAC00\uAC8C \uB3C4\uC640\uC904\uAC8C!!!\n"
+    isLeftSpeaker: 1
+    characterSprite: {fileID: 0}
+  - name: "\uC2A4\uD0A4\uC870"
+    sentence: "\uAC00\uC790!"
+    isLeftSpeaker: 1
+    characterSprite: {fileID: 0}
 --- !u!4 &552358894
 Transform:
   m_ObjectHideFlags: 0
