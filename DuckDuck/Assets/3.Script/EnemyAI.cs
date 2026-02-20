@@ -50,6 +50,16 @@ public class EnemyAI : MonoBehaviour
         }
         currentEnemyMag = enemyMagSize;
     }
+    private void Start()
+    {
+        if(renderers != null)
+        {
+            foreach(Renderer r in renderers)
+            {
+                r.enabled = false;
+            }
+        }
+    }
     private void Update()
     {
         if (player == null || isDead) return;
@@ -124,6 +134,11 @@ public class EnemyAI : MonoBehaviour
 
         health -= damage;
         health = Mathf.Clamp(health, 0, 100f);
+        
+        if(player != null && !isDead)
+        {
+            StartChase();
+        }
         if (enemyHPBar != null)
         {
             enemyHPBar.value = health / 100f;

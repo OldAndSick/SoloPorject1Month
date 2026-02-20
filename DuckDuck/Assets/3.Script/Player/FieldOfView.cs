@@ -11,18 +11,79 @@ public class FieldOfView : MonoBehaviour
     public float viewAngle = 90f;
     public LayerMask obstacleMask;
 
+    public LayerMask targetMask;
+
     [Header("Mesh Set")]
     public float meshResolution = 1f;
     public MeshFilter viewMeshFilter;
     private Mesh viewMesh;
+
+    [HideInInspector]
+    public List<Transform> visibleTarget = new List<Transform>();
 
     private void Start()
     {
         viewMesh = new Mesh();
         viewMesh.name = "View Mesh";
         viewMeshFilter.mesh = viewMesh;
+
+        StartCoroutine("FindTargetWithDelay", 0.2f);
     }
 
+    IEnumerator FindTargetWithDelay(float delay)
+    {
+        while(true)
+        {
+            yield return new WaitForSeconds(delay);
+            FindVisibleTarget();
+        }
+    }
+    private void FindVisibleTarget()
+    {
+        foreach(Transform target in visibleTarget)
+        {
+            if(target != null)
+            {
+                SetTargetVisible(target, false);
+            }
+        }
+        visibleTarget.Clear();
+
+        Collider[] targetInViewRadius = Physics.OverlapSphere(transform.position, viewRadius, targetMask);
+
+        for(int i =0; i<targetInViewRadius.Length; i++)
+        {
+            Transform target = targetInViewRadius[i].transform;
+            Vector3 dirToTarget = (target.position - transform.position).normalized;
+
+            if(Vector3.Angle(transform.forward, dirToTarget) < viewAngle/2)
+            {
+                float dstToTarget = Vector3.Distance(transform.position, target.position);
+                if(!Physics.Raycast(transform.position, dirToTarget, dstToTarget,obstacleMask))
+                {
+                    visibleTarget.Add(target);
+                    SetTargetVisible(target, true);
+                }
+            }
+            else if(Vector3.Distance(transform.position, target.position) <= nearViewRadius)
+            {
+                float dstToTarget = Vector3.Distance(transform.position, target.position);
+                if (!Physics.Raycast(transform.position, dirToTarget, dstToTarget, obstacleMask))
+                {
+                    visibleTarget.Add(target);
+                    SetTargetVisible(target, true);
+                }
+            }
+        }
+    }
+    private void SetTargetVisible(Transform target, bool isVisible)
+    {
+        Renderer[] renderer = target.GetComponentsInChildren<Renderer>();
+        foreach(Renderer r in renderer)
+        {
+            r.enabled = isVisible;
+        }
+    }
     private void LateUpdate()
     {
         DrawFieldOfView();
@@ -82,7 +143,7 @@ public class FieldOfView : MonoBehaviour
         Vector3 dir = DirFromAngle(globalAngle, true);
         RaycastHit hit;
         Vector3 origin = transform.position + Vector3.up * 0.5f;
-        if (Physics.Raycast(transform.position, dir, out hit, radius, obstacleMask))
+        if (Physics.Raycast(origin, dir, out hit, radius, obstacleMask))
         {
             return new ViewCastInfo(true, hit.point + Vector3.up * 0.1f, hit.distance, globalAngle);
         }

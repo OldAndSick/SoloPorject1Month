@@ -4,52 +4,49 @@ using System.Collections;
 using System.Collections.Generic;
 public class BubblePet : MonoBehaviour
 {
-    [Header("UI연결")]
-    [Tooltip("말풍선 배경 이미지 오브젝트으")]
+    public static BubblePet Instance;
+
+    [Header("UI Settings")]
+    [Tooltip("bubble background image")]
     public GameObject bubblebackground;
+    public Transform chatParent;
 
-    [Tooltip("기분 UI 텍스트 컴포넌트")]
-    public Text textComponet;
-
-    [Header("설정")]
-    [Tooltip("말풍선이 떠있는 시간")]
+    [Header("Settings")]
+    [Tooltip("Bubble displayTime")]
     public float displayTime = 3.0f;
 
-    private Camera _mainCamera;
-    private Coroutine _hideCoroutine;
-
-    private void Start()
+    private void Awake()
     {
-        _mainCamera = Camera.main;
-
-       // if (bubblebackground != null)
-         //   bubblebackground.SetActive(false);
-    }
-
-
-    private void LateUpdate()
-    {
-        if(bubblebackground!=null&&bubblebackground.activeInHierarchy&&_mainCamera!=null)
+        if(Instance == null)
         {
-            transform.rotation = _mainCamera.transform.rotation;
+            Instance = this;
         }
+        //else
+        //{
+        //    Destroy(gameObject);
+        //}
     }
-
-    public void ShowMessage(string message)
+    public void ShowMessage(string message, Sprite portrait = null)
     {
-        if (textComponet == null || bubblebackground == null) return;
+        if (chatParent == null || bubblebackground == null) return;
 
-        textComponet.text = message;
-        bubblebackground.SetActive(true);
+        GameObject newBubble = Instantiate(bubblebackground, chatParent);
+        newBubble.SetActive(true);
+        Text txt = newBubble.GetComponentInChildren<Text>();
+        if (txt != null)
+        {
+            txt.text = message;
+        }
 
-        if (_hideCoroutine != null)
-            StopCoroutine(_hideCoroutine);
-
-        _hideCoroutine = StartCoroutine(HideBubbleRoutine());
-    }
-    private IEnumerator HideBubbleRoutine()
-    {
-        yield return new WaitForSeconds(displayTime);
-        bubblebackground.SetActive(false);
+        Transform portraitTrans = newBubble.transform.Find("Portrait");
+        if(portraitTrans != null)
+        {
+            Image portraitImg = portraitTrans.GetComponent<Image>();
+            if (portraitImg != null && portrait != null)
+            {
+                portraitImg.sprite = portrait;
+            }
+        }
+        Destroy(newBubble, displayTime);
     }
 }

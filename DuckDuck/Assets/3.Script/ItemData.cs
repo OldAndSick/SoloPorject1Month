@@ -7,8 +7,12 @@ using UnityEngine;
 public class ItemData : ScriptableObject
 {
     public string itemName;
-    public enum ItemType { Melee, Gun, Consumable }
+    public enum ItemType { Melee, Gun, Consumable, Quest }
     public ItemType type;
+
+    [TextArea(3, 5)]
+    public string questExplain;
+
     public GameObject weaponPrefab;
     public float damage;
     public int magSize;

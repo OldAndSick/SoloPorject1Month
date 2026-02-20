@@ -937,11 +937,12 @@ MonoBehaviour:
     isLeftSpeaker: 1
     characterSprite: {fileID: 0}
   - name: "\uC2A4\uD0A4\uC870"
-    sentence: "\uB108\uB294 \uC720\uC77C\uD55C \uC0DD\uC874\uC790\uACE0..!\r\n"
+    sentence: "\uB108\uB294 \uC720\uC77C\uD55C \uC0DD\uC874\uC790\uC9C0\uB9CC...\n\uADF8
+      \uB140\uC11D\uB4E4\uC774 \uB110 \uC5EC\uAE30\uC5D0 \uAC10\uAE08\uD574\uB1A8\uC5B4..."
     isLeftSpeaker: 1
     characterSprite: {fileID: 0}
   - name: 
-    sentence: "(\uC5EC\uAE30\uC11C \uB098\uAC00\uC57C\uD574.....)\r\n"
+    sentence: "(\uC548\uB3FC, \uC5EC\uAE30\uC11C \uB098\uAC00\uC57C\uD574.....)\r\n"
     isLeftSpeaker: 0
     characterSprite: {fileID: 0}
   - name: "\uC2A4\uD0A4\uC870"
@@ -6022,6 +6023,7 @@ MonoBehaviour:
   slotPrefab: {fileID: 0}
   slotParent: {fileID: 0}
   crosshairUI: {fileID: 0}
+  interactUI: {fileID: 0}
   quickSlot:
   - {fileID: 0}
   - {fileID: 0}
@@ -6034,6 +6036,10 @@ MonoBehaviour:
   - {fileID: 0}
   currentSlotIndex: -1
   quickSlotUI: {fileID: 0}
+  interactRange: 2
+  interactLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!136 &6143299852307792496
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -6102,8 +6108,12 @@ MonoBehaviour:
   obstacleMask:
     serializedVersion: 2
     m_Bits: 4
+  targetMask:
+    serializedVersion: 2
+    m_Bits: 0
   meshResolution: 1
   viewMeshFilter: {fileID: 1245072509}
+  visibleTarget: []
 --- !u!1 &6159991472515610755
 GameObject:
   m_ObjectHideFlags: 0
