@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class PlayerController : MonoBehaviour
 {
     #region Header
-    
+
     [Header("Movement Settings")]
     public float walkSpeed = 5f;
     public float runSpeed = 8f;
@@ -24,7 +24,7 @@ public class PlayerController : MonoBehaviour
     public float runStamina = 20f;
     public float rollStamina = 30f;
     public float regenDelay = 1.5f;
-    
+
     [Header("StaminaUI")]
     public Image staminaRing;
     public CanvasGroup uiGroup;
@@ -60,9 +60,10 @@ public class PlayerController : MonoBehaviour
     public GameObject inventoryUI;
     public GameObject slotPrefab;
     public Transform slotParent;
-    
+
     [Header("UI Settings")]
     public RectTransform crosshairUI;
+    public GameObject interactUI;
 
     [Header("QuickSlot Settings")]
     public ItemData[] quickSlot = new ItemData[9];
@@ -92,7 +93,7 @@ public class PlayerController : MonoBehaviour
         currentHP = maxHP;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = false;
-        if (inventoryUI != null) inventoryUI.SetActive(false);  
+        if (inventoryUI != null) inventoryUI.SetActive(false);
         UpdateHPUI();
         UpdateAmmoUI();
     }
@@ -125,15 +126,16 @@ public class PlayerController : MonoBehaviour
         HandleCombat();
         UpdateUI();
 
-        if(Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.R))
         {
             StartCoroutine(ReloadRoutine());
         }
 
-        if(Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E))
         {
             TryInteract();
         }
+        CheckInteractableUI();
     }
 
     private void FixedUpdate()
@@ -230,7 +232,7 @@ public class PlayerController : MonoBehaviour
             currentStamina -= runStamina * Time.fixedDeltaTime;
             regenTimer = regenDelay;
         }
-        else if(regenTimer >0)
+        else if (regenTimer > 0)
         {
             regenTimer -= Time.fixedDeltaTime;
         }
@@ -250,7 +252,7 @@ public class PlayerController : MonoBehaviour
         if (Time.time < lastAtackTime + attackCooldown) return;
 
         lastAtackTime = Time.time;
-        if(slashVFXPrefab != null && attackPoint != null)
+        if (slashVFXPrefab != null && attackPoint != null)
         {
             Instantiate(slashVFXPrefab, attackPoint.position, attackPoint.rotation);
         }
@@ -258,21 +260,21 @@ public class PlayerController : MonoBehaviour
         Debug.Log($"공격 범위 내 감지된 콜라이더 수: {hitEnemies.Length}");
         foreach (Collider enemy in hitEnemies)
         {
-            if(enemy.TryGetComponent(out EnemyAI enemyAI))
+            if (enemy.TryGetComponent(out EnemyAI enemyAI))
             {
                 enemyAI.TakeDamage(attackDamage);
                 Debug.Log($"{enemy.name}에게 {attackDamage}의 데미지를 입힘!");
             }
         }
     }
-    
+
     public void TakeDamage(float damage)
     {
         currentHP -= damage;
         Debug.Log($"아야! 현재 체력: {currentHP}");
         currentHP = Mathf.Clamp(currentHP, 0, maxHP);
         UpdateHPUI();
-        if(currentHP <= 0)
+        if (currentHP <= 0)
         {
             Die();
         }
@@ -281,9 +283,9 @@ public class PlayerController : MonoBehaviour
     private void HandleCombat()
     {
         if (isReloading) return;
-        if(Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0))
         {
-            if(currentWeapon != null && currentWeapon.type == ItemData.ItemType.Gun)
+            if (currentWeapon != null && currentWeapon.type == ItemData.ItemType.Gun)
             {
                 Shoot();
             }
@@ -298,7 +300,7 @@ public class PlayerController : MonoBehaviour
 
     private void Shoot()
     {
-        if(currentMag <= 0)
+        if (currentMag <= 0)
         {
             Debug.Log("탄없");
             return;
@@ -328,7 +330,7 @@ public class PlayerController : MonoBehaviour
 
         isReloading = true;
         Debug.Log("장전중...");
-        yield return new WaitForSeconds(2.0f); 
+        yield return new WaitForSeconds(2.0f);
 
         int needAmmo = currentWeapon.magSize - currentMag;
         int reloadAmount = Mathf.Min(totalAmmo, needAmmo);
@@ -346,18 +348,18 @@ public class PlayerController : MonoBehaviour
         if (ammoUI == null) return;
         bool isGun = currentWeapon != null && currentWeapon.type == ItemData.ItemType.Gun;
         ammoUI.gameObject.SetActive(isGun);
-        if(isGun)
+        if (isGun)
         {
             ammoUI.text = $"{currentMag} / {totalAmmo}";
         }
     }
     private void UpdateWeaponModel(GameObject prefab)
     {
-        if(currentWeaponModel != null)
+        if (currentWeaponModel != null)
         {
             Destroy(currentWeaponModel);
         }
-        if(prefab != null && weaponHolder != null)
+        if (prefab != null && weaponHolder != null)
         {
             currentWeaponModel = Instantiate(prefab, weaponHolder.transform);
             currentWeaponModel.transform.localPosition = Vector3.zero;
@@ -378,23 +380,23 @@ public class PlayerController : MonoBehaviour
             return;
         }
         bool isSame = false;
-        for(int i =0; i<quickSlot.Length; i++)
+        for (int i = 0; i < quickSlot.Length; i++)
         {
-            if(quickSlot[i] ==data)
+            if (quickSlot[i] == data)
             {
                 isSame = true;
                 break;
             }
         }
-        if(isSame && data.type == ItemData.ItemType.Gun)
+        if (isSame && data.type == ItemData.ItemType.Gun)
         {
             totalAmmo += data.startTotalAmmo;
             UpdateAmmoUI();
             return;
         }
         AddQuickSlot(data);
-        
-        if(data.type == ItemData.ItemType.Gun)
+
+        if (data.type == ItemData.ItemType.Gun)
         {
             currentMag = data.magSize;
             totalAmmo = data.startTotalAmmo;
@@ -406,7 +408,7 @@ public class PlayerController : MonoBehaviour
     private void ToggleInventory()
     {
         isInventoryOpen = !isInventoryOpen;
-        if(inventoryUI != null)
+        if (inventoryUI != null)
         {
             inventoryUI.SetActive(isInventoryOpen);
         }
@@ -420,7 +422,7 @@ public class PlayerController : MonoBehaviour
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.None;
         }
-        
+
     }
     private void UpdateInventoryUI()
     {
@@ -447,17 +449,17 @@ public class PlayerController : MonoBehaviour
         }
         UpdateWeaponModel(data.weaponPrefab);
 
-        if(data.type == ItemData.ItemType.Gun)
+        if (data.type == ItemData.ItemType.Gun)
         {
-            
+
             UpdateAmmoUI();
         }
     }
     private void HandleQuickSlotInput()
     {
-        for(int i = 0; i< 9; i++)
+        for (int i = 0; i < 9; i++)
         {
-            if(Input.GetKeyDown(KeyCode.Alpha1+i))
+            if (Input.GetKeyDown(KeyCode.Alpha1 + i))
             {
                 SelectQuickSlot(i);
             }
@@ -478,15 +480,15 @@ public class PlayerController : MonoBehaviour
     {
         if (item == null) return;
         Debug.Log($"AddQuickSlot 실행됨: {item.itemName}");
-        for (int i = 0; i< quickSlot.Length; i++)
+        for (int i = 0; i < quickSlot.Length; i++)
         {
             if (quickSlot[i] == item) return;
         }
-        for(int i = 0; i< quickSlot.Length; i++)
+        for (int i = 0; i < quickSlot.Length; i++)
         {
-            if(quickSlot[i] == null)
+            if (quickSlot[i] == null)
             {
-            quickSlot[i] = item;
+                quickSlot[i] = item;
                 Debug.Log($"{i}번 퀵슬롯에 데이터 들어감");
                 if (quickSlotUI != null) quickSlotUI.UpdateQuickSlotUI(quickSlot);
                 Debug.Log("UI 업데이트 호출함");
@@ -498,7 +500,7 @@ public class PlayerController : MonoBehaviour
     #endregion
     private void UpdateUI()
     {
-        if(staminaRing == null || uiGroup == null)
+        if (staminaRing == null || uiGroup == null)
         {
             return;
         }
@@ -506,20 +508,20 @@ public class PlayerController : MonoBehaviour
         float ratio = currentStamina / maxStamina;
         staminaRing.fillAmount = ratio;
 
-        if (ratio > 0.7f) staminaRing.color = new Color(0.2f, 1f, 0.2f); 
+        if (ratio > 0.7f) staminaRing.color = new Color(0.2f, 1f, 0.2f);
         else if (ratio > 0.3f) staminaRing.color = Color.yellow;
         else staminaRing.color = Color.red;
 
         float targetAlpha = (currentStamina < maxStamina) ? 1f : 0f;
         uiGroup.alpha = Mathf.Lerp(uiGroup.alpha, targetAlpha, Time.deltaTime * 5f);
     }
-    
+
     private void UpdateHPUI()
     {
         float ratio = currentHP / maxHP;
         if (playerHPUI != null) playerHPUI.value = ratio;
         if (playerHeadBar != null) playerHeadBar.value = ratio;
-    }    
+    }
     private void Die()
     {
         Debug.Log("die");
@@ -528,14 +530,47 @@ public class PlayerController : MonoBehaviour
     {
         Collider[] hitCollider = Physics.OverlapSphere(transform.position, interactRange, interactLayer);
 
-        foreach(Collider hit in hitCollider)
+        foreach (Collider hit in hitCollider)
         {
             Interact interactable = hit.GetComponent<Interact>();
-            if(interactable != null)
+            if (interactable != null)
             {
                 interactable.Interact(this);
                 break;
             }
+        }
+    }
+    private void CheckInteractableUI()
+    {
+        Collider[] hitCollider = Physics.OverlapSphere(transform.position, interactRange, interactLayer);
+        Collider closetInteract = null;
+        float minDis = Mathf.Infinity;
+
+        foreach (Collider hit in hitCollider) //find close target
+        {
+            if (hit.GetComponent<Interact>() != null)
+            {
+                float distance = Vector3.Distance(transform.position, hit.transform.position);
+                if (distance < minDis)
+                {
+                    minDis = distance;
+                    closetInteract = hit;
+                }
+            }
+        }
+
+        if (closetInteract != null) //ui move
+        {
+            if (!interactUI.activeSelf) interactUI.SetActive(true);
+            Vector3 centerPos = closetInteract.bounds.center;
+            Vector3 dirToCamera = (_mainCamera.transform.position - centerPos).normalized;
+            interactUI.transform.position = centerPos + (_mainCamera.transform.right * -0.6f) + (Vector3.up * 0.2f);
+            //interactUI.transform.position = centerPos + (Vector3.up * 0.5f);
+            interactUI.transform.forward = _mainCamera.transform.forward;
+        }
+        else
+        {
+            if (interactUI.activeSelf) interactUI.SetActive(false);
         }
     }
 }

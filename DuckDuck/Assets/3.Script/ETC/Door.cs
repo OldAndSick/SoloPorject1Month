@@ -10,13 +10,18 @@ public class Door : MonoBehaviour, Interact
     public Vector3 slideOffset = new Vector3(2f, 0f, 0f);
     public float slideSpeed = 5f;
 
+    public Transform doorMesh;
+
     private Vector3 closedPoisiton;
     private Vector3 openPosition;
     private Coroutine doorCoroutine;
     private void Start()
     {
+        if(doorMesh != null)
+        {
         closedPoisiton = transform.localPosition;
         openPosition = closedPoisiton + slideOffset;
+        }
     }
     public void Interact(PlayerController player)
     {
@@ -31,7 +36,7 @@ public class Door : MonoBehaviour, Interact
     private IEnumerator SlideDoor()
     {
         Vector3 targetPos = isOpen ? openPosition : closedPoisiton;
-        while(Vector3.Distance(transform.localPosition, targetPos) >0.01f)
+        while(Vector3.Distance(doorMesh.localPosition, targetPos) >0.01f)
         {
             transform.localPosition = Vector3.Lerp(transform.localPosition, targetPos, Time.deltaTime * slideSpeed);
             yield return null;
