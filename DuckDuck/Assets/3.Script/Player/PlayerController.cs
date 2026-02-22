@@ -564,9 +564,8 @@ public class PlayerController : MonoBehaviour
             if (!interactUI.activeSelf) interactUI.SetActive(true);
             Vector3 centerPos = closetInteract.bounds.center;
             Vector3 dirToCamera = (_mainCamera.transform.position - centerPos).normalized;
-            interactUI.transform.position = centerPos + (_mainCamera.transform.right * -0.6f) + (Vector3.up * 0.2f);
-            //interactUI.transform.position = centerPos + (Vector3.up * 0.5f);
-            interactUI.transform.forward = _mainCamera.transform.forward;
+            interactUI.transform.position = centerPos + (Vector3.up * 0.5f) + (dirToCamera * 1f);
+            interactUI.transform.rotation = _mainCamera.transform.rotation;
         }
         else
         {

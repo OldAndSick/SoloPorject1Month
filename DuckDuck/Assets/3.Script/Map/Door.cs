@@ -19,7 +19,7 @@ public class Door : MonoBehaviour, Interact
     {
         if(doorMesh != null)
         {
-        closedPoisiton = transform.localPosition;
+        closedPoisiton = doorMesh.localPosition;
         openPosition = closedPoisiton + slideOffset;
         }
     }
@@ -38,9 +38,9 @@ public class Door : MonoBehaviour, Interact
         Vector3 targetPos = isOpen ? openPosition : closedPoisiton;
         while(Vector3.Distance(doorMesh.localPosition, targetPos) >0.01f)
         {
-            transform.localPosition = Vector3.Lerp(transform.localPosition, targetPos, Time.deltaTime * slideSpeed);
+            doorMesh.localPosition = Vector3.Lerp(doorMesh.localPosition, targetPos, Time.deltaTime * slideSpeed);
             yield return null;
         }
-        transform.localPosition = targetPos;
+        doorMesh.localPosition = targetPos;
     }
 }
