@@ -65,31 +65,33 @@ public class EnemyAI : MonoBehaviour
         if (player == null || isDead) return;
 
         float distance = Vector3.Distance(transform.position, player.position);
-        if(distance <= detectRange)
+        if (!isChasing && distance <= detectRange)
         {
-            if(!isChasing)
-            {
-                StartChase();
-            }
+            StartChase();
+        }
+
+        if (isChasing)
+        {
             agent.SetDestination(player.position);
 
-            if(distance <= shootingRange)
+            if (distance <= shootingRange)
             {
                 Vector3 lookDir = player.position - transform.position;
                 lookDir.y = 0;
                 transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(lookDir), Time.deltaTime * 10f);
 
                 fireTimer -= Time.deltaTime;
-                if(fireTimer <= 0)
+                if (fireTimer <= 0)
                 {
                     Fire();
                     fireTimer = fireRate;
                 }
             }
-        }
-        else if(isChasing && distance > detectRange + 2f)
-        {
-            StopChase();
+
+            if (distance > 15f)
+            {
+                StopChase();
+            }
         }
     }
 
@@ -135,6 +137,14 @@ public class EnemyAI : MonoBehaviour
         health -= damage;
         health = Mathf.Clamp(health, 0, 100f);
         
+        if(!isDead)
+        {
+            isChasing = true;
+            if(player == null)
+            {
+                player = GameObject.FindGameObjectWithTag("Player").transform;
+            }
+        }
         if(player != null && !isDead)
         {
             StartChase();

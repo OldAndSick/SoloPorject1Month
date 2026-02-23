@@ -10,6 +10,8 @@ public class ItemData : ScriptableObject
     public enum ItemType { Melee, Gun, Consumable, Quest }
     public ItemType type;
 
+    public float healAmount = 30f;
+    public float useTime = 2.0f;
     [TextArea(3, 5)]
     public string questExplain;
 

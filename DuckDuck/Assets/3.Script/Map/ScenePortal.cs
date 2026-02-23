@@ -10,14 +10,15 @@ public class ScenePortal : MonoBehaviour, Interact
 
     [Header("Fade Settings")]
     public Image fadeImage; 
-    public float fadeDuration = 1.5f; 
+    public float fadeDuration = 1.5f;
+
+    public Text loadingText;
 
     private bool isFading = false;
 
     public void Interact(PlayerController player)
     {
         if (isFading) return;
-
         StartCoroutine(FadeAndLoadScene());
     }
 
@@ -40,6 +41,26 @@ public class ScenePortal : MonoBehaviour, Interact
             }
             fadeImage.color = endColor;
         }
-        SceneManager.LoadScene(nextSceneName);
+        if(loadingText != null)
+        {
+            loadingText.gameObject.SetActive(true);
+            loadingText.text = "Loading...0%";
+        }
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(nextSceneName);
+        asyncLoad.allowSceneActivation = false;
+
+        while (!asyncLoad.isDone)
+        {
+            float progress = Mathf.Clamp01(asyncLoad.progress / 0.9f);
+            if(loadingText != null)
+            {
+                loadingText.text = $"Lading...{Mathf.RoundToInt(progress * 100)}%";
+            }
+            if (asyncLoad.progress >= 0.9f)
+            {
+                asyncLoad.allowSceneActivation = true;
+            }
+            yield return null;
+        }
     }
 }
