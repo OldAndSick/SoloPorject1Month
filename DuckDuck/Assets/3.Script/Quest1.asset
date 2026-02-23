@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c451dd2c3f2f22a46a8851ed4f11074e, type: 3}
+  m_Name: Quest1
+  m_EditorClassIdentifier: Assembly-CSharp::ItemData
+  itemName: "\uC5C4\uB9C8\uC758 \uB3C4\uC2DC\uB77D"
+  type: 3
+  questExplain: "\uC5C4\uB9C8\uAC00 \uC544\uCE68\uC5D0 \uC2F8\uC900 \uC815\uC131\uC774
+    \uAC00\uB4DD \uB4E0 \uB3C4\uC2DC\uB77D\uC774\uB2E4"
+  weaponPrefab: {fileID: 0}
+  damage: 0
+  magSize: 0
+  startTotalAmmo: 0
+  itemIcon: {fileID: 0}
