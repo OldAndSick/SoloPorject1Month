@@ -24,23 +24,29 @@ public class Bullet : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             PlayerController pc = other.GetComponent<PlayerController>();
-            if(pc != null)
+            if (pc != null)
             {
                 pc.TakeDamage(damage);
             }
             Destroy(gameObject);
             Debug.Log("플레이어 맞음");
         }
-        else if(other.CompareTag("Enemy"))
+        else if (other.CompareTag("Enemy"))
         {
             EnemyAI enemy = other.GetComponent<EnemyAI>();
-            if(enemy != null)
+            if (enemy != null)
             {
                 enemy.TakeDamage(damage);
             }
             Destroy(gameObject);
-        }    
-        else if(other.gameObject.layer == LayerMask.NameToLayer("Ground") || other.gameObject.layer == LayerMask.NameToLayer("Environment"))
+        }
+        else if (other.TryGetComponent(out DestroyObstacle destroyObstacle))
+        {
+            destroyObstacle.TakeDamage(damage);
+            Destroy(gameObject);
+        }
+        else if (other.gameObject.layer == LayerMask.NameToLayer("Ground") || other.gameObject.layer == LayerMask.NameToLayer("Environment") ||
+            other.gameObject.layer == LayerMask.NameToLayer("destroyObstacle"))
         {
             Destroy(gameObject);
         }
