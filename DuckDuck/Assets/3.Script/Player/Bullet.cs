@@ -33,10 +33,13 @@ public class Bullet : MonoBehaviour
         }
         else if (other.CompareTag("Enemy"))
         {
-            EnemyAI enemy = other.GetComponent<EnemyAI>();
-            if (enemy != null)
+            if (other.TryGetComponent(out EnemyAI enemy))
             {
                 enemy.TakeDamage(damage);
+            }
+            else if (other.TryGetComponent(out Charger charger))
+            {
+                charger.TakeDamage(damage);
             }
             Destroy(gameObject);
         }

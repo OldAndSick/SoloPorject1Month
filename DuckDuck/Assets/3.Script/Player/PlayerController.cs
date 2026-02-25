@@ -268,7 +268,12 @@ public class PlayerController : MonoBehaviour
             if (enemy.TryGetComponent(out EnemyAI enemyAI))
             {
                 enemyAI.TakeDamage(attackDamage);
-                Debug.Log($"{enemy.name}에게 {attackDamage}의 데미지를 입힘!");
+                Debug.Log($"{enemy.name}(일반)에게 {attackDamage} 데미지!");
+            }
+            else if (enemy.TryGetComponent(out Charger charger))
+            {
+                charger.TakeDamage(attackDamage);
+                Debug.Log($"{enemy.name}(뺑소니)에게 {attackDamage} 데미지!");
             }
         }
     }
