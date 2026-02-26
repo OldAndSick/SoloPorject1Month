@@ -2,10 +2,10 @@ using UnityEngine;
 
 public class MalTrigger : MonoBehaviour
 {
-    [Header("¼³Á¤")]
+    [Header("ï¿½ï¿½ï¿½ï¿½")]
     [TextArea]
-    public string message; //¿ÀºêÁ§¤¼¤Ñ¤¡¤¿ µî¤¸¤¿¤·ÇÒ¤¨¤À Æê¤·¤Ó ÇÒ ´ë»ç
-    public float delay = 0.2f; // µîÀå ÈÄ ¸î ÃÊ µÚ¿¡ ¸»ÇÒÁö
+    public string message; //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¤ï¿½ï¿½ï¿½ ï¿½î¤¸ï¿½ï¿½ï¿½ï¿½ï¿½Ò¤ï¿½ï¿½ï¿½ ï¿½ê¤·ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½
+    public float delay = 0.2f; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½Ú¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
     private void Start()
     {

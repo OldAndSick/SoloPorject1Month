@@ -10,21 +10,25 @@ public class QuickSlotUI : MonoBehaviour
     public Image[] slotBackground;
     public void UpdateQuickSlotUI(ItemData[] slot)
     {
-        Debug.Log("UpdateQuickSlotUI 함수 진입 성공!");
         for (int i = 0; i< slotIcons.Length; i++)
         {
-            if (slot[i] != null && slot[i].itemIcon != null)
+            if (slot[i] != null)
             {
-                slotIcons[i].sprite = slot[i].itemIcon;
-                slotIcons[i].gameObject.SetActive(true);
-
-                slotIcons[i].color = Color.white;
-                Debug.Log($"{i}번 퀵슬롯에 {slot[i].itemName} 그리기 완료!");
+                if(slot[i].itemIcon != null)
+                {
+                    slotIcons[i].sprite = slot[i].itemIcon;
+                    slotIcons[i].gameObject.SetActive(true);
+                    slotIcons[i].color = Color.white;
+                }
+                else
+                {
+                    Debug.LogError($"{slot[i].itemName} no icon img");
+                }
             }
             else
             {
+                slotIcons[i].sprite = null;
                 slotIcons[i].gameObject.SetActive(false);
-                Debug.LogError($"{slot[i].itemName} 데이터에 아이콘 사진이 없다 이놈아!");
             }
         }
     }

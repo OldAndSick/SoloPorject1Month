@@ -61,6 +61,11 @@ public class PlayerController : MonoBehaviour
     public GameObject slotPrefab;
     public Transform slotParent;
 
+    [Header("Consumable Settings")]
+    public int[] quickSlotCount = new int[9]; // 
+    public Slider castingBarUI; 
+    private Coroutine castingCoroutine;
+
     [Header("UI Settings")]
     public RectTransform crosshairUI;
     public GameObject interactUI;
@@ -263,7 +268,15 @@ public class PlayerController : MonoBehaviour
             if (enemy.TryGetComponent(out EnemyAI enemyAI))
             {
                 enemyAI.TakeDamage(attackDamage);
-                Debug.Log($"{enemy.name}에게 {attackDamage}의 데미지를 입힘!");
+                Debug.Log($"{enemy.name}(일반)에게 {attackDamage} 데미지!");
+            }
+            else if (enemy.TryGetComponent(out EnemyBase enemyTarget))
+            {
+                enemyTarget.TakeDamage(attackDamage);
+            }
+            else if (enemy.TryGetComponent(out Box box))
+            {
+                box.TakeDamage(attackDamage);
             }
         }
     }
@@ -285,14 +298,23 @@ public class PlayerController : MonoBehaviour
         if (isReloading) return;
         if (Input.GetMouseButtonDown(0))
         {
-            if (currentWeapon != null && currentWeapon.type == ItemData.ItemType.Gun)
+            if (currentWeapon != null)
             {
-                Shoot();
+                if (currentWeapon.type == ItemData.ItemType.Gun) Shoot();
+                else if (currentWeapon.type == ItemData.ItemType.Consumable)
+                {
+                    if (castingCoroutine == null && quickSlotCount[currentSlotIndex] > 0)
+                        castingCoroutine = StartCoroutine(UseItemRoutine(currentWeapon));
+                }
+                else PerformMeleeAttack();
             }
-            else
-            {
-                PerformMeleeAttack();
-            }
+            else PerformMeleeAttack();
+        }
+        if (Input.GetMouseButtonUp(0) && castingCoroutine != null)
+        {
+            StopCoroutine(castingCoroutine);
+            castingCoroutine = null;
+            if (castingBarUI != null) castingBarUI.gameObject.SetActive(false);
         }
     }
     #endregion
@@ -379,6 +401,18 @@ public class PlayerController : MonoBehaviour
             UpdateInventoryUI();
             return;
         }
+        if(data.type == ItemData.ItemType.Consumable)
+        {
+            for(int i  =0;i<quickSlot.Length; i++)
+            {
+                if(quickSlot[i] != null && quickSlot[i] ==data)
+                {
+                    quickSlotCount[i]++;
+                    if (quickSlotUI != null) quickSlotUI.UpdateQuickSlotUI(quickSlot);
+                    return;
+                }
+            }
+        }
         bool isSame = false;
         for (int i = 0; i < quickSlot.Length; i++)
         {
@@ -404,7 +438,6 @@ public class PlayerController : MonoBehaviour
             Debug.Log("장착");
         }
     }
-
     private void ToggleInventory()
     {
         isInventoryOpen = !isInventoryOpen;
@@ -489,13 +522,58 @@ public class PlayerController : MonoBehaviour
             if (quickSlot[i] == null)
             {
                 quickSlot[i] = item;
-                Debug.Log($"{i}번 퀵슬롯에 데이터 들어감");
+                quickSlotCount[i] = 1;
                 if (quickSlotUI != null) quickSlotUI.UpdateQuickSlotUI(quickSlot);
-                Debug.Log("UI 업데이트 호출함");
                 return;
 
             }
         }
+    }
+
+    private IEnumerator UseItemRoutine(ItemData item)
+    {
+        float useTime = item.useTime > 0 ? item.useTime : 2.0f; // 기본 2초
+        float timer = 0f;
+
+        if (castingBarUI != null)
+        {
+            castingBarUI.gameObject.SetActive(true);
+            castingBarUI.value = 0f;
+        }
+
+        while (timer < useTime)
+        {
+            // run roll -> cancel
+            bool isSprinting = Input.GetKey(KeyCode.LeftShift) && _moveInput.sqrMagnitude > 0;
+
+            if (_isRolling || isSprinting)
+            {
+                if (castingBarUI != null) castingBarUI.gameObject.SetActive(false);
+                castingCoroutine = null;
+                yield break;
+            }
+
+            timer += Time.deltaTime;
+            if (castingBarUI != null) castingBarUI.value = timer / useTime;
+            yield return null;
+        }
+
+        currentHP += item.healAmount;
+        currentHP = Mathf.Clamp(currentHP, 0, maxHP);
+        UpdateHPUI();
+        //-- count
+        quickSlotCount[currentSlotIndex]--;
+        // use all -> make empty hand
+        if (quickSlotCount[currentSlotIndex] <= 0)
+        {
+            quickSlot[currentSlotIndex] = null;
+            EquipItem(null);
+        }
+
+        if (quickSlotUI != null) quickSlotUI.UpdateQuickSlotUI(quickSlot);
+
+        if (castingBarUI != null) castingBarUI.gameObject.SetActive(false);
+        castingCoroutine = null;
     }
     #endregion
     private void UpdateUI()
@@ -564,9 +642,8 @@ public class PlayerController : MonoBehaviour
             if (!interactUI.activeSelf) interactUI.SetActive(true);
             Vector3 centerPos = closetInteract.bounds.center;
             Vector3 dirToCamera = (_mainCamera.transform.position - centerPos).normalized;
-            interactUI.transform.position = centerPos + (_mainCamera.transform.right * -0.6f) + (Vector3.up * 0.2f);
-            //interactUI.transform.position = centerPos + (Vector3.up * 0.5f);
-            interactUI.transform.forward = _mainCamera.transform.forward;
+            interactUI.transform.position = centerPos + (Vector3.up * 0.5f) + (dirToCamera * 1f);
+            interactUI.transform.rotation = _mainCamera.transform.rotation;
         }
         else
         {
