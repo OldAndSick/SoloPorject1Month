@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Charger : MonoBehaviour
+public class Charger : EnemyBase
 {
     [Header("Settings")]
     public Transform player;
@@ -18,15 +18,14 @@ public class Charger : MonoBehaviour
     public float chargeDamage = 40f;
 
     [Header("HP & ITEM")]
-    public float health = 100f;
-    private bool isDead = false;
     public GameObject dropItemPrefab;
 
     private NavMeshAgent agent;
     private bool isCharging = false;
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         agent = GetComponent<NavMeshAgent>();
         agent.speed = walkSpeed;
 
@@ -105,39 +104,16 @@ public class Charger : MonoBehaviour
             }
         }
     }
-    public void TakeDamage(float damage)
+
+    protected override void Die()
     {
-        if (isDead) return;
-
-        health -= damage;
-        Debug.Log($"뺑소니범 피격!! 남은 체력: {health}");
-
-        // 맞았는데 아직 플레이어를 발견 못했다면 강제로 쳐다보게 만들기!
-        if (player == null)
-        {
-            GameObject p = GameObject.FindGameObjectWithTag("Player");
-            if (p != null) player = p.transform;
-        }
-
-        if (health <= 0)
-        {
-            Die();
-        }
-    }
-
-    private void Die()
-    {
-        if (isDead) return;
-        isDead = true;
+        base.Die();
 
         if (noticeUI != null) noticeUI.SetActive(false);
         isCharging = false;
         agent.isStopped = true;
 
-        if (dropItemPrefab != null)
-        {
-            Instantiate(dropItemPrefab, transform.position + Vector3.up * 0.5f, Quaternion.identity);
-        }
+        if (dropItemPrefab != null) Instantiate(dropItemPrefab, transform.position, Quaternion.identity);
         Destroy(gameObject, 1.0f);
     }
 }

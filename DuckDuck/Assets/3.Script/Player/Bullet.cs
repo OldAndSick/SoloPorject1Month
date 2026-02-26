@@ -37,15 +37,20 @@ public class Bullet : MonoBehaviour
             {
                 enemy.TakeDamage(damage);
             }
-            else if (other.TryGetComponent(out Charger charger))
+            else if (other.TryGetComponent(out EnemyBase enemyTarget))
             {
-                charger.TakeDamage(damage);
+                enemyTarget.TakeDamage(damage); 
             }
             Destroy(gameObject);
         }
         else if (other.TryGetComponent(out DestroyObstacle destroyObstacle))
         {
             destroyObstacle.TakeDamage(damage);
+            Destroy(gameObject);
+        }
+        else if (other.TryGetComponent(out Box box))
+        {
+            box.TakeDamage(damage);
             Destroy(gameObject);
         }
         else if (other.gameObject.layer == LayerMask.NameToLayer("Ground") || other.gameObject.layer == LayerMask.NameToLayer("Environment") ||
