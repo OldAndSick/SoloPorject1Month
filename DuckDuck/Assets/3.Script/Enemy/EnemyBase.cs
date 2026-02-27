@@ -21,7 +21,11 @@ public class EnemyBase : MonoBehaviour
     protected virtual void Start()
     {
         currentHealth = maxHealth;
-        if(meshes != null && meshes.Length >0)
+        if (enemyHPBar != null)
+        {
+            enemyHPBar.value = 1f;
+        }
+        if (meshes != null && meshes.Length >0)
         {
             originalColor = new Color[meshes.Length];
             for(int i =0; i< meshes.Length; i++)
