@@ -99,6 +99,37 @@ public class PlayerController : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = false;
         if (inventoryUI != null) inventoryUI.SetActive(false);
+
+        if (MoveData.hasData)
+        {
+            currentHP = MoveData.savedHP;
+
+            quickSlot = (ItemData[])MoveData.savedQuickSlot.Clone();
+            quickSlotCount = (int[])MoveData.savedQuickSlotCount.Clone();
+
+            currentWeapon = MoveData.savedWeapon;
+            currentMag = MoveData.savedCurrentMag;
+            totalAmmo = MoveData.savedTotalAmmo;
+            currentSlotIndex = MoveData.savedSlotIndex;
+
+            if (currentWeapon != null)
+            {
+                EquipItem(currentWeapon);
+            }
+            if (quickSlotUI != null)
+            {
+                quickSlotUI.UpdateQuickSlotUI(quickSlot);
+                if (currentSlotIndex != -1) quickSlotUI.HighlightSlot(currentSlotIndex);
+            }
+            UpdateInventoryUI(); 
+        }
+        else
+        {
+            currentStamina = maxStamina;
+            currentHP = maxHP;
+            currentMag = 0;
+            totalAmmo = 0;
+        }
         UpdateHPUI();
         UpdateAmmoUI();
     }
@@ -649,5 +680,20 @@ public class PlayerController : MonoBehaviour
         {
             if (interactUI.activeSelf) interactUI.SetActive(false);
         }
+    }
+
+    public void SavePlayerDataToTransfer()
+    {
+        MoveData.savedHP = currentHP;
+
+        MoveData.savedQuickSlot = (ItemData[])quickSlot.Clone();
+        MoveData.savedQuickSlotCount = (int[])quickSlotCount.Clone();
+
+        MoveData.savedWeapon = currentWeapon;
+        MoveData.savedCurrentMag = currentMag;
+        MoveData.savedTotalAmmo = totalAmmo;
+        MoveData.savedSlotIndex = currentSlotIndex;
+
+        MoveData.hasData = true;
     }
 }
