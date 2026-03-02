@@ -10,7 +10,6 @@ public class Charger : EnemyBase
     public Transform player;
     public float detectRange = 20f;
     public float chargeRange = 12f;
-    public GameObject noticeUI;
 
     [Header("Speed & Damage")]
     public float walkSpeed = 3.5f;
@@ -40,13 +39,11 @@ public class Charger : EnemyBase
     {
         if (player == null || isCharging || isDead) return;
         float dis = Vector3.Distance(transform.position, player.position);
-        if (dis <= detectRange)
+        // [띠또 마법] FOV 시야 통제 추가!!
+        // 거리가 가깝고(dis <= detectRange) + 화면에 보일 때(isCurrentVisible)만 켜라!
+        if (noticeUI != null)
         {
-            if (noticeUI != null) noticeUI.SetActive(true);
-        }
-        else
-        {
-            if (noticeUI != null) noticeUI.SetActive(false);
+            noticeUI.SetActive((dis <= detectRange) && isCurrentVisible);
         }
         if (dis < detectRange && dis > chargeRange)
         {

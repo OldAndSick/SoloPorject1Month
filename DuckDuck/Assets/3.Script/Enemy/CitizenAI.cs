@@ -41,8 +41,12 @@ public class CitizenAI : EnemyBase
 
     private void Update()
     {
+        base.Update();
         if (isDead) return;
-
+        if (noticeUI != null)
+        {
+            noticeUI.SetActive(isCurrentVisible && isPanick);
+        }
         if (anim != null)
         {
             anim.SetFloat("Speed", agent.velocity.magnitude);

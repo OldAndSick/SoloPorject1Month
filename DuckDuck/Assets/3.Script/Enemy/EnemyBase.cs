@@ -10,17 +10,22 @@ public class EnemyBase : MonoBehaviour
     public float maxHealth = 100f;
     public float currentHealth;
     public bool isDead = false;
- 
+
     [Header("Base UI")]
     public Slider enemyHPBar;
+    public GameObject noticeUI; 
+    public bool isCurrentVisible = false;
 
     [Header("Base Effects")]
     public SkinnedMeshRenderer[] meshes;
     private Color[] originalColor;
+    private Camera mainCam;
 
     protected virtual void Start()
     {
         currentHealth = maxHealth;
+        mainCam = Camera.main;
+
         if (enemyHPBar != null)
         {
             enemyHPBar.value = 1f;
@@ -32,6 +37,14 @@ public class EnemyBase : MonoBehaviour
             {
                 originalColor[i] = meshes[i].material.color;
             }
+        }
+    }
+    protected virtual void Update()
+    {
+        if (isDead)
+        {
+            if (enemyHPBar != null) enemyHPBar.gameObject.SetActive(false);
+            return;
         }
     }
     public virtual void TakeDamage(float damage)
@@ -70,5 +83,30 @@ public class EnemyBase : MonoBehaviour
 
         for (int i = 0; i < meshes.Length; i++)
             meshes[i].material.color = originalColor[i];
+    }
+    protected void CheckUIVisibility()
+    {
+        if (enemyHPBar == null || mainCam == null) return;
+
+        Vector3 headPos = transform.position + Vector3.up * 1.5f;
+        Vector3 dirToCam = mainCam.transform.position - headPos;
+        float distToCam = dirToCam.magnitude;
+
+        Vector3 viewPos = mainCam.WorldToViewportPoint(headPos);
+        if (viewPos.z < 0 || viewPos.x < 0 || viewPos.x > 1 || viewPos.y < 0 || viewPos.y > 1)
+        {
+            enemyHPBar.gameObject.SetActive(false);
+            return;
+        }
+
+        if (Physics.Raycast(headPos, dirToCam.normalized, out RaycastHit hit, distToCam))
+        {
+            if (!hit.collider.CompareTag("MainCamera") && !hit.collider.CompareTag("Player"))
+            {
+                enemyHPBar.gameObject.SetActive(false);
+                return;
+            }
+        }
+        enemyHPBar.gameObject.SetActive(true);
     }
 }

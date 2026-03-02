@@ -33,6 +33,7 @@ public class EnemyAI : MonoBehaviour
     private bool isChasing = false;
     private bool isDead = false;
     private Renderer[] renderers;
+    public bool isCurrentVisible = false;
 
     private void Awake()
     {
@@ -63,7 +64,12 @@ public class EnemyAI : MonoBehaviour
     private void Update()
     {
         if (player == null || isDead) return;
-
+        if (noticeUI != null)
+        {
+            bool shouldBeVisible = isCurrentVisible && isChasing;
+            noticeUI.SetActive(isCurrentVisible && isChasing);
+             Debug.Log($"[{gameObject.name}] 시야: {isCurrentVisible}, 추격: {isChasing} -> 느낌표를 {shouldBeVisible}(으)로 명령함!");
+        }
         float distance = Vector3.Distance(transform.position, player.position);
         if (!isChasing && distance <= detectRange)
         {
@@ -98,19 +104,11 @@ public class EnemyAI : MonoBehaviour
     private void StartChase()
     {
         isChasing = true;
-        if(noticeUI != null)
-        {
-            noticeUI.SetActive(true);
-        }
         agent.speed = 4f;
     }
     private void StopChase()
     {
         isChasing = false;
-        if(noticeUI != null)
-        {
-            noticeUI.SetActive(false);
-        }
         agent.speed = 2f;
     }
     private void Fire()
@@ -204,5 +202,10 @@ public class EnemyAI : MonoBehaviour
         agent.isStopped = true;
         noticeUI.SetActive(false);
         Destroy(gameObject, 1.0f);
+    }
+    public void SetUIActive(bool isVisible)
+    {
+        isCurrentVisible = isVisible; // FOV가 알려준 시야 상태 저장!
+        if (enemyHPBar != null) enemyHPBar.gameObject.SetActive(isVisible);
     }
 }
