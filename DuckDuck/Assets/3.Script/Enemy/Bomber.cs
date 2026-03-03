@@ -23,7 +23,7 @@ public class Bomber : EnemyBase
     public float runSpeed = 4f;
 
     [Header("Item Drop")]
-    public GameObject[] dropItemPrefabs;
+    public GameObject dropItemPrefabs;
 
     private NavMeshAgent agent;
     private Animator anim;
@@ -124,12 +124,11 @@ public class Bomber : EnemyBase
         if (noticeUI != null) noticeUI.SetActive(false);
         agent.isStopped = true;
         if (anim != null) anim.SetTrigger("Death");
-        if (dropItemPrefabs != null && dropItemPrefabs.Length > 0)
+        if (dropItemPrefabs != null)
         {
-            int randomIndex = Random.Range(0, dropItemPrefabs.Length);
-            if (dropItemPrefabs[randomIndex] != null)
+            if (dropItemPrefabs != null)
             {
-                Instantiate(dropItemPrefabs[randomIndex], transform.position + Vector3.up * 0.5f, Quaternion.identity);
+                Instantiate(dropItemPrefabs, transform.position + Vector3.up * 0.5f, Quaternion.identity);
             }
         }
         Destroy(gameObject, 3.0f);

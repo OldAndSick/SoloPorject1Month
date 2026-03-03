@@ -484,10 +484,12 @@ public class PlayerController : MonoBehaviour
 
         if (data.type == ItemData.ItemType.Gun)
         {
-            currentMag = data.magSize;
-            totalAmmo = data.startTotalAmmo;
+            data.currentMagCount = data.magSize;
+            data.currentTotalAmmo = data.startTotalAmmo;
+
+            currentMag = data.currentMagCount;
+            totalAmmo = data.currentTotalAmmo;
             UpdateAmmoUI();
-            Debug.Log("장착");
         }
     }
     private void ToggleInventory()
@@ -525,6 +527,11 @@ public class PlayerController : MonoBehaviour
     }
     public void EquipItem(ItemData data)
     {
+        if (currentWeapon != null && currentWeapon.type == ItemData.ItemType.Gun)
+        {
+            currentWeapon.currentMagCount = currentMag;
+            currentWeapon.currentTotalAmmo = totalAmmo;
+        }
         currentWeapon = data;
         if (data == null)
         {
@@ -536,7 +543,8 @@ public class PlayerController : MonoBehaviour
 
         if (data.type == ItemData.ItemType.Gun)
         {
-
+            currentMag = data.currentMagCount;
+            totalAmmo = data.currentTotalAmmo;
             UpdateAmmoUI();
         }
     }

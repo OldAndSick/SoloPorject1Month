@@ -9158,7 +9158,7 @@ MonoBehaviour:
   bulletPrefab: {fileID: 6465739594745014745, guid: ebe63b808cb4ba440b84321ea2e0c231, type: 3}
   firePoint: {fileID: 7325895164926641712}
   enemyHPBar: {fileID: 4157523076365341115}
-  dropItemPrefab: {fileID: 5615934470198810774, guid: 9b7786f66aa98a24d984e52f2dda5085, type: 3}
+  dropItemPrefab: {fileID: 4409993671724883860, guid: 90e94d790b113834ba2ee0df420fe99e, type: 3}
   enemyMagSize: 7
   walkRadius: 2
   minWaitTime: 2
