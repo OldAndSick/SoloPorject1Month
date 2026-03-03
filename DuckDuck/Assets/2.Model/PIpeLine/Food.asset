@@ -21,4 +21,4 @@ MonoBehaviour:
   damage: 0
   magSize: 0
   startTotalAmmo: 0
-  itemIcon: {fileID: 21300000, guid: cbfd54a031fbe7c4a97fe37dc62de000, type: 3}
+  itemIcon: {fileID: 21300000, guid: f409b464e271c1a41929b5f0f2d04514, type: 3}

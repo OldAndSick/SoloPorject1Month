@@ -19,7 +19,6 @@ public class DestroyObstacle : MonoBehaviour
     public void TakeDamage(float damage)
     {
         currentHealth -= damage;
-        Debug.Log($"[장애물 맞음!] 현재 체력: {currentHealth}");
         if (currentHealth <= 0)
         {
             BreakCover();

@@ -20,6 +20,9 @@ public class CitizenAI : EnemyBase
     public float walkSpeed = 2f;
     public float runSpeed = 6f;
 
+    [Header("Drop Set")]
+    public GameObject dropItemPrefab;
+
     private NavMeshAgent agent;
     private Animator anim;
     private bool isPanick = false;
@@ -156,6 +159,10 @@ public class CitizenAI : EnemyBase
         base.Die();
         agent.isStopped = true;
         anim.SetTrigger("Death");
+        if (dropItemPrefab != null)
+        {
+            Instantiate(dropItemPrefab, transform.position + Vector3.up * 0.5f, Quaternion.identity);
+        }
         Destroy(gameObject, 3f);
     }
     private void CalmDown()

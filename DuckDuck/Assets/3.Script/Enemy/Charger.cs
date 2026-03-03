@@ -19,6 +19,11 @@ public class Charger : EnemyBase
     [Header("HP & ITEM")]
     public GameObject dropItemPrefab;
 
+    [Header("Wander Settings")]
+    public float walkRadius = 15f;
+    public float minWaitTime = 1.5f;
+    public float maxWaitTime = 4f;
+
     private NavMeshAgent agent;
     private bool isCharging = false;
 
@@ -34,6 +39,7 @@ public class Charger : EnemyBase
             GameObject p = GameObject.FindGameObjectWithTag("Player");
             if (p != null) player = p.transform;
         }
+        StartCoroutine(WalkRoutine());
     }
     private void Update()
     {
@@ -101,7 +107,6 @@ public class Charger : EnemyBase
             }
         }
     }
-
     protected override void Die()
     {
         base.Die();
@@ -112,5 +117,45 @@ public class Charger : EnemyBase
 
         if (dropItemPrefab != null) Instantiate(dropItemPrefab, transform.position, Quaternion.identity);
         Destroy(gameObject, 1.0f);
+    }
+    private IEnumerator WalkRoutine()
+    {
+        while (!isDead)
+        {
+            // 플레이어가 가까이 있거나 돌진 중일 때는 산책 금지!
+            bool isDetectingPlayer = (player != null && Vector3.Distance(transform.position, player.position) <= detectRange);
+            if (isDetectingPlayer || isCharging)
+            {
+                yield return null;
+                continue;
+            }
+
+            agent.speed = walkSpeed;
+            Vector3 randomPos = transform.position + UnityEngine.Random.insideUnitSphere * walkRadius;
+
+            if (NavMesh.SamplePosition(randomPos, out NavMeshHit hit, walkRadius, NavMesh.AllAreas))
+            {
+                agent.SetDestination(hit.position);
+            }
+
+            float waitTime = UnityEngine.Random.Range(minWaitTime, maxWaitTime);
+            float timer = 0;
+
+            while (agent.pathPending || agent.remainingDistance > 0.5f)
+            {
+                if (isDead || isCharging) break;
+                // 걸어가다가 플레이어가 사거리 안에 들어오면 즉시 산책 중단!
+                if (player != null && Vector3.Distance(transform.position, player.position) <= detectRange) break;
+                yield return null;
+            }
+
+            while (timer < waitTime)
+            {
+                if (isDead || isCharging) break;
+                if (player != null && Vector3.Distance(transform.position, player.position) <= detectRange) break;
+                timer += Time.deltaTime;
+                yield return null;
+            }
+        }
     }
 }

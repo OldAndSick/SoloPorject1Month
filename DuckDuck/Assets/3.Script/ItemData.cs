@@ -20,4 +20,10 @@ public class ItemData : ScriptableObject
     public int magSize;
     public int startTotalAmmo;
     public Sprite itemIcon;
+
+    [Header("Weapon Stats")]
+    public float gunDamage;
+    public float gunSpeed;
+    public float fireRate;
+    public float gunSpread;
 }
