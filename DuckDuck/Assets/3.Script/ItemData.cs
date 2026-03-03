@@ -30,4 +30,6 @@ public class ItemData : ScriptableObject
     [Header("Runtime Stats")]
     public int currentMagCount;   // 현재 이 총의 탄창에 들어있는 탄 수
     public int currentTotalAmmo;  // 현재 이 총이 가지고 있는 예비 탄 수
+    [Header("Visual Effects")]
+    public GameObject muzzleFlashPrefab;
 }

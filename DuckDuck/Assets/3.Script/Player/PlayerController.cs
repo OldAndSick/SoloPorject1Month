@@ -369,7 +369,17 @@ public class PlayerController : MonoBehaviour
 
         float currentFireRate = (currentWeapon != null && currentWeapon.fireRate > 0) ? currentWeapon.fireRate : attackCooldown;
         if (Time.time < lastAtackTime + currentFireRate) return;
+        if (currentWeapon != null && currentWeapon.muzzleFlashPrefab != null)
+        {
+            // attackPoint 위치에 화염을 생성합니다.
+            GameObject flash = Instantiate(currentWeapon.muzzleFlashPrefab, attackPoint.position, attackPoint.rotation);
 
+            // 화염이 플레이어를 따라다니게 하려면 부모를 설정해 줍니다.
+            flash.transform.SetParent(attackPoint);
+
+            // 0.1초 뒤에 화염 오브젝트를 자동으로 삭제합니다. (짧고 굵게!)
+            Destroy(flash, 0.1f);
+        }
         currentMag--;
         UpdateAmmoUI();
 

@@ -26,3 +26,6 @@ MonoBehaviour:
   gunSpeed: 25
   fireRate: 0.1
   gunSpread: 5
+  currentMagCount: 30
+  currentTotalAmmo: 60
+  muzzleFlashPrefab: {fileID: 100006, guid: 30b4cc2728d8cec499fad63ba93785a4, type: 3}
