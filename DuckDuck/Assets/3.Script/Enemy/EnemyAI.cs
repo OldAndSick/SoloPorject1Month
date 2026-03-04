@@ -27,19 +27,26 @@ public class EnemyAI : MonoBehaviour
     public int enemyMagSize = 30;
     private int currentEnemyMag;
     private bool isEnemyReloading = false;
+    [Header("Walking Settings")]
+    public float walkRadius = 10f;     
+    public float minWaitTime = 2f;
+    public float maxWaitTime = 5f;
+    public float walkSpeed = 2f;
 
     private float fireTimer;
     private NavMeshAgent agent;
     private bool isChasing = false;
     private bool isDead = false;
     private Renderer[] renderers;
+    public bool isCurrentVisible = false;
+    private Animator anim;
 
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
         agent.stoppingDistance = stopDistance;
         renderers = GetComponentsInChildren<Renderer>();
-
+        anim = GetComponentInChildren<Animator>();
         if(enemyHPBar != null)
         {
             enemyHPBar.value = 1f;
@@ -59,11 +66,20 @@ public class EnemyAI : MonoBehaviour
                 r.enabled = false;
             }
         }
+        StartCoroutine(WalkRoutine());
     }
     private void Update()
     {
         if (player == null || isDead) return;
-
+        if (anim != null)
+        {
+            anim.SetFloat("Speed", agent.velocity.magnitude);
+        }
+        if (noticeUI != null)
+        {
+            bool shouldBeVisible = isCurrentVisible && isChasing;
+            noticeUI.SetActive(isCurrentVisible && isChasing);
+        }
         float distance = Vector3.Distance(transform.position, player.position);
         if (!isChasing && distance <= detectRange)
         {
@@ -98,19 +114,12 @@ public class EnemyAI : MonoBehaviour
     private void StartChase()
     {
         isChasing = true;
-        if(noticeUI != null)
-        {
-            noticeUI.SetActive(true);
-        }
         agent.speed = 4f;
+        agent.stoppingDistance = stopDistance;
     }
     private void StopChase()
     {
         isChasing = false;
-        if(noticeUI != null)
-        {
-            noticeUI.SetActive(false);
-        }
         agent.speed = 2f;
     }
     private void Fire()
@@ -197,12 +206,53 @@ public class EnemyAI : MonoBehaviour
     {
         if (isDead) return;
         isDead = true;
-        if(dropItemPrefab != null)
+        if (anim != null) anim.SetTrigger("Death");
+        if (dropItemPrefab != null)
         {
             GameObject drop = Instantiate(dropItemPrefab, transform.position + Vector3.up * 0.5f, Quaternion.identity);
         }
         agent.isStopped = true;
         noticeUI.SetActive(false);
-        Destroy(gameObject, 1.0f);
+        Destroy(gameObject, 2.0f);
+    }
+    public void SetUIActive(bool isVisible)
+    {
+        isCurrentVisible = isVisible; // FOV가 알려준 시야 상태 저장!
+        if (enemyHPBar != null) enemyHPBar.gameObject.SetActive(isVisible);
+    }
+    private IEnumerator WalkRoutine()
+    {
+        while (!isDead)
+        {
+            if (isChasing || isEnemyReloading)
+            {
+                yield return null;
+                continue;
+            }
+            agent.stoppingDistance = 0f;
+            agent.speed = walkSpeed;
+            Vector3 randomPos = transform.position + UnityEngine.Random.insideUnitSphere * walkRadius;
+
+            if (NavMesh.SamplePosition(randomPos, out NavMeshHit hit, walkRadius, NavMesh.AllAreas))
+            {
+                agent.SetDestination(hit.position);
+            }
+
+            float waitTime = UnityEngine.Random.Range(minWaitTime, maxWaitTime);
+            float timer = 0;
+
+            while (agent.pathPending || agent.remainingDistance > 0.5f)
+            {
+                if (isChasing || isDead) break;
+                yield return null;
+            }
+
+            while (timer < waitTime)
+            {
+                if (isChasing || isDead) break;
+                timer += Time.deltaTime;
+                yield return null;
+            }
+        }
     }
 }

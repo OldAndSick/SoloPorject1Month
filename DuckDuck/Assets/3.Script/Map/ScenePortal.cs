@@ -19,6 +19,7 @@ public class ScenePortal : MonoBehaviour, Interact
     public void Interact(PlayerController player)
     {
         if (isFading) return;
+        player.SavePlayerDataToTransfer();
         StartCoroutine(FadeAndLoadScene());
     }
 

@@ -14,8 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
   itemName: Pistol
   type: 1
+  healAmount: 30
+  useTime: 2
+  questExplain: 
   weaponPrefab: {fileID: 4409993671724883860, guid: bda6ac67d0960a74fbe45dbd115565fc, type: 3}
   damage: 30
   magSize: 12
   startTotalAmmo: 36
   itemIcon: {fileID: 21300000, guid: 819a01ec658d138409152393d86a1b95, type: 3}
+  gunDamage: 10
+  gunSpeed: 20
+  fireRate: 0.5
+  gunSpread: 2

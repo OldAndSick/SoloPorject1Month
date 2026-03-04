@@ -62,7 +62,7 @@ public class PlayerController : MonoBehaviour
     public Transform slotParent;
 
     [Header("Consumable Settings")]
-    public int[] quickSlotCount = new int[9]; // 
+    public int[] quickSlotCount = new int[9]; 
     public Slider castingBarUI; 
     private Coroutine castingCoroutine;
 
@@ -99,6 +99,37 @@ public class PlayerController : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = false;
         if (inventoryUI != null) inventoryUI.SetActive(false);
+
+        if (MoveData.hasData)
+        {
+            currentHP = MoveData.savedHP;
+
+            quickSlot = (ItemData[])MoveData.savedQuickSlot.Clone();
+            quickSlotCount = (int[])MoveData.savedQuickSlotCount.Clone();
+
+            currentWeapon = MoveData.savedWeapon;
+            currentMag = MoveData.savedCurrentMag;
+            totalAmmo = MoveData.savedTotalAmmo;
+            currentSlotIndex = MoveData.savedSlotIndex;
+
+            if (currentWeapon != null)
+            {
+                EquipItem(currentWeapon);
+            }
+            if (quickSlotUI != null)
+            {
+                quickSlotUI.UpdateQuickSlotUI(quickSlot);
+                if (currentSlotIndex != -1) quickSlotUI.HighlightSlot(currentSlotIndex);
+            }
+            UpdateInventoryUI(); 
+        }
+        else
+        {
+            currentStamina = maxStamina;
+            currentHP = maxHP;
+            currentMag = 0;
+            totalAmmo = 0;
+        }
         UpdateHPUI();
         UpdateAmmoUI();
     }
@@ -296,19 +327,27 @@ public class PlayerController : MonoBehaviour
     private void HandleCombat()
     {
         if (isReloading) return;
-        if (Input.GetMouseButtonDown(0))
+        if (currentWeapon != null && currentWeapon.type == ItemData.ItemType.Gun)
         {
-            if (currentWeapon != null)
+            if (Input.GetMouseButton(0))
             {
-                if (currentWeapon.type == ItemData.ItemType.Gun) Shoot();
-                else if (currentWeapon.type == ItemData.ItemType.Consumable)
+                Shoot();
+            }
+        }
+        else
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                if (currentWeapon != null && currentWeapon.type == ItemData.ItemType.Consumable)
                 {
                     if (castingCoroutine == null && quickSlotCount[currentSlotIndex] > 0)
                         castingCoroutine = StartCoroutine(UseItemRoutine(currentWeapon));
                 }
-                else PerformMeleeAttack();
+                else
+                {
+                    PerformMeleeAttack();
+                }
             }
-            else PerformMeleeAttack();
         }
         if (Input.GetMouseButtonUp(0) && castingCoroutine != null)
         {
@@ -328,7 +367,19 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        if (Time.time < lastAtackTime + attackCooldown) return;
+        float currentFireRate = (currentWeapon != null && currentWeapon.fireRate > 0) ? currentWeapon.fireRate : attackCooldown;
+        if (Time.time < lastAtackTime + currentFireRate) return;
+        if (currentWeapon != null && currentWeapon.muzzleFlashPrefab != null)
+        {
+            // attackPoint 위치에 화염을 생성합니다.
+            GameObject flash = Instantiate(currentWeapon.muzzleFlashPrefab, attackPoint.position, attackPoint.rotation);
+
+            // 화염이 플레이어를 따라다니게 하려면 부모를 설정해 줍니다.
+            flash.transform.SetParent(attackPoint);
+
+            // 0.1초 뒤에 화염 오브젝트를 자동으로 삭제합니다. (짧고 굵게!)
+            Destroy(flash, 0.1f);
+        }
         currentMag--;
         UpdateAmmoUI();
 
@@ -337,13 +388,24 @@ public class PlayerController : MonoBehaviour
 
         if (playerBulletPrefab != null && attackPoint != null)
         {
-            float spreadX = Random.Range(-bulletSpread, bulletSpread);
-            float spreadY = Random.Range(-bulletSpread, bulletSpread);
+            float currentSpread = (currentWeapon != null) ? currentWeapon.gunSpread : bulletSpread;
+
+            float spreadX = Random.Range(-currentSpread, currentSpread);
+            float spreadY = Random.Range(-currentSpread, currentSpread);
             Quaternion spreadRotation = Quaternion.Euler(spreadX, spreadY, 0);
+
             GameObject bullet = Instantiate(playerBulletPrefab, attackPoint.position, attackPoint.rotation * spreadRotation);
+
+            Bullet bulletScript = bullet.GetComponent<Bullet>();
+            if (bulletScript != null && currentWeapon != null)
+            {
+                bulletScript.damage = currentWeapon.gunDamage;
+                bulletScript.speed = currentWeapon.gunSpeed;
+            }
 
             Debug.Log("shoot");
         }
+
         lastAtackTime = Time.time;
     }
     IEnumerator ReloadRoutine()
@@ -432,10 +494,12 @@ public class PlayerController : MonoBehaviour
 
         if (data.type == ItemData.ItemType.Gun)
         {
-            currentMag = data.magSize;
-            totalAmmo = data.startTotalAmmo;
+            data.currentMagCount = data.magSize;
+            data.currentTotalAmmo = data.startTotalAmmo;
+
+            currentMag = data.currentMagCount;
+            totalAmmo = data.currentTotalAmmo;
             UpdateAmmoUI();
-            Debug.Log("장착");
         }
     }
     private void ToggleInventory()
@@ -473,6 +537,11 @@ public class PlayerController : MonoBehaviour
     }
     public void EquipItem(ItemData data)
     {
+        if (currentWeapon != null && currentWeapon.type == ItemData.ItemType.Gun)
+        {
+            currentWeapon.currentMagCount = currentMag;
+            currentWeapon.currentTotalAmmo = totalAmmo;
+        }
         currentWeapon = data;
         if (data == null)
         {
@@ -484,7 +553,8 @@ public class PlayerController : MonoBehaviour
 
         if (data.type == ItemData.ItemType.Gun)
         {
-
+            currentMag = data.currentMagCount;
+            totalAmmo = data.currentTotalAmmo;
             UpdateAmmoUI();
         }
     }
@@ -649,5 +719,20 @@ public class PlayerController : MonoBehaviour
         {
             if (interactUI.activeSelf) interactUI.SetActive(false);
         }
+    }
+
+    public void SavePlayerDataToTransfer()
+    {
+        MoveData.savedHP = currentHP;
+
+        MoveData.savedQuickSlot = (ItemData[])quickSlot.Clone();
+        MoveData.savedQuickSlotCount = (int[])quickSlotCount.Clone();
+
+        MoveData.savedWeapon = currentWeapon;
+        MoveData.savedCurrentMag = currentMag;
+        MoveData.savedTotalAmmo = totalAmmo;
+        MoveData.savedSlotIndex = currentSlotIndex;
+
+        MoveData.hasData = true;
     }
 }

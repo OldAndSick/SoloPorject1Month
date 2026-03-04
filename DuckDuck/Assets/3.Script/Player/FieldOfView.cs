@@ -85,6 +85,15 @@ public class FieldOfView : MonoBehaviour
         {
             r.enabled = isVisible;
         }
+        if (target.TryGetComponent(out EnemyAI enemyAI))
+        {
+            enemyAI.SetUIActive(isVisible);
+        }
+        else if (target.TryGetComponent(out EnemyBase enemyBase))
+        {
+            enemyBase.isCurrentVisible = isVisible;
+            if (enemyBase.enemyHPBar != null) enemyBase.enemyHPBar.gameObject.SetActive(isVisible);
+        }
     }
     private void LateUpdate()
     {
