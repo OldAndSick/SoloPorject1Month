@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8661127230813223851}
   - component: {fileID: 7173853332010147416}
   - component: {fileID: 2982411773810678224}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: 01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -100,11 +100,10 @@ GameObject:
   - component: {fileID: 8932668262144296589}
   - component: {fileID: 1557530203204455153}
   - component: {fileID: 8860628878094288633}
-  - component: {fileID: 2533317600880531065}
-  - component: {fileID: 6283978251697745916}
   - component: {fileID: 7118834168452039446}
-  m_Layer: 0
-  m_Name: Bomb
+  - component: {fileID: -2023749782886531999}
+  m_Layer: 12
+  m_Name: PlayerBomb_ItemDrop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -182,50 +181,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!54 &2533317600880531065
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7016110072063681689}
-  serializedVersion: 5
-  m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
---- !u!114 &6283978251697745916
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7016110072063681689}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a1c71e127b60fa40989455e2aa6c526, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Bomb
-  fuseTime: 1
-  explosionRadius: 5
-  damage: 40
-  isPlayerBomb: 0
-  explosionEffectPrefab: {fileID: 100012, guid: 3364c97de68d3a147af572d1c71c6455, type: 3}
 --- !u!136 &7118834168452039446
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -249,6 +204,20 @@ CapsuleCollider:
   m_Height: 0.15676454
   m_Direction: 1
   m_Center: {x: 0, y: 0.027264815, z: 0}
+--- !u!114 &-2023749782886531999
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7016110072063681689}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 477c599fd6706e843a1221745cd57f2c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ItemPickUp
+  itemData: {fileID: 11400000, guid: 354d4ffca44833542aab9a0001da1751, type: 2}
+  rotationSpeed: 100
 --- !u!1 &7945528258841175349
 GameObject:
   m_ObjectHideFlags: 0
@@ -260,7 +229,7 @@ GameObject:
   - component: {fileID: 5990462866873070890}
   - component: {fileID: 6617743381368865545}
   - component: {fileID: 5043079542092818927}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Pin
   m_TagString: Untagged
   m_Icon: {fileID: 0}

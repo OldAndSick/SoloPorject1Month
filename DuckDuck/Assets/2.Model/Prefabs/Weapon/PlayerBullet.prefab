@@ -14,8 +14,8 @@ GameObject:
   - component: {fileID: 1175399562658977490}
   - component: {fileID: 5878515243401627665}
   - component: {fileID: 1642530086419783636}
-  - component: {fileID: 2594677926668342276}
-  m_Layer: 9
+  - component: {fileID: 4404054651814620340}
+  m_Layer: 0
   m_Name: PlayerBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -128,7 +128,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Bullet
   speed: 40
   lifeTime: 3
-  damage: 30
+  damage: 10
+  isEnemyBullet: 0
 --- !u!96 &1642530086419783636
 TrailRenderer:
   serializedVersion: 3
@@ -239,7 +240,7 @@ TrailRenderer:
   m_Autodestruct: 0
   m_Emitting: 1
   m_ApplyActiveColorSpace: 1
---- !u!54 &2594677926668342276
+--- !u!54 &4404054651814620340
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

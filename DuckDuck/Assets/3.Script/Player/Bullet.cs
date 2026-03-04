@@ -43,35 +43,33 @@ public class Bullet : MonoBehaviour
     {
         if (isHit) return;
 
-        // 쏜 사람 본인(저격수면 Enemy, 플레이어면 Player)은 통과!
-        if (isEnemyBullet && other.CompareTag("Enemy")) return;
-        if (!isEnemyBullet && other.CompareTag("Player")) return;
-
-        isHit = true; // 처리 시작했으니 락 걸기
-
-        // A. 플레이어 피격 체크 (어느 부위든 부모인 PlayerController를 찾음)
+        // 1. 진짜 정체 파악 (부모까지 뒤지기)
         PlayerController pc = other.GetComponentInParent<PlayerController>();
-        if (pc != null)
-        {
-            pc.TakeDamage(damage);
-            DestroyBullet();
-            return;
-        }
+        EnemyBase eb = other.GetComponentInParent<EnemyBase>();
+        EnemyAI eai = other.GetComponentInParent<EnemyAI>();
 
-        // B. 적군(Enemy) 피격 체크 (조상님 EnemyBase 포함)
-        if (other.CompareTag("Enemy"))
-        {
-            if (other.TryGetComponent(out EnemyAI eai)) eai.TakeDamage(damage);
-            else if (other.TryGetComponent(out EnemyBase eb)) eb.TakeDamage(damage);
-            DestroyBullet();
-            return;
-        }
+        // 2. 피아식별 (내 팀이면 무시하고 통과)
+        if (!isEnemyBullet && pc != null) return;
+        if (isEnemyBullet && (eb != null || eai != null)) return;
 
-        // C. 기타 파괴 가능 물체 (박스, 장애물 등)
-        if (other.TryGetComponent(out Box box)) box.TakeDamage(damage);
+        // ---------------------------------------------------------
+        // [띠또 마법] 투명한 트리거(말풍선 구역 등)는 그냥 통과한다!! ⭐
+        // 단, 적이나 플레이어의 몸 자체가 트리거인 경우는 예외로 둡니다.
+        if (other.isTrigger && pc == null && eb == null && eai == null)
+        {
+            return; // "유령 취급하고 그냥 지나가!"
+        }
+        // ---------------------------------------------------------
+
+        // 3. 여기까지 왔다면 진짜 '적'이거나 '벽/상자'입니다!
+        isHit = true;
+
+        if (pc != null) pc.TakeDamage(damage);
+        else if (eb != null) eb.TakeDamage(damage);
+        else if (eai != null) eai.TakeDamage(damage);
+        else if (other.TryGetComponent(out Box box)) box.TakeDamage(damage);
         else if (other.TryGetComponent(out DestroyObstacle obj)) obj.TakeDamage(damage);
 
-        // D. 바닥이나 벽(Default, Ground)에 맞으면 즉시 소멸
         DestroyBullet();
     }
 

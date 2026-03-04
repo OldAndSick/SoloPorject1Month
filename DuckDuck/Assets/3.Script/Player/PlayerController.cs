@@ -118,7 +118,7 @@ public class PlayerController : MonoBehaviour
             }
             if (quickSlotUI != null)
             {
-                quickSlotUI.UpdateQuickSlotUI(quickSlot);
+                quickSlotUI.UpdateQuickSlotUI(quickSlot, quickSlotCount);
                 if (currentSlotIndex != -1) quickSlotUI.HighlightSlot(currentSlotIndex);
             }
             UpdateInventoryUI(); 
@@ -326,7 +326,11 @@ public class PlayerController : MonoBehaviour
 
     private void HandleCombat()
     {
+        if (Time.timeScale == 0f) return;
+        PlayerBomb bombSys = GetComponent<PlayerBomb>();
+        if (bombSys != null && bombSys.isAiming) return;
         if (isReloading) return;
+        if (currentWeapon != null && currentWeapon.itemName == "Boomb") return;
         if (currentWeapon != null && currentWeapon.type == ItemData.ItemType.Gun)
         {
             if (Input.GetMouseButton(0))
@@ -457,49 +461,67 @@ public class PlayerController : MonoBehaviour
     public void AcquireItem(ItemData data)
     {
         if (data == null) return;
+
+        // 1. 퀘스트 아이템: 인벤토리 리스트에 추가
         if (data.type == ItemData.ItemType.Quest)
         {
             inventory.Add(data);
             UpdateInventoryUI();
             return;
         }
-        if(data.type == ItemData.ItemType.Consumable)
+
+        // 2. 소비 아이템(힐템): 퀵슬롯에 이미 있으면 개수만 올림
+        if (data.type == ItemData.ItemType.Consumable)
         {
-            for(int i  =0;i<quickSlot.Length; i++)
+            for (int i = 0; i < quickSlot.Length; i++)
             {
-                if(quickSlot[i] != null && quickSlot[i] ==data)
+                // 이름이 똑같은 힐템을 퀵슬롯에서 찾습니다.
+                if (quickSlot[i] != null && quickSlot[i].itemName == data.itemName)
                 {
                     quickSlotCount[i]++;
-                    if (quickSlotUI != null) quickSlotUI.UpdateQuickSlotUI(quickSlot);
+                    if (quickSlotUI != null) quickSlotUI.UpdateQuickSlotUI(quickSlot, quickSlotCount);
                     return;
                 }
             }
         }
-        bool isSame = false;
-        for (int i = 0; i < quickSlot.Length; i++)
+
+        // 3. 총기 아이템: 이미 있으면 해당 총의 탄약만 추가
+        if (data.type == ItemData.ItemType.Gun)
         {
-            if (quickSlot[i] == data)
+            for (int i = 0; i < quickSlot.Length; i++)
             {
-                isSame = true;
-                break;
+                // 퀵슬롯에 이미 있는 총인지 확인 (예: AK를 이미 가졌는지)
+                if (quickSlot[i] != null && quickSlot[i].itemName == data.itemName)
+                {
+                    // 그 총의 데이터에 탄약을 직접 더해줍니다!
+                    quickSlot[i].currentTotalAmmo += data.startTotalAmmo;
+
+                    // [중요] 만약 지금 그 총을 들고 있다면? 실시간 변수도 동기화!
+                    if (currentWeapon == quickSlot[i])
+                    {
+                        totalAmmo = quickSlot[i].currentTotalAmmo;
+                        UpdateAmmoUI();
+                    }
+                    return;
+                }
             }
         }
-        if (isSame && data.type == ItemData.ItemType.Gun)
-        {
-            totalAmmo += data.startTotalAmmo;
-            UpdateAmmoUI();
-            return;
-        }
+
+        // 4. 아예 처음 먹는 아이템이면? 빈 슬롯에 새로 등록
         AddQuickSlot(data);
 
+        // 방금 새로 먹은 게 총이라면 초기 탄약 세팅
         if (data.type == ItemData.ItemType.Gun)
         {
             data.currentMagCount = data.magSize;
             data.currentTotalAmmo = data.startTotalAmmo;
 
-            currentMag = data.currentMagCount;
-            totalAmmo = data.currentTotalAmmo;
-            UpdateAmmoUI();
+            if (currentWeapon == data)
+            {
+                currentMag = data.currentMagCount;
+                totalAmmo = data.currentTotalAmmo;
+                UpdateAmmoUI();
+            }
         }
     }
     private void ToggleInventory()
@@ -593,7 +615,7 @@ public class PlayerController : MonoBehaviour
             {
                 quickSlot[i] = item;
                 quickSlotCount[i] = 1;
-                if (quickSlotUI != null) quickSlotUI.UpdateQuickSlotUI(quickSlot);
+                if (quickSlotUI != null) quickSlotUI.UpdateQuickSlotUI(quickSlot, quickSlotCount);
                 return;
 
             }
@@ -640,7 +662,7 @@ public class PlayerController : MonoBehaviour
             EquipItem(null);
         }
 
-        if (quickSlotUI != null) quickSlotUI.UpdateQuickSlotUI(quickSlot);
+        if (quickSlotUI != null) quickSlotUI.UpdateQuickSlotUI(quickSlot, quickSlotCount);
 
         if (castingBarUI != null) castingBarUI.gameObject.SetActive(false);
         castingCoroutine = null;
