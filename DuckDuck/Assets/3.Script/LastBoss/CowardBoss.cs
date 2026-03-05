@@ -5,7 +5,7 @@ public class CowardBoss : MonoBehaviour
 {
     public Transform player;
    
-    public float retreatDistance = 7f; //ÀÌ °Å¸®º¸´Ù °¡±î¿ì¸é µµ¸Á
+    public float retreatDistance = 7f; //ï¿½ï¿½ ï¿½Å¸ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
     private NavMeshAgent agent;
     private float lastAttackTime;
@@ -32,18 +32,18 @@ public class CowardBoss : MonoBehaviour
 
     void Retreat()
     {
-        //ÇÃ·¹ÀÌ¾î ¹Ý´ë ¹æÇâ °è»ê
+        //ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½Ý´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
         Vector3 dirToPlayer = transform.position - player.position;
-        //¹Ý´ë¹æÇâÀ¸·Î ÀÏÁ¤°Å¸® ¶³¾îÁø ¸ñÇ¥ ÁöÁ¡ ¼³Á¤
+        //ï¿½Ý´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç¥ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         Vector3 retreatTarget = transform.position + dirToPlayer.normalized * 5f;
 
-        //À§¿¡¼­ ÇØ´ç ÁöÁ¡À¸·Î ÀÌµ¿
+        //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ø´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½
         agent.SetDestination(retreatTarget);
     }
     void StopAndAttack()
     {
-        agent.ResetPath(); // ÀÌµ¿ ¸ØÃã
-        transform.LookAt(player); // ÇÃ·¹ÀÌ¾î ÁÖ½Ã
+        agent.ResetPath(); // ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½
+        transform.LookAt(player); // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½Ö½ï¿½
 
         if (Time.time >= lastAttackTime + attackCooldown)
         {

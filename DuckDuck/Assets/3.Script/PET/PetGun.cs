@@ -10,20 +10,20 @@ public class PetGun : MonoBehaviour
     public LayerMask enemyLayer;
     public Camera camShake;
 
-    [Header("¸Ó½Å°Ç ¼³Á¤")]
+    [Header("ï¿½Ó½Å°ï¿½ ï¿½ï¿½ï¿½ï¿½")]
     public float detectionRange = 20f;
     public float fireRate = 0.1f;
     public float bulletSpeed = 60f;
     public float spread = 0.05f;
 
-    [Header("½ºÅ³ ¼³Á¤")]
+    [Header("ï¿½ï¿½Å³ ï¿½ï¿½ï¿½ï¿½")]
     public float skiiDuration = 2f;
     public float cooldownTime = 30f;
 
     private float nextFireTime;
     private Transform target;
 
-    [Header("UI¼³Á¤")]
+    [Header("UIï¿½ï¿½ï¿½ï¿½")]
     public Image cooldownImage;
 
     private bool isFiring = false;
@@ -31,12 +31,12 @@ public class PetGun : MonoBehaviour
 
     private void Update()
     {
-        //q¸¦ ´­·¶À»¶§ ¹ß»ç ÁßÀÌ ¾Æ´Ï°í ÄðÅ¸ÀÓµµ ¾Æ´Ï¸é ½ºÅ³ ½ÇÇà
+        //qï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß»ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´Ï°ï¿½ ï¿½ï¿½Å¸ï¿½Óµï¿½ ï¿½Æ´Ï¸ï¿½ ï¿½ï¿½Å³ ï¿½ï¿½ï¿½ï¿½
         if(Input.GetKeyDown(KeyCode.Q)&&!isFiring&&!iscooldown)
         {
             StartCoroutine(SkillRoutine());
         }
-        //½ºÅ³ÀÌ È°¼ºÈ­µÈ »óÅÂ¿¡¼­¸¸ ÀûÀ» Ã£°í °ø°ÝÇÔ
+        //ï¿½ï¿½Å³ï¿½ï¿½ È°ï¿½ï¿½È­ï¿½ï¿½ ï¿½ï¿½ï¿½Â¿ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         if(isFiring)
         {
             FindNearestEnemy();
@@ -53,35 +53,35 @@ public class PetGun : MonoBehaviour
 
     IEnumerator SkillRoutine()
     {
-        Debug.Log("Çìºñ¸Ó½Å°Ç ¤¼¤¼¤¼¤¼");
+        Debug.Log("ï¿½ï¿½ï¿½Ó½Å°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
         isFiring = true;
 
         yield return new WaitForSeconds(skiiDuration);
 
         isFiring = false;
-        iscooldown = true; // ´ë¹®ÀÚ ¿ÀÅ¸ ÁÖÀÇ! (isCooldown)
-        Debug.Log("¹ß¿­¹ß¿­ÄðÅ¸ÀÓÄðÅ¸ÀÓ");
+        iscooldown = true; // ï¿½ë¹®ï¿½ï¿½ ï¿½ï¿½Å¸ ï¿½ï¿½ï¿½ï¿½! (isCooldown)
+        Debug.Log("ï¿½ß¿ï¿½ï¿½ß¿ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½");
 
-        // --- ¿©±âºÎÅÍ ½Ç½Ã°£ UI °»½Å ·ÎÁ÷ ---
+        // --- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ç½Ã°ï¿½ UI ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ---
         float timer = cooldownTime;
 
         while (timer > 0)
         {
-            timer -= Time.deltaTime; // ¸Å ÇÁ·¹ÀÓ ½Ã°£À» ±ðÀ½
+            timer -= Time.deltaTime; // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
             if (cooldownImage != null)
             {
-                // (³²Àº½Ã°£ / ÀüÃ¼½Ã°£) ºñÀ²·Î ÀÌ¹ÌÁö Ã¤¿ì±â
+                // (ï¿½ï¿½ï¿½ï¿½ï¿½Ã°ï¿½ / ï¿½ï¿½Ã¼ï¿½Ã°ï¿½) ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ Ã¤ï¿½ï¿½ï¿½
                 cooldownImage.fillAmount = timer / cooldownTime;
             }
 
-            yield return null; // ´ÙÀ½ ÇÁ·¹ÀÓ±îÁö ´ë±â
+            yield return null; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ó±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
         }
         // --------------------------------
 
-        if (cooldownImage != null) cooldownImage.fillAmount = 0; // È®½ÇÈ÷ ºñ¿öÁÖ±â
+        if (cooldownImage != null) cooldownImage.fillAmount = 0; // È®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ö±ï¿½
         iscooldown = false;
-        Debug.Log("´Ù½Ã »ç¿ë °¡´ÉÇÔ");
+        Debug.Log("ï¿½Ù½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
     }
 
     void FindNearestEnemy()
@@ -120,7 +120,7 @@ public class PetGun : MonoBehaviour
             StartCoroutine(SpawnTracer(hit.point, hit.collider.gameObject));
         }
 
-        //Ä«¸Þ¶ó ½¦ÀÌÅ© ³ÖÀ¸·Á¸é... Ä«¸Þ¶ó ½ºÅ©¸³Æ®¿¡ ½¦ÀÌÅ© ¸Þ¼­µå ÀÖ´Ù°í °¡Á¤ÇÒ½Ã
+        //Ä«ï¿½Þ¶ï¿½ ï¿½ï¿½ï¿½ï¿½Å© ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½... Ä«ï¿½Þ¶ï¿½ ï¿½ï¿½Å©ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å© ï¿½Þ¼ï¿½ï¿½ï¿½ ï¿½Ö´Ù°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ò½ï¿½
         //if (camShake != null) camShake.Shake(0.05f, 0.05f);
     }
 

@@ -28,8 +28,8 @@ public class ItemData : ScriptableObject
     public float gunSpread;
 
     [Header("Runtime Stats")]
-    public int currentMagCount;   // ÇöÀç ÀÌ ÃÑÀÇ ÅºÃ¢¿¡ µé¾îÀÖ´Â Åº ¼ö
-    public int currentTotalAmmo;  // ÇöÀç ÀÌ ÃÑÀÌ °¡Áö°í ÀÖ´Â ¿¹ºñ Åº ¼ö
+    public int currentMagCount;   // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ÅºÃ¢ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ Åº ï¿½ï¿½
+    public int currentTotalAmmo;  // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ Åº ï¿½ï¿½
     [Header("Visual Effects")]
     public GameObject muzzleFlashPrefab;
 }

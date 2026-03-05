@@ -4,9 +4,9 @@ using System.Collections;
 using System.Collections.Generic;
 public class Pettest : MonoBehaviour
 {
-    public float derectionRange = 10f; //Àû °¨Áö ¹üÀ§
-    public LayerMask enemyLayer; //Àû..
-    public LineRenderer laserLine; //¶óÀÎ·»´õ·¯ ¿¬°á
+    public float derectionRange = 10f; //ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+    public LayerMask enemyLayer; //ï¿½ï¿½..
+    public LineRenderer laserLine; //ï¿½ï¿½ï¿½Î·ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     public Transform mouthPos;
 
     private Transform target;

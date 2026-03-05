@@ -1,30 +1,30 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using TMPro; // TextMeshPro¸¦ »ç¿ëÇÏ´Â °æ¿ì
+using TMPro; // TextMeshProï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½
 
 public class GameIntroManager : MonoBehaviour
 {
-    [Header("UI ¿¬°á")]
-    public Text descriptionText; // ¼³¸í ÅØ½ºÆ®¸¦ Ç¥½ÃÇÒ TMP ÄÄÆ÷³ÍÆ®
+    [Header("UI ï¿½ï¿½ï¿½ï¿½")]
+    public Text descriptionText; // ï¿½ï¿½ï¿½ï¿½ ï¿½Ø½ï¿½Æ®ï¿½ï¿½ Ç¥ï¿½ï¿½ï¿½ï¿½ TMP ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
 
-    [Header("°ÔÀÓ Á¤º¸")]
+    [Header("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½")]
     [TextArea(1, 3)]
-    // ¿©±â¿¡ °ÔÀÓ ¼³¸í ÅØ½ºÆ®¸¦ ÇÑ ÁÙ¾¿ ÀÔ·ÂÇÏ¼¼¿ä.
+    // ï¿½ï¿½ï¿½â¿¡ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ø½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ ï¿½Ù¾ï¿½ ï¿½Ô·ï¿½ï¿½Ï¼ï¿½ï¿½ï¿½.
     public string[] introTexts;
     public string nextSceneName = "GameScene";
 
 
     private int currentTextIndex = 0;
-    private bool isTyping = false; // ÇöÀç ÅØ½ºÆ® Ãâ·Â ÁßÀÎÁö È®ÀÎ
-    private bool isFullyDisplayed = false; // ÇöÀç ÅØ½ºÆ®°¡ ¸ðµÎ Ãâ·ÂµÇ¾ú´ÂÁö È®ÀÎ
+    private bool isTyping = false; // ï¿½ï¿½ï¿½ï¿½ ï¿½Ø½ï¿½Æ® ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½
+    private bool isFullyDisplayed = false; // ï¿½ï¿½ï¿½ï¿½ ï¿½Ø½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ÂµÇ¾ï¿½ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½
 
-    public float typingSpeed = 0.05f; // ±ÛÀÚ´ç µô·¹ÀÌ ½Ã°£ (ÃÊ)
+    public float typingSpeed = 0.05f; // ï¿½ï¿½ï¿½Ú´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ (ï¿½ï¿½)
     private Coroutine typingCoroutine;
 
     void Start()
     {
-        // ¾À ½ÃÀÛ ½Ã Ã¹ ¹øÂ° ÅØ½ºÆ® Ãâ·Â ½ÃÀÛ
+        // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ Ã¹ ï¿½ï¿½Â° ï¿½Ø½ï¿½Æ® ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         if (introTexts.Length > 0)
         {
             StartDisplayingText(introTexts[currentTextIndex]);
@@ -33,19 +33,19 @@ public class GameIntroManager : MonoBehaviour
 
     void Update()
     {
-        // ½ºÆäÀÌ½º¹Ù ÀÔ·Â °¨Áö
+        // ï¿½ï¿½ï¿½ï¿½ï¿½Ì½ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½ ï¿½ï¿½ï¿½ï¿½
         if (Input.GetKeyDown(KeyCode.Space))
         {
             HandleSpaceInput();
         }
     }
 
-    //½ºÆäÀÌ½º¹Ù
+    //ï¿½ï¿½ï¿½ï¿½ï¿½Ì½ï¿½ï¿½ï¿½
     void HandleSpaceInput()
     {
         if (isTyping)
         {
-            // 1. Å¸ÀÌÇÎ ÁßÀÏ ¶§: Áï½Ã ÀüÃ¼ ÅØ½ºÆ® Ãâ·Â
+            // 1. Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½: ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼ ï¿½Ø½ï¿½Æ® ï¿½ï¿½ï¿½
             StopCoroutine(typingCoroutine);
             descriptionText.text = introTexts[currentTextIndex];
             isTyping = false;
@@ -53,16 +53,16 @@ public class GameIntroManager : MonoBehaviour
         }
         else if (isFullyDisplayed)
         {
-            // 2. ÀüÃ¼ ÅØ½ºÆ®°¡ Ç¥½ÃµÇ¾úÀ» ¶§: ´ÙÀ½ ÅØ½ºÆ®·Î ÀÌµ¿
+            // 2. ï¿½ï¿½Ã¼ ï¿½Ø½ï¿½Æ®ï¿½ï¿½ Ç¥ï¿½ÃµÇ¾ï¿½ï¿½ï¿½ ï¿½ï¿½: ï¿½ï¿½ï¿½ï¿½ ï¿½Ø½ï¿½Æ®ï¿½ï¿½ ï¿½Ìµï¿½
             currentTextIndex++;
             if (currentTextIndex < introTexts.Length)
             {
-                // ´ÙÀ½ ÁÙ ½ÃÀÛ
+                // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
                 StartDisplayingText(introTexts[currentTextIndex]);
             }
             else
             {
-                // ¸ðµç ÅØ½ºÆ®°¡ ³¡³µÀ» ¶§: ´ÙÀ½ ¾ÀÀ¸·Î ÀÌµ¿
+                // ï¿½ï¿½ï¿½ ï¿½Ø½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½: ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½
                 SceneManager.LoadScene(nextSceneName);
             }
         }
@@ -72,26 +72,26 @@ public class GameIntroManager : MonoBehaviour
     void StartDisplayingText(string textToDisplay)
     {
         isFullyDisplayed = false;
-        // ±âÁ¸ ÄÚ·çÆ¾ÀÌ ÀÖ´Ù¸é ÁßÁö
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½Ú·ï¿½Æ¾ï¿½ï¿½ ï¿½Ö´Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½
         if (typingCoroutine != null) StopCoroutine(typingCoroutine);
 
-        // Å¸ÀÌÇÎ ÄÚ·çÆ¾ ½ÃÀÛ
+        // Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½Ú·ï¿½Æ¾ ï¿½ï¿½ï¿½ï¿½
         typingCoroutine = StartCoroutine(TypeSentence(textToDisplay));
     }
 
-    // ÇÑ±ÛÀÚ¾¿
+    // ï¿½Ñ±ï¿½ï¿½Ú¾ï¿½
     System.Collections.IEnumerator TypeSentence(string sentence)
     {
         isTyping = true;
-        descriptionText.text = ""; // ÅØ½ºÆ® ÃÊ±âÈ­
+        descriptionText.text = ""; // ï¿½Ø½ï¿½Æ® ï¿½Ê±ï¿½È­
 
         foreach (char letter in sentence.ToCharArray())
         {
             descriptionText.text += letter;
-            yield return new WaitForSeconds(typingSpeed); // µô·¹ÀÌ
+            yield return new WaitForSeconds(typingSpeed); // ï¿½ï¿½ï¿½ï¿½ï¿½
         }
 
-        // Ãâ·Â ¿Ï·á
+        // ï¿½ï¿½ï¿½ ï¿½Ï·ï¿½
         isTyping = false;
         isFullyDisplayed = true;
     }
