@@ -39218,15 +39218,19 @@ MonoBehaviour:
   currentHealth: 0
   isDead: 0
   enemyHPBar: {fileID: 2473935703899093993}
+  noticeUI: {fileID: 7956759753711799780}
+  isCurrentVisible: 0
   meshes: []
   player: {fileID: 1521911119167360411}
   detectRange: 20
   chargeRange: 12
-  noticeUI: {fileID: 7956759753711799780}
   walkSpeed: 3.5
   chargeSpeed: 20
   chargeDamage: 40
   dropItemPrefab: {fileID: 0}
+  walkRadius: 15
+  minWaitTime: 1.5
+  maxWaitTime: 4
 --- !u!65 &682335262
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -60462,7 +60466,7 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.16666667
+  m_VoxelSize: 0.23333333
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 23800000, guid: ccba68f8785559843a3eb11ce8de7c33, type: 2}
   m_BuildHeightMesh: 0
@@ -95626,6 +95630,140 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 365579754594187505, guid: 2ef28cd8ec438ab498552a8233aea4e7, type: 3}
   m_PrefabInstance: {fileID: 1703116015}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1704130214
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4297799410258100871, guid: 09b987c7dbe876f43adf68198342e627, type: 3}
+      propertyPath: m_Name
+      value: Talkcam
+      objectReference: {fileID: 0}
+    - target: {fileID: 6294143676716238241, guid: 09b987c7dbe876f43adf68198342e627, type: 3}
+      propertyPath: m_Pivot.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6294143676716238241, guid: 09b987c7dbe876f43adf68198342e627, type: 3}
+      propertyPath: m_Pivot.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6294143676716238241, guid: 09b987c7dbe876f43adf68198342e627, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6294143676716238241, guid: 09b987c7dbe876f43adf68198342e627, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6294143676716238241, guid: 09b987c7dbe876f43adf68198342e627, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6294143676716238241, guid: 09b987c7dbe876f43adf68198342e627, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6294143676716238241, guid: 09b987c7dbe876f43adf68198342e627, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6294143676716238241, guid: 09b987c7dbe876f43adf68198342e627, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6294143676716238241, guid: 09b987c7dbe876f43adf68198342e627, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6294143676716238241, guid: 09b987c7dbe876f43adf68198342e627, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6294143676716238241, guid: 09b987c7dbe876f43adf68198342e627, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6294143676716238241, guid: 09b987c7dbe876f43adf68198342e627, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6294143676716238241, guid: 09b987c7dbe876f43adf68198342e627, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6294143676716238241, guid: 09b987c7dbe876f43adf68198342e627, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6294143676716238241, guid: 09b987c7dbe876f43adf68198342e627, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6294143676716238241, guid: 09b987c7dbe876f43adf68198342e627, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6294143676716238241, guid: 09b987c7dbe876f43adf68198342e627, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6294143676716238241, guid: 09b987c7dbe876f43adf68198342e627, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6294143676716238241, guid: 09b987c7dbe876f43adf68198342e627, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6294143676716238241, guid: 09b987c7dbe876f43adf68198342e627, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7358870388557368085, guid: 09b987c7dbe876f43adf68198342e627, type: 3}
+      propertyPath: startDialogueList.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7358870388557368085, guid: 09b987c7dbe876f43adf68198342e627, type: 3}
+      propertyPath: startDialogueList.Array.data[1].name
+      value: "\uC2A4\uD0A4\uC870"
+      objectReference: {fileID: 0}
+    - target: {fileID: 7358870388557368085, guid: 09b987c7dbe876f43adf68198342e627, type: 3}
+      propertyPath: startDialogueList.Array.data[3].name
+      value: "\uC2A4\uD0A4\uC870"
+      objectReference: {fileID: 0}
+    - target: {fileID: 7358870388557368085, guid: 09b987c7dbe876f43adf68198342e627, type: 3}
+      propertyPath: startDialogueList.Array.data[0].sentence
+      value: "\uB4DC\uB514\uC5B4 \uBE60\uC838\uB098\uC654\uB124..."
+      objectReference: {fileID: 0}
+    - target: {fileID: 7358870388557368085, guid: 09b987c7dbe876f43adf68198342e627, type: 3}
+      propertyPath: startDialogueList.Array.data[1].sentence
+      value: "\uC9D1\uC740 \uC800 \uBD84\uC218\uB300\uB97C \uC9C0\uB098\uC57C\uD558\uC9C0?"
+      objectReference: {fileID: 0}
+    - target: {fileID: 7358870388557368085, guid: 09b987c7dbe876f43adf68198342e627, type: 3}
+      propertyPath: startDialogueList.Array.data[2].sentence
+      value: ..!
+      objectReference: {fileID: 0}
+    - target: {fileID: 7358870388557368085, guid: 09b987c7dbe876f43adf68198342e627, type: 3}
+      propertyPath: startDialogueList.Array.data[3].sentence
+      value: "\uB3D9\uBB3C\uB4E4 \uD22C\uC131\uC774\uC57C...\uC870\uC2EC\uD574\uC11C
+        \uAC00\uBCF4\uC790!"
+      objectReference: {fileID: 0}
+    - target: {fileID: 7358870388557368085, guid: 09b987c7dbe876f43adf68198342e627, type: 3}
+      propertyPath: startDialogueList.Array.data[1].isLeftSpeaker
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7358870388557368085, guid: 09b987c7dbe876f43adf68198342e627, type: 3}
+      propertyPath: startDialogueList.Array.data[3].isLeftSpeaker
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 09b987c7dbe876f43adf68198342e627, type: 3}
 --- !u!1001 &1705209055
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -110265,6 +110403,11 @@ MonoBehaviour:
   enemyHPBar: {fileID: 1656835338421937953}
   dropItemPrefab: {fileID: 0}
   enemyMagSize: 30
+  walkRadius: 10
+  minWaitTime: 2
+  maxWaitTime: 5
+  walkSpeed: 2
+  isCurrentVisible: 0
 --- !u!1001 &1968236279
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -125855,6 +125998,7 @@ MonoBehaviour:
   - {fileID: 8938799764772428671}
   - {fileID: 4272041019267863424}
   - {fileID: 4083272147109554684}
+  slotCounts: []
 --- !u!222 &3125525085831049018
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -130154,6 +130298,11 @@ MonoBehaviour:
   interactLayer:
     serializedVersion: 2
     m_Bits: 4096
+  playerAudio: {fileID: 0}
+  shootSound: {fileID: 0}
+  rollSound: {fileID: 0}
+  walkSound: {fileID: 0}
+  stepInterval: 0.4
 --- !u!224 &4885759871106830601
 RectTransform:
   m_ObjectHideFlags: 0
@@ -138210,3 +138359,4 @@ SceneRoots:
   - {fileID: 1188097763}
   - {fileID: 450482583}
   - {fileID: 998065579}
+  - {fileID: 1704130214}
