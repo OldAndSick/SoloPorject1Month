@@ -3,7 +3,9 @@ using UnityEngine;
 
 public class Dialoguetirgger : MonoBehaviour
 {
+
     public List<DialogueLine> myDialogue; // 이 트리거 전용 대화 내용
+
     private bool hasPlayed = false;
 
     // [띠또 마법] 2D 글자를 빼고 3D 물리 엔진인 OnTriggerEnter로 바꿨습니다!!
