@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Audio;
+using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
@@ -71,5 +72,21 @@ public class PauseMenu : MonoBehaviour
     {
         audioMixer.SetFloat("SFXVol", Mathf.Log10(volume) * 20);
         PlayerPrefs.SetFloat("SFXVol", volume);
+    }
+    public void GoToTitle()
+    {
+        Time.timeScale = 1f;
+
+        // "TitleScene" 부분은 주인님의 실제 타이틀 씬 이름과 토씨 하나 안 틀리고 똑같이 적으셔야 합니다!
+        SceneManager.LoadScene("TitleScene");
+    }
+
+    public void QuitGame()
+    {
+        // 유니티 에디터 창에서는 Application.Quit()이 안 먹히기 때문에, 확인용 로그를 띄웁니다!
+        Debug.Log("게임을 종료합니다! (에디터에선 안 꺼지지만 빌드하면 꺼짐!)");
+
+        // 실제 게임을 빌드(exe)했을 때 프로그램 자체를 꺼버리는 마법의 코드!
+        Application.Quit();
     }
 }
