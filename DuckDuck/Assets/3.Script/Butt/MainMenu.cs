@@ -21,9 +21,9 @@ public class MainMenu : MonoBehaviour
     public void ExitGame()
     {
 #if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false; // ¿¡µðÅÍ¿¡¼­ Å×½ºÆ®ÇÒ ¶§
+        UnityEditor.EditorApplication.isPlaying = false; // ï¿½ï¿½ï¿½ï¿½ï¿½Í¿ï¿½ï¿½ï¿½ ï¿½×½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½
 #else
-            Application.Quit(); // ºôµåµÈ °ÔÀÓ¿¡¼­ ½ÇÇàÇÒ ¶§
+            Application.Quit(); // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ó¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 #endif
     }
 }

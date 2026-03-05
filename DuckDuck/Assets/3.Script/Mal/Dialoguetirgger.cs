@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Dialoguetirgger : MonoBehaviour
 {
-    public List<DialogueLine> myDialogue; // ÀÌ Æ®¸®°Å Àü¿ë ´ëÈ­ ³»¿ë
+    public List<DialogueLine> myDialogue; // ï¿½ï¿½ Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È­ ï¿½ï¿½ï¿½ï¿½
     private bool hasPlayed = false;
 
     [System.Obsolete]
@@ -12,7 +12,7 @@ public class Dialoguetirgger : MonoBehaviour
         if (other.CompareTag("Player") && !hasPlayed)
         {
             FindObjectOfType<Malmanager>().StartDialogue(myDialogue);
-            hasPlayed = true; // ÇÑ ¹ø¸¸ ½ÇÇàµÇµµ·Ï
+            hasPlayed = true; // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Çµï¿½ï¿½ï¿½
         }
     }
 }

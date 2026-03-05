@@ -3,10 +3,10 @@ using UnityEngine;
 [System.Serializable]
 public class DialogueLine
 {
-    public string name;            // ¸»ÇÏ´Â »ç¶÷ ÀÌ¸§
+    public string name;            // ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½
     [TextArea(3, 5)]
-    public string sentence;        // ´ëÈ­ ³»¿ë (ÀÎ½ºÆåÅÍ¿¡¼­ ³Ð°Ô º¸ÀÓ)
+    public string sentence;        // ï¿½ï¿½È­ ï¿½ï¿½ï¿½ï¿½ (ï¿½Î½ï¿½ï¿½ï¿½ï¿½Í¿ï¿½ï¿½ï¿½ ï¿½Ð°ï¿½ ï¿½ï¿½ï¿½ï¿½)
 
-    public bool isLeftSpeaker;     // true¸é ¿ÞÂÊ °­Á¶, false¸é ¿À¸¥ÂÊ °­Á¶
-    public Sprite characterSprite; // (¼±ÅÃ) »óÈ²¿¡ µû¶ó Ç¥Á¤À» ¹Ù²Ü ¶§ »ç¿ë
+    public bool isLeftSpeaker;     // trueï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, falseï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+    public Sprite characterSprite; // (ï¿½ï¿½ï¿½ï¿½) ï¿½ï¿½È²ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ç¥ï¿½ï¿½ï¿½ï¿½ ï¿½Ù²ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½
 }

@@ -3,23 +3,23 @@ using UnityEngine.UI;
 using TMPro;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine.Events; // ÀÌº¥Æ® Ã³¸®¸¦ À§ÇØ Ãß°¡
+using UnityEngine.Events; // ï¿½Ìºï¿½Æ® Ã³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
 
 public class Malmanager : MonoBehaviour
 {
-    [Header("UI ¿¬°á")]
+    [Header("UI ï¿½ï¿½ï¿½ï¿½")]
     public Image leftCharImage;
     public Image rightCharImage;
     public TextMeshProUGUI dialogueText;
     public GameObject dialogueCanvas;
     public GameObject speedchbubble;
 
-    [Header("¼³Á¤")]
+    [Header("ï¿½ï¿½ï¿½ï¿½")]
     public float typingSpeed = 0.05f;
-    private List<DialogueLine> dialogueList; // ¿ÜºÎ¿¡¼­ ÁÖÀÔ¹Þµµ·Ï ¼öÁ¤
+    private List<DialogueLine> dialogueList; // ï¿½ÜºÎ¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ô¹Þµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
-    [Header("Á¾·á ÈÄ ½ÇÇàÇÒ ÀÌº¥Æ®")]
-    public UnityEvent onDialogueEnd; // ¿©±â¿¡ ¸÷ ¼ÒÈ¯ ÇÔ¼ö¸¦ ¿¬°á
+    [Header("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìºï¿½Æ®")]
+    public UnityEvent onDialogueEnd; // ï¿½ï¿½ï¿½â¿¡ ï¿½ï¿½ ï¿½ï¿½È¯ ï¿½Ô¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
 
     private int currentIndex = 0;
@@ -29,26 +29,26 @@ public class Malmanager : MonoBehaviour
 
     private Color activeColor = Color.white;
     private Color inactiveColor = new Color(0.5f, 0.5f, 0.5f, 1f);
-    // ±âÁ¸ º¯¼öµé ¼±¾ð ¾Æ·¡¿¡ Ãß°¡
-    [Header("½ÃÀÛ ´ëÈ­ ¼³Á¤")]
-    public bool playOnStart = true; // ½ÃÀÛÇÏÀÚ¸¶ÀÚ Àç»ýÇÒ °ÍÀÎ°¡?
-    public List<DialogueLine> startDialogueList; // ½ÃÀÛÇÒ ¶§ ³ª¿Ã ´ëÈ­ ³»¿ë
+    // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Æ·ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
+    [Header("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È­ ï¿½ï¿½ï¿½ï¿½")]
+    public bool playOnStart = true; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Î°ï¿½?
+    public List<DialogueLine> startDialogueList; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È­ ï¿½ï¿½ï¿½ï¿½
 
     void Start()
     {
         if (playOnStart)
         {
-            // ³» ÀÎ½ºÆåÅÍ¿¡ Àû¾îµÐ ´ëÈ­ ³»¿ëÀ» °¡Áö°í ´ëÈ­ ½ÃÀÛ!
+            // ï¿½ï¿½ ï¿½Î½ï¿½ï¿½ï¿½ï¿½Í¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È­ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È­ ï¿½ï¿½ï¿½ï¿½!
             StartDialogue(startDialogueList);
         }
     }
-    // ¿øÇÏ´Â Å¸ÀÌ¹Ö¿¡ ÀÌ ÇÔ¼ö¸¦ È£Ãâ (´ëÈ­ µ¥ÀÌÅÍ Àü´Þ)
+    // ï¿½ï¿½ï¿½Ï´ï¿½ Å¸ï¿½Ì¹Ö¿ï¿½ ï¿½ï¿½ ï¿½Ô¼ï¿½ï¿½ï¿½ È£ï¿½ï¿½ (ï¿½ï¿½È­ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
     public void StartDialogue(List<DialogueLine> lines)
     {
         dialogueList = lines;
         if (dialogueList == null || dialogueList.Count == 0) return;
 
-        Time.timeScale = 0f; // °ÔÀÓ Á¤Áö
+        Time.timeScale = 0f; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         dialogueCanvas.SetActive(true);
         if (speedchbubble != null)
             speedchbubble.SetActive(true);
@@ -96,12 +96,12 @@ public class Malmanager : MonoBehaviour
     {
         if (leftCharImage == null || rightCharImage == null) return;
 
-        // ¿ÞÂÊÀÌ ¸»ÇÒ ¶§: ¿ÞÂÊ(Active), ¿À¸¥ÂÊ(Inactive)
-        // ¿À¸¥ÂÊÀÌ ¸»ÇÒ ¶§: ¿ÞÂÊ(Inactive), ¿À¸¥ÂÊ(Active)
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½: ï¿½ï¿½ï¿½ï¿½(Active), ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(Inactive)
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½: ï¿½ï¿½ï¿½ï¿½(Inactive), ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(Active)
         leftCharImage.color = isLeftSpeaker ? activeColor : inactiveColor;
         rightCharImage.color = isLeftSpeaker ? inactiveColor : activeColor;
 
-        // ¸»ÇÏ´Â »ç¶÷À» ·¹ÀÌ¾î ¸Ç ¾ÕÀ¸·Î º¸³»±â
+        // ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         if (isLeftSpeaker) leftCharImage.transform.SetAsLastSibling();
         else rightCharImage.transform.SetAsLastSibling();
     }
@@ -119,9 +119,9 @@ public class Malmanager : MonoBehaviour
         if (speedchbubble != null)
             speedchbubble.SetActive(false);
         dialogueCanvas.SetActive(false);
-        Time.timeScale = 1f; // °ÔÀÓ Àç°³
+        Time.timeScale = 1f; // ï¿½ï¿½ï¿½ï¿½ ï¿½ç°³
 
-        // µî·ÏµÈ ÀÌº¥Æ®(¸÷ ¼ÒÈ¯ µî) ½ÇÇà
+        // ï¿½ï¿½Ïµï¿½ ï¿½Ìºï¿½Æ®(ï¿½ï¿½ ï¿½ï¿½È¯ ï¿½ï¿½) ï¿½ï¿½ï¿½ï¿½
         if (onDialogueEnd != null)
         {
             onDialogueEnd.Invoke();
