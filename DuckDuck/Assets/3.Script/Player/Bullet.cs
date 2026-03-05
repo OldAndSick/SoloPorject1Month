@@ -26,14 +26,13 @@ public class Bullet : MonoBehaviour
         float moveDistance = speed * Time.deltaTime;
         Ray ray = new Ray(transform.position, transform.forward);
 
-        // 1. Raycast로 초고속 명중 체크 (터널링 방지)
-        if (Physics.Raycast(ray, out RaycastHit hit, moveDistance))
+        if (Physics.Raycast(ray, out RaycastHit hit, moveDistance, ~0, QueryTriggerInteraction.Ignore))
         {
             ProcessHit(hit.collider);
         }
         else
         {
-            // 2. 아무것도 없으면 전진
+            // 부딪힌 게 없으면 시원하게 전진!
             transform.Translate(Vector3.forward * moveDistance);
         }
     }
@@ -52,16 +51,10 @@ public class Bullet : MonoBehaviour
         if (!isEnemyBullet && pc != null) return;
         if (isEnemyBullet && (eb != null || eai != null)) return;
 
-        // ---------------------------------------------------------
-        // [띠또 마법] 투명한 트리거(말풍선 구역 등)는 그냥 통과한다!! ⭐
-        // 단, 적이나 플레이어의 몸 자체가 트리거인 경우는 예외로 둡니다.
         if (other.isTrigger && pc == null && eb == null && eai == null)
         {
-            return; // "유령 취급하고 그냥 지나가!"
+            return;
         }
-        // ---------------------------------------------------------
-
-        // 3. 여기까지 왔다면 진짜 '적'이거나 '벽/상자'입니다!
         isHit = true;
 
         if (pc != null) pc.TakeDamage(damage);
