@@ -2,29 +2,39 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro; // TextMeshPro�� ����ϴ� ���
+using System.Collections;
 
 public class GameIntroManager : MonoBehaviour
 {
-    [Header("UI ����")]
-    public Text descriptionText; // ���� �ؽ�Ʈ�� ǥ���� TMP ������Ʈ
-
-    [Header("���� ����")]
+    [Header("UI 설정")]
+    public Text descriptionText;
+    public Image fadeImage; // 에디터에서 검은색 Image를 연결하세요.
+    [Header("콘텐츠 설정")]
     [TextArea(1, 3)]
-    // ���⿡ ���� ���� �ؽ�Ʈ�� �� �پ� �Է��ϼ���.
     public string[] introTexts;
     public string nextSceneName = "GameScene";
 
 
-    private int currentTextIndex = 0;
-    private bool isTyping = false; // ���� �ؽ�Ʈ ��� ������ Ȯ��
-    private bool isFullyDisplayed = false; // ���� �ؽ�Ʈ�� ��� ��µǾ����� Ȯ��
+    [Header("시간 설정")]
+    public float typingSpeed = 0.05f;
+    public float fadeDuration = 1.0f; // 페이드 아웃에 걸리는 시간
 
-    public float typingSpeed = 0.05f; // ���ڴ� ����� �ð� (��)
+    private int currentTextIndex = 0;
+    private bool isTyping = false;
+    private bool isFullyDisplayed = false;
+    private bool isExiting = false; // 중복 실행 방지
     private Coroutine typingCoroutine;
 
     void Start()
     {
-        // �� ���� �� ù ��° �ؽ�Ʈ ��� ����
+        // 시작할 때 이미지를 투명하게 초기화
+        if (fadeImage != null)
+        {
+            Color c = fadeImage.color;
+            c.a = 0;
+            fadeImage.color = c;
+        }
+
         if (introTexts.Length > 0)
         {
             StartDisplayingText(introTexts[currentTextIndex]);
@@ -34,7 +44,7 @@ public class GameIntroManager : MonoBehaviour
     void Update()
     {
         // �����̽��� �Է� ����
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetMouseButtonDown(0))
         {
             HandleSpaceInput();
         }
@@ -45,7 +55,6 @@ public class GameIntroManager : MonoBehaviour
     {
         if (isTyping)
         {
-            // 1. Ÿ���� ���� ��: ��� ��ü �ؽ�Ʈ ���
             StopCoroutine(typingCoroutine);
             descriptionText.text = introTexts[currentTextIndex];
             isTyping = false;
@@ -53,19 +62,35 @@ public class GameIntroManager : MonoBehaviour
         }
         else if (isFullyDisplayed)
         {
-            // 2. ��ü �ؽ�Ʈ�� ǥ�õǾ��� ��: ���� �ؽ�Ʈ�� �̵�
             currentTextIndex++;
             if (currentTextIndex < introTexts.Length)
             {
-                // ���� �� ����
                 StartDisplayingText(introTexts[currentTextIndex]);
             }
             else
             {
-                // ��� �ؽ�Ʈ�� ������ ��: ���� ������ �̵�
-                SceneManager.LoadScene(nextSceneName);
+                // 모든 텍스트 종료 시 페이드 아웃 시작
+                StartCoroutine(FadeOutAndLoadScene());
             }
         }
+    }
+    IEnumerator FadeOutAndLoadScene()
+    {
+        isExiting = true; // 더 이상 클릭 안 되게 방지
+        float timer = 0f;
+        Color tempColor = fadeImage.color;
+
+        while (timer < fadeDuration)
+        {
+            timer += Time.deltaTime;
+            // 알파값을 0에서 1로 서서히 올림
+            tempColor.a = Mathf.Lerp(0, 1, timer / fadeDuration);
+            fadeImage.color = tempColor;
+            yield return null;
+        }
+
+        // 씬 전환
+        SceneManager.LoadScene(nextSceneName);
     }
 
 
