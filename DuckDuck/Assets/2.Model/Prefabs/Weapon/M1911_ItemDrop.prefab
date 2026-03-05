@@ -550,3 +550,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ItemPickUp
   itemData: {fileID: 11400000, guid: 587c9bad7473d7c4e8f646b9186b38b4, type: 2}
   rotationSpeed: 100
+  pickUpSound: {fileID: 8300000, guid: fb0d1113eec2d7349a99a9d8de7a3da0, type: 3}

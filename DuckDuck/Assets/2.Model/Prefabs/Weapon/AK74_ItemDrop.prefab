@@ -218,6 +218,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ItemPickUp
   itemData: {fileID: 11400000, guid: b12d929963a8d52449d53c941f79bd87, type: 2}
   rotationSpeed: 100
+  pickUpSound: {fileID: 8300000, guid: fb0d1113eec2d7349a99a9d8de7a3da0, type: 3}
 --- !u!1 &6735286867299281818
 GameObject:
   m_ObjectHideFlags: 0

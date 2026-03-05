@@ -98,7 +98,6 @@ public class Bomber : EnemyBase
     {
         lastThrowTime = Time.time;
         if (anim != null) anim.SetTrigger("Attack");
-
         if (bombPrefab != null && throwPoint != null)
         {
             GameObject bomb = Instantiate(bombPrefab, throwPoint.position, throwPoint.rotation);

@@ -279,7 +279,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestroyObstacle
   maxHealth: 100
-  brokenPrefab: {fileID: 0}
+  brokenPrefab: {fileID: 100002, guid: a24c2dc4ddb2fb34591d1bbab6a8354a, type: 3}
 --- !u!1 &6399527549600851020
 GameObject:
   m_ObjectHideFlags: 0

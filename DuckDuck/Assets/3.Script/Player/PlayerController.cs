@@ -84,6 +84,7 @@ public class PlayerController : MonoBehaviour
     public AudioClip shootSound;    // 총 쏠 때 나는 소리
     public AudioClip rollSound;     // 구를 때 나는 소리
     public AudioClip walkSound;     // 걸을 때 나는 발소리
+    public AudioClip reloadSound;
 
     private bool isInventoryOpen = false;
     private float lastAtackTime;
@@ -456,6 +457,10 @@ public class PlayerController : MonoBehaviour
         if (totalAmmo <= 0 || currentMag == currentWeapon.magSize) yield break;
 
         isReloading = true;
+        if (playerAudio != null && reloadSound != null)
+        {
+            playerAudio.PlayOneShot(reloadSound);
+        }
         Debug.Log("장전중...");
         yield return new WaitForSeconds(2.0f);
 

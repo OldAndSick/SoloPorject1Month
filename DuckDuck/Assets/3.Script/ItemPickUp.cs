@@ -7,6 +7,7 @@ public class ItemPickUp : MonoBehaviour, Interact
 {
     public ItemData itemData;
     public float rotationSpeed = 100f;
+    public AudioClip pickUpSound;
 
     private void Update()
     {
@@ -19,6 +20,10 @@ public class ItemPickUp : MonoBehaviour, Interact
     {
         if(itemData != null)
         {
+            if (pickUpSound != null)
+            {
+                AudioSource.PlayClipAtPoint(pickUpSound, transform.position);
+            }
             player.AcquireItem(itemData);
             Destroy(gameObject);
         }

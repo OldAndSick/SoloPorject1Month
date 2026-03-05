@@ -11794,11 +11794,11 @@ PrefabInstance:
     - target: {fileID: 5936495523422278237, guid: ab81f990abbf8934d957762c70f6834e, type: 3}
       propertyPath: rollSound
       value: 
-      objectReference: {fileID: 8300000, guid: a7ea623efc9dbd846b677bc1506eea3a, type: 3}
+      objectReference: {fileID: 8300000, guid: 236fafbe808d52f459e9aa72ecad94f0, type: 3}
     - target: {fileID: 5936495523422278237, guid: ab81f990abbf8934d957762c70f6834e, type: 3}
       propertyPath: walkSound
       value: 
-      objectReference: {fileID: 8300000, guid: 949a91ab8d8080a479cfe39a27a8449c, type: 3}
+      objectReference: {fileID: 8300000, guid: ce9f205e7df440544a17845da959555d, type: 3}
     - target: {fileID: 5936495523422278237, guid: ab81f990abbf8934d957762c70f6834e, type: 3}
       propertyPath: interactUI
       value: 
@@ -12051,7 +12051,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4551737691474347136, guid: 4834dd1ad14b87c4daddcb2428d608c9, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

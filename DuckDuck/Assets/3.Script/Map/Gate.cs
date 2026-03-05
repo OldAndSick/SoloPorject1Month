@@ -12,6 +12,9 @@ public class Gate : MonoBehaviour, Interact
     [Header("Layer Settings")]
     public string interactLayerName = "Environment"; // 유니티에 설정해둔 상호작용 레이어 이름 (수정 필요!)
 
+    public AudioSource gateAudio;
+    public AudioClip gateMoveSound;
+
     private bool isOpen = false;
     private int interactLayer;
     private int defaultLayer;
@@ -52,6 +55,10 @@ public class Gate : MonoBehaviour, Interact
         {
             Debug.Log("철창이 열립니다!");
             ConsumeKey(player); // 열쇠 소모
+            if (gateAudio != null && gateMoveSound != null)
+            {
+                gateAudio.PlayOneShot(gateMoveSound);
+            }
             StartCoroutine(OpenGateRoutine()); // 문 열기 애니메이션
         }
     }
