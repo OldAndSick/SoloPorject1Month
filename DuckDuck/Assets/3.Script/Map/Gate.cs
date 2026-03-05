@@ -73,7 +73,7 @@ public class Gate : MonoBehaviour, Interact
 
             // UI 업데이트
             if (player.quickSlotUI != null)
-                player.quickSlotUI.UpdateQuickSlotUI(player.quickSlot);
+                player.quickSlotUI.UpdateQuickSlotUI(player.quickSlot, player.quickSlotCount);
         }
     }
 

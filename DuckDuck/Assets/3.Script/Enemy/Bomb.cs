@@ -5,12 +5,17 @@ using UnityEngine;
 public class Bomb : MonoBehaviour
 {
     [Header("Bomb Settings")]
-    public float fuseTime = 2.0f;       // 던져지고 몇 초 뒤에 터질지
-    public float explosionRadius = 5f;  // 폭발 반경 (광역 딜)
-    public float damage = 40f;          // 폭발 데미지
+    public float fuseTime = 2.0f;       //
+    public float explosionRadius = 5f;  //
+    public float damage = 40f;          //
+
+    // [띠또 마법] 넌 누구 편이냐?! 
+    // 체크(True)면 플레이어가 쏜 것, 체크 해제(False)면 부머가 쏜 것!
+    [Header("팀킬 방지")]
+    public bool isPlayerBomb = true;
 
     [Header("Effects")]
-    public GameObject explosionEffectPrefab; // 폭발 파티클(VFX)
+    public GameObject explosionEffectPrefab; //
 
     private void Start()
     {
@@ -19,29 +24,46 @@ public class Bomb : MonoBehaviour
 
     private void Explode()
     {
-        // 1. 폭발 이펙트 펑!
-        if (explosionEffectPrefab != null)
-        {
-            Instantiate(explosionEffectPrefab, transform.position, Quaternion.identity);
-        }
+        if (explosionEffectPrefab != null) Instantiate(explosionEffectPrefab, transform.position, Quaternion.identity);
 
-        // 2. 폭발 반경 안에 있는 모든 녀석들(콜라이더)을 찾습니다!
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, explosionRadius);
+
+        // [띠또 마법] 이미 맞은 녀석들을 기억하는 명단입니다!
+        List<GameObject> hitObjects = new List<GameObject>();
+
         foreach (Collider hit in hitColliders)
         {
-            // 플레이어 타격!
-            if (hit.CompareTag("Player"))
+            // 1. 이미 명단에 있는 녀석(오브젝트)이면 무시하고 넘어간다!
+            if (hitObjects.Contains(hit.gameObject)) continue;
+
+            // 2. 처음 맞는 녀석이면 명단에 추가!
+            hitObjects.Add(hit.gameObject);
+
+            // --- 여기서부터는 기존 데미지 로직 ---
+            if (isPlayerBomb)
             {
-                PlayerController pc = hit.GetComponent<PlayerController>();
-                if (pc != null) pc.TakeDamage(damage);
+                if (hit.CompareTag("Enemy"))
+                {
+                    if (hit.TryGetComponent(out EnemyBase eb)) eb.TakeDamage(damage);
+                }
+                else if (hit.TryGetComponent(out Box box))
+                {
+                    box.TakeDamage(damage);
+                }
             }
-            else if (hit.TryGetComponent(out Box box))
+            else // 부머가 던진 폭탄일 때
             {
-                box.TakeDamage(damage);
+                if (hit.CompareTag("Player"))
+                {
+                    PlayerController pc = hit.GetComponent<PlayerController>();
+                    if (pc != null) pc.TakeDamage(damage);
+                }
+                else if (hit.TryGetComponent(out Box box))
+                {
+                    box.TakeDamage(damage);
+                }
             }
         }
-
-        // 3. 폭탄 자신은 장렬하게 산화!
         Destroy(gameObject);
     }
 

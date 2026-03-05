@@ -224,6 +224,7 @@ MonoBehaviour:
   fuseTime: 1
   explosionRadius: 5
   damage: 40
+  isPlayerBomb: 0
   explosionEffectPrefab: {fileID: 100012, guid: 3364c97de68d3a147af572d1c71c6455, type: 3}
 --- !u!136 &7118834168452039446
 CapsuleCollider:
