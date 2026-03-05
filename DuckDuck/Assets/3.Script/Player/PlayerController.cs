@@ -79,6 +79,12 @@ public class PlayerController : MonoBehaviour
     public float interactRange = 2f;
     public LayerMask interactLayer;
 
+    [Header("Audio Settings")]
+    public AudioSource playerAudio; // 플레이어 몸에 달린 스피커
+    public AudioClip shootSound;    // 총 쏠 때 나는 소리
+    public AudioClip rollSound;     // 구를 때 나는 소리
+    public AudioClip walkSound;     // 걸을 때 나는 발소리
+
     private bool isInventoryOpen = false;
     private float lastAtackTime;
     private float regenTimer;
@@ -87,6 +93,8 @@ public class PlayerController : MonoBehaviour
     private Camera _mainCamera;
     private Vector3 _moveInput;
     private bool _isRolling = false;
+    private float stepTimer = 0f;
+    public float stepInterval = 0.4f;
 
     private static readonly int ANIM_SPEED = Animator.StringToHash("Speed");
     private static readonly int ANIM_ROLL = Animator.StringToHash("Roll");
@@ -221,11 +229,34 @@ public class PlayerController : MonoBehaviour
 
         float animValue = _moveInput.sqrMagnitude > 0 ? (isSprinting ? 1.0f : 0.5f) : 0f;
         _ani.SetFloat(ANIM_SPEED, animValue, 0.1f, Time.fixedDeltaTime);
+        if (_moveInput.sqrMagnitude > 0 && !_isRolling)
+        {
+            stepTimer -= Time.fixedDeltaTime;
+            if (stepTimer <= 0f)
+            {
+                if (playerAudio != null && walkSound != null)
+                {
+                    // 뛸 때는 소리를 살짝 더 크게(1.0f), 걸을 때는 작게(0.6f)
+                    float volume = isSprinting ? 1.0f : 0.6f;
+                    playerAudio.PlayOneShot(walkSound, volume);
+                }
+                // 뛰면 발소리가 더 빨리 나게 타이머 조절
+                stepTimer = isSprinting ? stepInterval * 0.7f : stepInterval;
+            }
+        }
+        else
+        {
+            stepTimer = 0f; // 멈추면 타이머 초기화
+        }
     }
 
     private IEnumerator RollRoutine()
     {
         _isRolling = true;
+        if (playerAudio != null && rollSound != null)
+        {
+            playerAudio.PlayOneShot(rollSound);
+        }
         currentStamina -= rollStamina;
         regenTimer = regenDelay;
         _ani.SetTrigger(ANIM_ROLL);
@@ -399,7 +430,10 @@ public class PlayerController : MonoBehaviour
             Quaternion spreadRotation = Quaternion.Euler(spreadX, spreadY, 0);
 
             GameObject bullet = Instantiate(playerBulletPrefab, attackPoint.position, attackPoint.rotation * spreadRotation);
-
+            if (playerAudio != null && shootSound != null)
+            {
+                playerAudio.PlayOneShot(shootSound);
+            }
             Bullet bulletScript = bullet.GetComponent<Bullet>();
             if (bulletScript != null && currentWeapon != null)
             {
