@@ -21,6 +21,11 @@ public class EnemyBase : MonoBehaviour
     private Color[] originalColor;
     private Camera mainCam;
 
+    [Header("Sound Settings")]
+    public AudioSource myAudio;    // 몸통에 달린 스피커
+    public AudioClip hitSound;     // 맞았을 때 "윽!"
+    public AudioClip dieSound;
+
     protected virtual void Start()
     {
         currentHealth = maxHealth;
@@ -65,12 +70,20 @@ public class EnemyBase : MonoBehaviour
         {
             Die();
         }
+        if (myAudio != null && hitSound != null)
+        {
+            myAudio.PlayOneShot(hitSound);
+        }
     }
     protected virtual void Die()
     {
         if (isDead) return;
         isDead = true;
         Debug.Log($"{gameObject.name} 사망!!");
+        if (myAudio != null && dieSound != null)
+        {
+            myAudio.PlayOneShot(dieSound);
+        }
     }
 
     protected IEnumerator HitFlashRoutine()

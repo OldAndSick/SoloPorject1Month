@@ -10,6 +10,7 @@ public class Charger : EnemyBase
     public Transform player;
     public float detectRange = 20f;
     public float chargeRange = 12f;
+    public AudioClip actionSound;
 
     [Header("Speed & Damage")]
     public float walkSpeed = 3.5f;
@@ -24,6 +25,7 @@ public class Charger : EnemyBase
     public float minWaitTime = 1.5f;
     public float maxWaitTime = 4f;
 
+
     private NavMeshAgent agent;
     private bool isCharging = false;
 
@@ -32,6 +34,7 @@ public class Charger : EnemyBase
         base.Start();
         agent = GetComponent<NavMeshAgent>();
         agent.speed = walkSpeed;
+        agent.angularSpeed = 120f; // (기본값은 보통 엄청 빨라서 뚝뚝 끊깁니다)
 
         if (noticeUI != null) noticeUI.SetActive(false);
         if (player == null)
@@ -67,12 +70,30 @@ public class Charger : EnemyBase
         isCharging = true;
 
         agent.isStopped = true;
+        if(actionSound != null)
+        {
+            myAudio.PlayOneShot(actionSound);
+        }
+        float windupTime = 1.0f; // 기 모으는 시간
+        float timer = 0f;
 
-        Vector3 lookDir = (player.position - transform.position).normalized;
-        lookDir.y = 0;
-        transform.rotation = Quaternion.LookRotation(lookDir);
+        while (timer < windupTime)
+        {
+            if (player == null || isDead) yield break;
 
-        yield return new WaitForSeconds(1.0f); 
+            Vector3 lookDir = (player.position - transform.position).normalized;
+            lookDir.y = 0;
+
+            if (lookDir.sqrMagnitude > 0.01f) // 안전빵 체크
+            {
+                Quaternion targetRot = Quaternion.LookRotation(lookDir);
+                // Slerp: 현재 각도에서 목표 각도까지 스르륵~ 회전시킵니다! (뒤의 숫자가 클수록 휙 돕니다)
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, Time.deltaTime * 5f);
+            }
+
+            timer += Time.deltaTime;
+            yield return null; // 1프레임 대기
+        }
 
         Debug.Log("뺑소니 돌진!!!!");
         agent.isStopped = false;

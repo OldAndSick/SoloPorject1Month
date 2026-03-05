@@ -161216,8 +161216,8 @@ MonoBehaviour:
   interactUI: {fileID: 5465136420374207525}
   quickSlot:
   - {fileID: 11400000, guid: b12d929963a8d52449d53c941f79bd87, type: 2}
-  - {fileID: 11400000, guid: b12d929963a8d52449d53c941f79bd87, type: 2}
-  - {fileID: 11400000, guid: 354d4ffca44833542aab9a0001da1751, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -168631,7 +168631,7 @@ MonoBehaviour:
   maxWaitTime: 5
   walkSpeed: 2
   runSpeed: 4
-  dropItemPrefab: {fileID: 4409993671724883860, guid: 90e94d790b113834ba2ee0df420fe99e, type: 3}
+  dropItemPrefab: {fileID: 7016110072063681689, guid: 5c73107a2b08a4b4483153efa4106b66, type: 3}
 --- !u!114 &7214890195493244635
 MonoBehaviour:
   m_ObjectHideFlags: 0

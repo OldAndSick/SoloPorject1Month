@@ -10,6 +10,7 @@ public class Sniper : EnemyBase
     public float detectRange = 25f;
     public float shootingRange = 20f;
     public float escapeRange = 7f;     // 플레이어가 너무 붙으면 튑니다!
+    public AudioClip actionSound;
 
     [Header("Combat Settings")]
     public float sniperDamage = 50f;
@@ -144,6 +145,10 @@ public class Sniper : EnemyBase
         }
         lastFireTime = Time.time;
         isAiming = false;
+        if (actionSound != null)
+        {
+            myAudio.PlayOneShot(actionSound);
+        }
     }
 
     protected override void Die() // 조상님의 Die를 저격수 스타일로 확장!
@@ -159,7 +164,7 @@ public class Sniper : EnemyBase
         }
 
         agent.isStopped = true;
-        Destroy(gameObject, 3f);
+        Destroy(gameObject, 2f);
     }
 
     private IEnumerator WanderRoutine()

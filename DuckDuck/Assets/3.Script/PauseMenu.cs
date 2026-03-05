@@ -42,7 +42,7 @@ public class PauseMenu : MonoBehaviour
 
         // 마우스 커서 숨기기 (다시 겜 시작)
         Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.lockState = CursorLockMode.None;
     }
 
     public void Pause()

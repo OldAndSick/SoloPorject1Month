@@ -28,43 +28,55 @@ public class Bomb : MonoBehaviour
 
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, explosionRadius);
 
-        // [띠또 마법] 이미 맞은 녀석들을 기억하는 명단입니다!
-        List<GameObject> hitObjects = new List<GameObject>();
+        // [띠또 마법 ⭐] 게임오브젝트 대신 '스크립트 본체'를 명단에 적습니다! (중복 타격 완벽 방지)
+        List<Component> hitTargets = new List<Component>();
 
         foreach (Collider hit in hitColliders)
         {
-            // 1. 이미 명단에 있는 녀석(오브젝트)이면 무시하고 넘어간다!
-            if (hitObjects.Contains(hit.gameObject)) continue;
-
-            // 2. 처음 맞는 녀석이면 명단에 추가!
-            hitObjects.Add(hit.gameObject);
-
-            // --- 여기서부터는 기존 데미지 로직 ---
-            if (isPlayerBomb)
+            if (isPlayerBomb) // 플레이어가 던진 폭탄일 때
             {
-                if (hit.CompareTag("Enemy"))
+                // 1. 부모, 자식 상관없이 알맹이(스크립트)를 무조건 찾아냅니다!
+                EnemyBase eb = hit.GetComponentInParent<EnemyBase>();
+                EnemyAI eai = hit.GetComponentInParent<EnemyAI>(); // (혹시 EnemyAI 쓰는 적이 있을까봐 추가!)
+
+                // 2. 적을 찾았다면?
+                if (eb != null)
                 {
-                    if (hit.TryGetComponent(out EnemyBase eb)) eb.TakeDamage(damage);
+                    if (hitTargets.Contains(eb)) continue; // 이미 때린 적이면 무시
+                    hitTargets.Add(eb);
+                    eb.TakeDamage(damage);
+                }
+                else if (eai != null)
+                {
+                    if (hitTargets.Contains(eai)) continue;
+                    hitTargets.Add(eai);
+                    eai.TakeDamage(damage);
                 }
                 else if (hit.TryGetComponent(out Box box))
                 {
+                    if (hitTargets.Contains(box)) continue;
+                    hitTargets.Add(box);
                     box.TakeDamage(damage);
                 }
             }
-            else // 부머가 던진 폭탄일 때
+            else // 부머(적)가 던진 폭탄일 때
             {
-                if (hit.CompareTag("Player"))
+                PlayerController pc = hit.GetComponentInParent<PlayerController>();
+                if (pc != null)
                 {
-                    PlayerController pc = hit.GetComponent<PlayerController>();
-                    if (pc != null) pc.TakeDamage(damage);
+                    if (hitTargets.Contains(pc)) continue;
+                    hitTargets.Add(pc);
+                    pc.TakeDamage(damage);
                 }
                 else if (hit.TryGetComponent(out Box box))
                 {
+                    if (hitTargets.Contains(box)) continue;
+                    hitTargets.Add(box);
                     box.TakeDamage(damage);
                 }
             }
         }
-        Destroy(gameObject);
+        Destroy(gameObject); // 펑!
     }
 
     private void OnDrawGizmosSelected()

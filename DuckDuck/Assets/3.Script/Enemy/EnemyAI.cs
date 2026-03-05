@@ -33,6 +33,12 @@ public class EnemyAI : MonoBehaviour
     public float maxWaitTime = 5f;
     public float walkSpeed = 2f;
 
+    [Header("Sound Settings")]
+    public AudioSource myAudio;    // 몸통에 달린 스피커
+    public AudioClip hitSound;     // 맞았을 때 "윽!"
+    public AudioClip dieSound;     // 죽을 때 "꽥!"
+    public AudioClip actionSound;
+
     private float fireTimer;
     private NavMeshAgent agent;
     private bool isChasing = false;
@@ -110,7 +116,6 @@ public class EnemyAI : MonoBehaviour
             }
         }
     }
-
     private void StartChase()
     {
         isChasing = true;
@@ -138,6 +143,10 @@ public class EnemyAI : MonoBehaviour
         {
             StartCoroutine(EnemyReloadRoutine());
         }
+        if (actionSound != null)
+        {
+            myAudio.PlayOneShot(actionSound);
+        }
     }
     public void TakeDamage(float damage)
     {
@@ -163,9 +172,14 @@ public class EnemyAI : MonoBehaviour
             enemyHPBar.value = health / 100f;
         }
         StartCoroutine(HitFlashRoutine());
+
         if(health <= 0)
         {
             Die();
+        }
+        if (myAudio != null && hitSound != null)
+        {
+            myAudio.PlayOneShot(hitSound);
         }
     }
     private IEnumerator HitFlashRoutine()
@@ -213,7 +227,12 @@ public class EnemyAI : MonoBehaviour
         }
         agent.isStopped = true;
         noticeUI.SetActive(false);
+        if (myAudio != null && dieSound != null)
+        {
+            myAudio.PlayOneShot(dieSound);
+        }
         Destroy(gameObject, 2.0f);
+
     }
     public void SetUIActive(bool isVisible)
     {

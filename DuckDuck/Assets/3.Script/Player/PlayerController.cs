@@ -448,6 +448,11 @@ public class PlayerController : MonoBehaviour
     }
     IEnumerator ReloadRoutine()
     {
+        if (currentWeapon == null)
+        {
+            Debug.LogWarning("주인님! 맨손인데 장전을 시도했습니다!");
+            yield break;
+        }
         if (totalAmmo <= 0 || currentMag == currentWeapon.magSize) yield break;
 
         isReloading = true;
