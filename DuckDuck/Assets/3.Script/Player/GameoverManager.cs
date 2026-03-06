@@ -3,28 +3,28 @@ using UnityEngine.SceneManagement;
 
 public class GameOverManager : MonoBehaviour
 {
-    [Header("°ÔÀÓ ¿À¹ö UI")]
-    public GameObject gameOverPanel; // "Á×¾ú½À´Ï´Ù" È­¸é ÀüÃ¼ ¹­À½
+    [Header("ê²Œì„ ì˜¤ë²„ UI")]
+    public GameObject gameOverPanel; // "ì£½ì—ˆìŠµë‹ˆë‹¤" í™”ë©´ ì „ì²´ ë¬¶ìŒ
 
-    // ÇÃ·¹ÀÌ¾î°¡ Á×¾úÀ» ¶§ ºÎ¸¦ ÇÔ¼ö!!
+    // í”Œë ˆì´ì–´ê°€ ì£½ì—ˆì„ ë•Œ ë¶€ë¥¼ í•¨ìˆ˜!!
     public void ShowGameOver()
     {
-        Debug.Log("ÇÃ·¹ÀÌ¾î »ç¸Á... Àú½Â¹® ¿­¸³´Ï´Ù.");
-        gameOverPanel.SetActive(true); // Á×À½ È­¸é ÄÑ±â
-        Time.timeScale = 0f;           // [¶ì¶Ç ¸¶¹ı ?] °ÔÀÓ ½Ã°£ Á¤Áö! (Àûµé ¸ØÃã)
+        Debug.Log("í”Œë ˆì´ì–´ ì‚¬ë§... ì €ìŠ¹ë¬¸ ì—´ë¦½ë‹ˆë‹¤.");
+        gameOverPanel.SetActive(true); // ì£½ìŒ í™”ë©´ ì¼œê¸°
+        Time.timeScale = 0f;           // [ë ë˜ ë§ˆë²• â­] ê²Œì„ ì‹œê°„ ì •ì§€! (ì ë“¤ ë©ˆì¶¤)
     }
 
-    // [Ã³À½À¸·Î] ¹öÆ°¿ë ÇÔ¼ö
+    // [ì²˜ìŒìœ¼ë¡œ] ë²„íŠ¼ìš© í•¨ìˆ˜
     public void RestartGame()
     {
-        Time.timeScale = 1f; // [ÃÊÇÙ½É!!] ¸ØÃè´ø ½Ã°£À» ´Ù½Ã Èå¸£°Ô °íÄ§!
-        SceneManager.LoadScene("1Stage"); // 1½ºÅ×ÀÌÁö ¾À ÀÌ¸§ Àû¾îÁÖ¼¼¿ä!
+        Time.timeScale = 1f; // [ì´ˆí•µì‹¬!!] ë©ˆì·„ë˜ ì‹œê°„ì„ ë‹¤ì‹œ íë¥´ê²Œ ê³ ì¹¨!
+        SceneManager.LoadScene("1Stage"); // 1ìŠ¤í…Œì´ì§€ ì”¬ ì´ë¦„ ì ì–´ì£¼ì„¸ìš”!
     }
 
-    // [Å¸ÀÌÆ²·Î] ¹öÆ°¿ë ÇÔ¼ö
+    // [íƒ€ì´í‹€ë¡œ] ë²„íŠ¼ìš© í•¨ìˆ˜
     public void GoToTitle()
     {
-        Time.timeScale = 1f; // ½Ã°£ º¹±¸!
-        SceneManager.LoadScene("TitleScene"); // Å¸ÀÌÆ² ¾À ÀÌ¸§ Àû¾îÁÖ¼¼¿ä!
+        Time.timeScale = 1f; // ì‹œê°„ ë³µêµ¬!
+        SceneManager.LoadScene("TitleScene"); // íƒ€ì´í‹€ ì”¬ ì´ë¦„ ì ì–´ì£¼ì„¸ìš”!
     }
 }

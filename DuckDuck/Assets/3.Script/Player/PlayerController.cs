@@ -39,6 +39,7 @@ public class PlayerController : MonoBehaviour
     [Header("Player Health UI")]
     public float maxHP = 100f;
     public float currentHP;
+    public bool isDead = false;
     public Slider playerHPUI;
     public Slider playerHeadBar;
     [Header("Inventory Settings")]
@@ -157,6 +158,7 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        if (isDead) return;
         if (crosshairUI != null)
         {
             crosshairUI.position = Input.mousePosition;
@@ -186,6 +188,7 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (isDead) return;
         if (_isRolling) return;
         MovePlayer();
         HandleStamina();
@@ -742,6 +745,13 @@ public class PlayerController : MonoBehaviour
     }
     private void Die()
     {
+        isDead = true;
+
+        GameOverManager gameOverMgr = FindAnyObjectByType<GameOverManager>();
+        if (gameOverMgr != null)
+        {
+            gameOverMgr.ShowGameOver();
+        }
         Debug.Log("die");
     }
     private void TryInteract()
