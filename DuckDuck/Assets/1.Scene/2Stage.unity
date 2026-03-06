@@ -141746,6 +141746,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: TalkTrigger
       objectReference: {fileID: 0}
+    - target: {fileID: 8551051615264539306, guid: b1f3bb52b937c9e45a51d7bbd04a34da, type: 3}
+      propertyPath: myDialogue.Array.data[0].sentence
+      value: "\uD734 \uACA8\uC6B0 \uC654\uB124...\uC9C4\uC9DC \uC774\uC0C1\uD55C\n\uB140\uC11D\uB4E4\uC774
+        \uC5C4\uCCAD \uB3CC\uC544\uB2E4\uB2C8\uB124"
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
