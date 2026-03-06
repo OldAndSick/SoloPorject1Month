@@ -238,6 +238,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MainMenu
   optionPanel: {fileID: 80569505}
+  clearedTitleSceneName: Title2
+  resetClearData: 0
 --- !u!4 &830283407
 Transform:
   m_ObjectHideFlags: 0

@@ -14,7 +14,7 @@ public class Dialoguetirgger : MonoBehaviour
         if (other.CompareTag("Player") && !hasPlayed)
         {
             // 최신 유니티 버전에 맞게 FindObjectOfType 대신 FindFirstObjectByType을 쓰면 더 좋습니다!
-            FindFirstObjectByType<Malmanager>().StartDialogue(myDialogue);
+            FindAnyObjectByType<Malmanager>().StartDialogue(myDialogue);
             hasPlayed = true; // 한 번만 실행되도록
         }
     }

@@ -10,6 +10,10 @@ public class Door : MonoBehaviour, Interact
     public Vector3 slideOffset = new Vector3(2f, 0f, 0f);
     public float slideSpeed = 5f;
 
+    [Header("Audio Settings")]
+    public AudioSource myAudio;
+    public AudioClip doorOpen;
+
     public Transform doorMesh;
 
     private Vector3 closedPoisiton;
@@ -35,6 +39,10 @@ public class Door : MonoBehaviour, Interact
 
     private IEnumerator SlideDoor()
     {
+        if(myAudio !=null && doorOpen != null)
+        {
+            myAudio.PlayOneShot(doorOpen);
+        }
         Vector3 targetPos = isOpen ? openPosition : closedPoisiton;
         while(Vector3.Distance(doorMesh.localPosition, targetPos) >0.01f)
         {

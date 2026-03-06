@@ -21,7 +21,7 @@ MonoBehaviour:
   damage: 0
   magSize: 0
   startTotalAmmo: 0
-  itemIcon: {fileID: 21300000, guid: 638b275b927ed6f42bcdde35fdbeb276, type: 3}
+  itemIcon: {fileID: 21300000, guid: b8aa92280444a1347b4371f6fba64110, type: 3}
   gunDamage: 0
   gunSpeed: 0
   fireRate: 0

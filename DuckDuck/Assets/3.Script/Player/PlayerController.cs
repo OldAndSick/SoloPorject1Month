@@ -85,6 +85,7 @@ public class PlayerController : MonoBehaviour
     public AudioClip rollSound;     // 구를 때 나는 소리
     public AudioClip walkSound;     // 걸을 때 나는 발소리
     public AudioClip reloadSound;
+    public AudioClip punchSound;
 
     private bool isInventoryOpen = false;
     private float lastAtackTime;
@@ -318,7 +319,10 @@ public class PlayerController : MonoBehaviour
     private void PerformMeleeAttack()
     {
         if (Time.time < lastAtackTime + attackCooldown) return;
-
+        if(playerAudio != null && punchSound != null)
+        {
+            playerAudio.PlayOneShot(punchSound);
+        }
         lastAtackTime = Time.time;
         if (slashVFXPrefab != null && attackPoint != null)
         {

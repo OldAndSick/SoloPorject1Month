@@ -130,7 +130,7 @@ public class EnemyAI : MonoBehaviour
     private void Fire()
     {
         if (isEnemyReloading || isDead) return;
-
+        if (player == null || firePoint == null) return;
         GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
         Vector3 targetCenter = player.position + Vector3.up * 1f;
         Vector3 fireDir = (targetCenter - firePoint.position).normalized;
@@ -143,7 +143,7 @@ public class EnemyAI : MonoBehaviour
         {
             StartCoroutine(EnemyReloadRoutine());
         }
-        if (actionSound != null)
+        if (myAudio != null && actionSound != null)
         {
             myAudio.PlayOneShot(actionSound);
         }
@@ -226,7 +226,10 @@ public class EnemyAI : MonoBehaviour
             GameObject drop = Instantiate(dropItemPrefab, transform.position + Vector3.up * 0.5f, Quaternion.identity);
         }
         agent.isStopped = true;
-        noticeUI.SetActive(false);
+        if (noticeUI != null)
+        {
+            noticeUI.SetActive(false);
+        }
         if (myAudio != null && dieSound != null)
         {
             myAudio.PlayOneShot(dieSound);

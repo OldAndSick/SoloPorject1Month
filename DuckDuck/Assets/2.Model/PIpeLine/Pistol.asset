@@ -22,7 +22,10 @@ MonoBehaviour:
   magSize: 12
   startTotalAmmo: 36
   itemIcon: {fileID: 21300000, guid: 819a01ec658d138409152393d86a1b95, type: 3}
-  gunDamage: 10
+  gunDamage: 20
   gunSpeed: 20
   fireRate: 0.5
   gunSpread: 2
+  currentMagCount: 12
+  currentTotalAmmo: 36
+  muzzleFlashPrefab: {fileID: 0}
