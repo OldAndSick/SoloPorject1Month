@@ -5,37 +5,37 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/1.Scene/TEST.unity
     guid: 8da6443dcb9fc004dba55b894d72dacd
   - enabled: 1
+    path: Assets/1.Scene/Title1.unity
+    guid: 27b766712d144ac44b86a172b6b33baf
+  - enabled: 1
     path: Assets/1.Scene/1Stage.unity
     guid: 8aca4926a1a8eb64b8326a03678d8e50
-  - enabled: 1
+  - enabled: 0
     path: Assets/1.Scene/1Stage_pet.unity
     guid: 56ff562a3d5d64949a10b0e4cf897cec
-  - enabled: 1
+  - enabled: 0
     path: Assets/1.Scene/2Stage_test.unity
     guid: 49585077f5fee4c41b7878792f494dc3
-  - enabled: 1
+  - enabled: 0
     path: Assets/1.Scene/2Stage_test_sub.unity
     guid: 4ece737533ed4444e961602845ef805b
   - enabled: 1
     path: Assets/1.Scene/2Stage.unity
     guid: bddccad507caae34e86f3477c6b20295
-  - enabled: 1
+  - enabled: 0
     path: Assets/1.Scene/SampleScene.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
-  - enabled: 1
+  - enabled: 0
     path: Assets/1.Scene/3Stage_ending.unity
     guid: a17ccf891e2043f4ca65b659f8ff518d
   - enabled: 1
     path: Assets/1.Scene/Title2.unity
     guid: 106634066ec2d9249af94b450e919067
-  - enabled: 1
-    path: Assets/1.Scene/Title1.unity
-    guid: 27b766712d144ac44b86a172b6b33baf
-  - enabled: 1
+  - enabled: 0
     path: Assets/1.Scene/EndingScene.unity
     guid: 5fb4cb15d5f2e2649bd29605bd290e92
   m_configObjects:
