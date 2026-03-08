@@ -223,7 +223,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bomb
   fuseTime: 1
-  explosionRadius: 5
+  explosionRadius: 4
   damage: 40
   isPlayerBomb: 0
   explosionEffectPrefab: {fileID: 100012, guid: 3364c97de68d3a147af572d1c71c6455, type: 3}

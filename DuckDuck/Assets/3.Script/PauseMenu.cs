@@ -78,7 +78,7 @@ public class PauseMenu : MonoBehaviour
         Time.timeScale = 1f;
 
         // "TitleScene" 부분은 주인님의 실제 타이틀 씬 이름과 토씨 하나 안 틀리고 똑같이 적으셔야 합니다!
-        SceneManager.LoadScene("TitleScene");
+        SceneManager.LoadScene("Title1");
     }
 
     public void QuitGame()

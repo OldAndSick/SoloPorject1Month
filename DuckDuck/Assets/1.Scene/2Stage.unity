@@ -27375,6 +27375,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 129060253663866280, guid: dfe0cb25767f84c43be511dab3bad090, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1932793146}
+    - target: {fileID: 129060253663866280, guid: dfe0cb25767f84c43be511dab3bad090, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetMasterVolume
+      objectReference: {fileID: 0}
+    - target: {fileID: 1086667131464482430, guid: dfe0cb25767f84c43be511dab3bad090, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1932793146}
+    - target: {fileID: 1086667131464482430, guid: dfe0cb25767f84c43be511dab3bad090, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GoToTitle
+      objectReference: {fileID: 0}
     - target: {fileID: 2016000084488885424, guid: dfe0cb25767f84c43be511dab3bad090, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -27391,6 +27407,30 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3176229141696604647, guid: dfe0cb25767f84c43be511dab3bad090, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1932793146}
+    - target: {fileID: 3176229141696604647, guid: dfe0cb25767f84c43be511dab3bad090, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetSFXVolume
+      objectReference: {fileID: 0}
+    - target: {fileID: 3741013826940558496, guid: dfe0cb25767f84c43be511dab3bad090, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2113039535}
+    - target: {fileID: 3741013826940558496, guid: dfe0cb25767f84c43be511dab3bad090, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: RestartGame
+      objectReference: {fileID: 0}
+    - target: {fileID: 3752240732983394862, guid: dfe0cb25767f84c43be511dab3bad090, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1932793146}
+    - target: {fileID: 3752240732983394862, guid: dfe0cb25767f84c43be511dab3bad090, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: QuitGame
+      objectReference: {fileID: 0}
     - target: {fileID: 3780531095313777136, guid: dfe0cb25767f84c43be511dab3bad090, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -27422,6 +27462,14 @@ PrefabInstance:
     - target: {fileID: 4266413396616555988, guid: dfe0cb25767f84c43be511dab3bad090, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4308885479616223071, guid: dfe0cb25767f84c43be511dab3bad090, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1932793146}
+    - target: {fileID: 4308885479616223071, guid: dfe0cb25767f84c43be511dab3bad090, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetBGMVolume
       objectReference: {fileID: 0}
     - target: {fileID: 4757593592415624660, guid: dfe0cb25767f84c43be511dab3bad090, type: 3}
       propertyPath: m_AnchorMax.y
@@ -27443,6 +27491,14 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6217012410650205807, guid: dfe0cb25767f84c43be511dab3bad090, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2113039535}
+    - target: {fileID: 6217012410650205807, guid: dfe0cb25767f84c43be511dab3bad090, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GoToTitle
+      objectReference: {fileID: 0}
     - target: {fileID: 6402068572804983073, guid: dfe0cb25767f84c43be511dab3bad090, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -27458,6 +27514,14 @@ PrefabInstance:
     - target: {fileID: 6402068572804983073, guid: dfe0cb25767f84c43be511dab3bad090, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6541848841249227340, guid: dfe0cb25767f84c43be511dab3bad090, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1932793146}
+    - target: {fileID: 6541848841249227340, guid: dfe0cb25767f84c43be511dab3bad090, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Resume
       objectReference: {fileID: 0}
     - target: {fileID: 6560707603022519874, guid: dfe0cb25767f84c43be511dab3bad090, type: 3}
       propertyPath: m_AnchorMax.y
@@ -119689,6 +119753,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 572918629873352574, guid: 766ed1d392736cc46ae8180929855462, type: 3}
   m_PrefabInstance: {fileID: 1930762573}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1932793146 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4566675032564003718, guid: b20d1bf569048e34b9cc3b1ef6a23406, type: 3}
+  m_PrefabInstance: {fileID: 1656962618}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f133121e929e08147a15b40b9e34a0f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PauseMenu
 --- !u!1001 &1934720927
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -129081,6 +129156,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b67f6ed1f29b9b14683a20d67d7ef8b9, type: 3}
+--- !u!114 &2113039535 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2712359161663482992, guid: b67f6ed1f29b9b14683a20d67d7ef8b9, type: 3}
+  m_PrefabInstance: {fileID: 2113039534}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdb16bc241a11c64d9b958cc3fc24536, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameOverManager
 --- !u!1001 &2113041814
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -129827,9 +129913,29 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1028971202}
     m_Modifications:
+    - target: {fileID: 124298976077239086, guid: d5ae62e3ff7a3334bb75d4d79b3fff2c, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 138910272364974783, guid: d5ae62e3ff7a3334bb75d4d79b3fff2c, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1283337857653856977, guid: d5ae62e3ff7a3334bb75d4d79b3fff2c, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1438553897931581082, guid: d5ae62e3ff7a3334bb75d4d79b3fff2c, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3060841491524111630, guid: d5ae62e3ff7a3334bb75d4d79b3fff2c, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3349478590031260038, guid: d5ae62e3ff7a3334bb75d4d79b3fff2c, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 3611427282341765491, guid: d5ae62e3ff7a3334bb75d4d79b3fff2c, type: 3}
       propertyPath: player
@@ -129843,9 +129949,45 @@ PrefabInstance:
       propertyPath: walkRadius
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 4077024065358213737, guid: d5ae62e3ff7a3334bb75d4d79b3fff2c, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4479548751029743475, guid: d5ae62e3ff7a3334bb75d4d79b3fff2c, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4919128712593127884, guid: d5ae62e3ff7a3334bb75d4d79b3fff2c, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5202335377115250533, guid: d5ae62e3ff7a3334bb75d4d79b3fff2c, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5714322439015858321, guid: d5ae62e3ff7a3334bb75d4d79b3fff2c, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7099981336080316426, guid: d5ae62e3ff7a3334bb75d4d79b3fff2c, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7135939368674721614, guid: d5ae62e3ff7a3334bb75d4d79b3fff2c, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 8216383940979078671, guid: d5ae62e3ff7a3334bb75d4d79b3fff2c, type: 3}
       propertyPath: m_Name
       value: Flamingo (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8216383940979078671, guid: d5ae62e3ff7a3334bb75d4d79b3fff2c, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8216383940979078671, guid: d5ae62e3ff7a3334bb75d4d79b3fff2c, type: 3}
+      propertyPath: m_TagString
+      value: Enemy
       objectReference: {fileID: 0}
     - target: {fileID: 8227809231880443118, guid: d5ae62e3ff7a3334bb75d4d79b3fff2c, type: 3}
       propertyPath: m_LocalPosition.x
@@ -129886,6 +130028,10 @@ PrefabInstance:
     - target: {fileID: 8227809231880443118, guid: d5ae62e3ff7a3334bb75d4d79b3fff2c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8694129226304184105, guid: d5ae62e3ff7a3334bb75d4d79b3fff2c, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -135859,7 +136005,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6695338170538462115}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: tail.01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -136504,7 +136650,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2371911970187989246}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -140236,7 +140382,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8223014416622001498}
   - component: {fileID: 4161233720215868471}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Flamingo_LOD0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -142009,9 +142155,9 @@ GameObject:
   - component: {fileID: 6724552950998923932}
   - component: {fileID: 4954595426959122669}
   - component: {fileID: 9173688380645189610}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Flamingo
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -142930,13 +143076,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAI
   detectRange: 12
   player: {fileID: 1984679621721524641}
-  noticeUI: {fileID: 5459693280602617274}
+  noticeUI: {fileID: 1311798169278983932}
   health: 100
   shootingRange: 10
   stopDistance: 9
   fireRate: 0.5
   bulletPrefab: {fileID: 6465739594745014745, guid: ebe63b808cb4ba440b84321ea2e0c231, type: 3}
-  firePoint: {fileID: 4348794671088758626}
+  firePoint: {fileID: 7325895166003065892}
   enemyHPBar: {fileID: 4157523075293225903}
   dropItemPrefab: {fileID: 5615934470198810774, guid: 9b7786f66aa98a24d984e52f2dda5085, type: 3}
   enemyMagSize: 10
@@ -143371,7 +143517,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8555061376292799766}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: GameObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -145848,7 +145994,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4683884644536685039}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: wing.R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -147810,7 +147956,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4443033934974332811}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: wing.L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -157408,7 +157554,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8876574039991186743}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Rig
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -159349,7 +159495,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9041694554891772520}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: root
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -162970,7 +163116,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6884790499225404981}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: tail.03
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -165652,7 +165798,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8073155184815293357}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: feet.L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -177084,7 +177230,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4519109421057895593}
   - component: {fileID: 7498194790556087000}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Flamingo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -182459,7 +182605,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1534039144624973719}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: tail.02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -184009,7 +184155,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3568102337315893994}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: feet.R
   m_TagString: Untagged
   m_Icon: {fileID: 0}

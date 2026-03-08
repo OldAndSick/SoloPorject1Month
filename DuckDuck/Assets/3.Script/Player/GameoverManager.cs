@@ -12,12 +12,15 @@ public class GameOverManager : MonoBehaviour
         Debug.Log("플레이어 사망... 저승문 열립니다.");
         gameOverPanel.SetActive(true); // 죽음 화면 켜기
         Time.timeScale = 0f;           // [띠또 마법 ⭐] 게임 시간 정지! (적들 멈춤)
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
     }
 
     // [처음으로] 버튼용 함수
     public void RestartGame()
     {
         Time.timeScale = 1f; // [초핵심!!] 멈췄던 시간을 다시 흐르게 고침!
+        MoveData.hasData = false;
         SceneManager.LoadScene("1Stage"); // 1스테이지 씬 이름 적어주세요!
     }
 
@@ -25,6 +28,7 @@ public class GameOverManager : MonoBehaviour
     public void GoToTitle()
     {
         Time.timeScale = 1f; // 시간 복구!
+        MoveData.hasData = false;
         SceneManager.LoadScene("TitleScene"); // 타이틀 씬 이름 적어주세요!
     }
 }

@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5907366662343767878}
   - component: {fileID: 523196913596328247}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Flamingo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -198,7 +198,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6829786447723014405}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: feet.R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -304,7 +304,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8792773339363982456}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: tail.02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -335,7 +335,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1312440814522251655}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: root
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -405,7 +405,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1469257263483596504}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Rig
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -437,7 +437,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2253400017739847746}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: feet.L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -468,7 +468,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3514924020911463898}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: tail.03
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -499,7 +499,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5973153472656995428}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: wing.L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -530,7 +530,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3336240409327094272}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: wing.R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -561,7 +561,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1870570836153474809}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: GameObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -667,7 +667,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5739430784452234001}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -703,7 +703,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3721849242918441036}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: tail.01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -855,9 +855,9 @@ GameObject:
   - component: {fileID: 3611427282341765491}
   - component: {fileID: 3138576794493827842}
   - component: {fileID: -890445447587447147}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Flamingo
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1180,7 +1180,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2112804733701932725}
   - component: {fileID: 6265519422868475864}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Flamingo_LOD0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
