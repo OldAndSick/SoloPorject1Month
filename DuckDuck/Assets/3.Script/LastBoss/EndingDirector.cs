@@ -93,7 +93,8 @@ public class EndingDirector : MonoBehaviour
 
         // 7. 크레딧 & 뉴스 화면 켜기!
         creditsCanvas.SetActive(true);
-
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
         // [띠또 마법 ⭐] 화면 켜짐과 동시에 뉴스 자막 교체 시작!!
         if (newsText != null && newsLines.Length > 0)
         {
@@ -119,6 +120,8 @@ public class EndingDirector : MonoBehaviour
             {
                 break;
             }
+            yield return new WaitForSeconds(3f);
+            SceneManager.LoadScene("Title2");
         }
     }
 
